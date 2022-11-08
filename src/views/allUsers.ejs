@@ -1,0 +1,33 @@
+<html lang="pt-br">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <div class="content">
+      <div id="filtro" class="filtro">  Filtro: <input type="search" name="filtro" id="filtro"></div>
+      <br>
+      <% if (users.length > 0) { %> <% users.forEach(user => { %>
+      <hr>
+      <h3 class="title"><%= user.firstName %> <%= user.lastName %></h3>
+      <p id="ident">ID: <%= user.id %></p>
+      <p>EMAIL: <%= user.email %></p>
+      <p>SENHA: <%= user.password %></p>
+      <br>
+      <button type="submit" id="<%= user.id%>" class="submit" onclick="editUser(id)">Editar usuário</button>
+      <br>
+      <% }) %> <% } else { %>
+      <p>Não há usuários para exibir...</p>
+      <% } %>
+    </div>
+
+
+    <%- include('./partials/foot.ejs') %>
+
+  </body>
+
+  <script>
+    function editUser(id){
+    window.location.href = "/adm/users/" + id}
+
+  </script>
+</html>

@@ -1,0 +1,93 @@
+<html lang="pt-br">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/navbar.ejs') %>
+
+    <form class="content">
+      <h3>O que deseja modificar?</h3>
+      <br />
+
+      <p id="nome">
+        NOME: <%= userByID.firstName%> <br />
+        Novo Nome:
+        <input
+          type="text"
+          class="firstNameUser"
+          name="firstNameUser"
+          id="<%= userByID.firstName%>"
+        />
+      </p>
+      <br />
+      <p id="sobrenome">
+        SOBRENOME: <%= userByID.lastName %> <br />
+        Novo Sobrenome:
+        <input
+          type="text"
+          class="lastNameUser"
+          name="lastNameUser"
+          id="<%= userByID.lastName%>"
+        />
+      </p>
+      <br />
+      <p id="email">
+        EMAIL: <%= userByID.email %> <br />
+        Novo Email:
+        <input
+          type="text"
+          class="emailUser"
+          name="emailUser"
+          id="<%= userByID.email%>"
+        />
+      </p>
+      <br />
+      <p id="password">
+        SENHA: <%= userByID.password %> <br />
+        Nova senha:
+        <input
+          type="password"
+          class="passwordUser"
+          name="passwordUser"
+          id="<%= userByID.password%>"
+        />
+      </p>
+
+      <input
+        type="button"
+        value="Alterar"
+        onclick="editUser(firstNameUser , lastNameUser , emailUser , passwordUser)"
+      />
+      
+      <br>
+
+      <form action="exclude" method="post" >
+      <div class="excluir" id="excluir">
+        <h5>Deseja EXCLUIR o usuário?</h5>
+        
+        <div>
+            <input type="radio" name="excluir" id="sim" value="sim" onclick="alert('ATENÇÃO! Excluir um cadastro é um procedimento PERMANENTE. Ele não poderá ser recuperado!')">
+            <label for="sim">Sim</label>
+        </div>
+        <div>
+        <input type="radio" name="excluir" id="nao" value="nao" checked>
+        <label for="nao">Não</label>
+        </div> 
+
+        <div>
+            <input type="button" value="Excluir Usuário">
+        </div>
+
+
+      </div>
+    </form>
+  </form>
+
+    <%- include('./partials/foot.ejs') %>
+
+  </body>
+
+  <script>
+    function editUser(x, y, z, d) {
+      return x ;
+    }
+  </script>
+</html>

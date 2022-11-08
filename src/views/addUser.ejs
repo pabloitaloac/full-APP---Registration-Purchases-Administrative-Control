@@ -1,0 +1,49 @@
+<html lang="pt-br">
+    <%- include('./partials/head.ejs') %>
+    <body>
+      <%- include('./partials/navbar.ejs') %>
+      <%- include('./partials/AddUser.ejs') %>
+      
+      <div>
+        <h1>Adicionar úsuários</h1>
+
+        <br><br><br>
+
+        <form action="/adm/add/single_user" method="post">
+          
+          <p>Primeiro Nome:
+            <input type="text" name="firstName" id="firstName" value="firstName">
+          </p>
+          <p>Ultimo Nome: 
+            <input type="text" name="lastName" id="lastName" value="lastName">
+          </p>
+          <p>Email: 
+            <input type="text" name="email" id="email" value="email">
+          </p>
+          <p>Senha: 
+            <input type="password" name="password" id="password" value="password">
+          </p>
+
+          <br>
+
+          <button type="submit" onclick="addUser(firstName , lastName , email , password)">Cadastrar</button>
+
+
+
+        </form>
+        
+      </div>
+
+      <%- include('./partials/foot.ejs') %>
+
+    </body>
+
+<script>
+
+   function addUser(firstName , lastName , email , password){
+      alert('Usuário cadastrado!')
+   }
+
+</script>
+
+</html>
