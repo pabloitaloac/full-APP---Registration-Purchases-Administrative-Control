@@ -14,7 +14,7 @@
             <br><br>
         </p>
 
-        <form action="/adm/add/single_user" method="post">
+        <form id="addUserForm" action="/adm/add/single_user" method="post">
           
           <p>* Primeiro Nome:
             <input type="text" name="firstName" id="firstName" >
@@ -48,7 +48,7 @@
 
           <br>
 
-          <button type="submit" name="tstFunction"">Cadastrar</button>
+          <button type="button" onclick="submitForm()">Cadastrar</button>
           <button type="reset" >Resetar</button>
 
 
@@ -62,6 +62,15 @@
     </body>
 
 <script>
+
+function submitForm(){
+  if(firstName.value.length == 0 || lastName.value.length == 0 || email.value.length == 0 || password.value.length == 0){
+    alert('preencha tudo')
+  }
+  else{
+    document.getElementById("addUserForm").submit()
+  }
+}
 
 </script>
 

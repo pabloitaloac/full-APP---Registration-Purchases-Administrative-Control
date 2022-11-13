@@ -6,37 +6,31 @@
     <div class="content">
       
       <div id="userFilter" > Filtrar por:
-        
-          <div>
-            <form action="/adm/users" method="post">
-              Nome:              
-              <input type="search" name="nameFilter" id="nameFilter">
-              <input type="submit" value="Filtrar">
 
-            </form>
+        <form id="formFilter" action="/adm/users" onsubmit="isAnySeted()" method="post">
+
+          <div>
+              Nome:              
+              <input type="search" name="firstNameFilter" id="firstNameFilter">
           </div>
 
           <div>
-            <form action="/adm/users" method="post">
               Ultimo Nome: 
               <input type="search" name="lastNameFilter" id="lastNameFilter">
-              <input type="submit"  value="Filtrar por Ultimo Nome">
-    
-            </form>
+  
           </div>
 
           <div>
-            <form action="/adm/users" method="post">
               Email: 
               <input type="search" name="emailFilter" id="emailFilter">
-              <input type="submit" name="typefilterEmail" id="typefilterEmail" value="Filtrar por Email">
-    
-            </form>
           </div>
+          <input type="submit" name="applyFilter" id="applyFilter" value="Filtrar">
+          <p id="toChange"></p>
+
+        </form>
           <br>
           <button type="submit" onclick="window.location.href='/adm/users'">Resetar Filtros</button>
 
-            <p id="toChange"></p>
       </div>
       
       <br>
@@ -48,7 +42,7 @@
       <p>EMAIL: <%= user.email %></p>
       <p>SENHA: <%= user.password %></p>
       <br>
-      <button type="submit" id="<%= user.id%>" class="submit" onclick="editUser(id)">Editar usuário</button>
+      <button type="submit" id="<%= user.id%>" class="submit" onclick="redirectSingleUser(id)">Editar usuário</button>
       <br>
       <% }) %> <% } else { %>
       <p>Não há usuários para exibir...</p>
@@ -62,6 +56,18 @@
 
   <script >
 
+function isAnySeted(){
+  if(lastNameFilter.value.length == 0 && firstNameFilter.value.length == 0 && emailFilter.value.length == 0){
+    
+    let toChange = document.getElementById("toChange")
+    
+    toChange.innerHTML = "Para filtrar, preencha algum filtro"
+  }
+}
 
-  </script>
+function redirectSingleUser(id){
+  window.location.href = `/adm/users/${id}`
+}
+
+</script>
 </html>

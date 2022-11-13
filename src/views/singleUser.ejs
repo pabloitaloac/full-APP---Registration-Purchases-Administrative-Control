@@ -3,91 +3,130 @@
   <body>
     <%- include('./partials/navbar.ejs') %>
 
-    <form class="content">
+<form class="content">
       <h3>O que deseja modificar?</h3>
-      <br />
+    
+      <div>
+      Id: <h5 id="idSingleUser"><%= userByID.id%></h5>     
+      </div>
 
+    <br>
       <p id="nome">
-        NOME: <%= userByID.firstName%> <br />
-        Novo Nome:
-        <input
-          type="text"
-          class="firstNameUser"
-          name="firstNameUser"
-          id="<%= userByID.firstName%>"
-        />
-      </p>
-      <br />
-      <p id="sobrenome">
-        SOBRENOME: <%= userByID.lastName %> <br />
-        Novo Sobrenome:
-        <input
-          type="text"
-          class="lastNameUser"
-          name="lastNameUser"
-          id="<%= userByID.lastName%>"
-        />
-      </p>
-      <br />
-      <p id="email">
-        EMAIL: <%= userByID.email %> <br />
-        Novo Email:
-        <input
-          type="text"
-          class="emailUser"
-          name="emailUser"
-          id="<%= userByID.email%>"
-        />
-      </p>
-      <br />
-      <p id="password">
-        SENHA: <%= userByID.password %> <br />
-        Nova senha:
-        <input
-          type="password"
-          class="passwordUser"
-          name="passwordUser"
-          id="<%= userByID.password%>"
-        />
+        <h5> NOME atual: <%= userByID.firstName %> </h5>
+
+        <p> Novo Nome:
+          <input
+            type="text"
+            class="firstNameUser"
+            name="firstNameUser"
+            id="<%= userByID.firstName%>"
+          />
+        </p>
       </p>
 
+      <br>
+
+      <p id="sobrenome">
+        <h5> SOBRENOME atual: <%= userByID.lastName %> </h5>
+
+        <p>Novo Sobrenome:
+          <input
+            type="text"
+            class="lastNameUser"
+            name="lastNameUser"
+            id="<%= userByID.lastName%>"
+          />
+        </p>
+      </p>
+
+      <br />
+
+      <p id="email">
+        <h5> EMAIL atual: <%= userByID.email %> </h5>
+
+        <p> Novo Email:
+          <input
+            type="text"
+            class="emailUser"
+            name="emailUser"
+            id="<%= userByID.email%>"
+          />
+        </p>
+      </p>
+
+      <br />
+
+      <div id="password">
+        <h5> SENHA atual: <%= userByID.password %> </h5>
+
+        <p> Nova senha:
+          <input
+            type="password"
+            class="passwordUser"
+            name="passwordUser"
+            id="<%= userByID.password%>"
+          />
+        </p>
+      </div>
+
+      <br>
+
+      <p>
       <input
         type="button"
         value="Alterar"
         onclick="editUser(firstNameUser , lastNameUser , emailUser , passwordUser)"
       />
-      
-      <br>
+      </p>
 
-      <form action="exclude" method="post" >
-      <div class="excluir" id="excluir">
+      <h4 id="pAlterar"></h4>
+</form>
+
+<br>
+
+<form class="content" id="formExclude" action="/adm/delete/users/<%=userByID.id%>" method="post">
         <h5>Deseja EXCLUIR o usuário?</h5>
         
         <div>
-            <input type="radio" name="excluir" id="sim" value="sim" onclick="alert('ATENÇÃO! Excluir um cadastro é um procedimento PERMANENTE. Ele não poderá ser recuperado!')">
-            <label for="sim">Sim</label>
+            <input type="radio" name="excluir" id="sim" onclick="alert('ATENÇÃO! Excluir um cadastro é um procedimento PERMANENTE. Ele não poderá ser recuperado!')">
+            <label for="sim">Sim</label>        
+  
+            <input type="radio" name="excluir" id="nao" checked>
+            <label for="nao">Não</label>
+        
+
+        
+            <input type="button" onclick="excludeUser()" value="Excluir Usuário">
         </div>
-        <div>
-        <input type="radio" name="excluir" id="nao" value="nao" checked>
-        <label for="nao">Não</label>
-        </div> 
 
-        <div>
-            <input type="button" value="Excluir Usuário">
-        </div>
-
-
-      </div>
-    </form>
-  </form>
-
+</form>
     <%- include('./partials/foot.ejs') %>
 
   </body>
 
   <script>
     function editUser(x, y, z, d) {
-      return x ;
+      if(x.value.length == 0 && y.value.length == 0 && z.value.length == 0 && d.value.length == 0){
+        var pAlterar = document.getElementById('pAlterar')
+        pAlterar.innerHTML = 'Preencha algum campo, se desejar alterar'
+      }
+    }
+
+    function excludeUser(){
+      if(sim.checked == true){
+        // var id = document.getElementById('idSingleUser')
+
+        document.getElementById("formExclude").submit()
+
+
+          // window.location.href = `/adm/delete/users/${id.textContent}`
+        // alert('/adm/delete/users/'+id.textContent)
+        
+      }
+      else{
+        alert('Para excluir, CONFIRME')
+      }
+
     }
   </script>
 </html>

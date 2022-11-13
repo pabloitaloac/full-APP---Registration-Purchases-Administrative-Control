@@ -1,0 +1,39 @@
+
+<input type="button" onclick="testeAPI()" value="testeAPI">
+<input type="button" onclick="window.location = '/teste'" value="F5">
+<hr>
+
+<div>
+    <h3>O que foi enviado: </h3>
+    <p id="pAlterar"> ... </p>
+</div>
+
+
+01:
+<div id="t1"><%= tst1%></div>
+<br>
+02:
+<div id="t2"><%= tst2%></div>
+
+
+    
+<script>
+
+function testeAPI(){ 
+    var t1 =  document.getElementById('t1')
+    var t2 =  document.getElementById('t2')
+
+    alert(` 01 é: ${t1.textContent} ; e 02 é: ${t2.textContent}`)
+
+}
+
+</script>
+
+
+<style>
+    body{
+        text-align: center;
+        color: white;
+        background-color: black;
+    }
+</style>
