@@ -1,11 +1,46 @@
-<html lang="pt-br">
+<html lang="pt-br" >
   <%- include('./partials/head.ejs') %>
   <body>
     <%- include('./partials/navbar.ejs') %>
 
     <div class="content">
-      <div id="filtro" class="filtro">  Filtro: <input type="search" name="filtro" id="filtro"></div>
+      
+      <div id="userFilter" > Filtrar por:
+        
+          <div>
+            <form action="/adm/users" method="post">
+              Nome:              
+              <input type="search" name="nameFilter" id="nameFilter">
+              <input type="submit" value="Filtrar">
+
+            </form>
+          </div>
+
+          <div>
+            <form action="/adm/users" method="post">
+              Ultimo Nome: 
+              <input type="search" name="lastNameFilter" id="lastNameFilter">
+              <input type="submit"  value="Filtrar por Ultimo Nome">
+    
+            </form>
+          </div>
+
+          <div>
+            <form action="/adm/users" method="post">
+              Email: 
+              <input type="search" name="emailFilter" id="emailFilter">
+              <input type="submit" name="typefilterEmail" id="typefilterEmail" value="Filtrar por Email">
+    
+            </form>
+          </div>
+          <br>
+          <button type="submit" onclick="window.location.href='/adm/users'">Resetar Filtros</button>
+
+            <p id="toChange"></p>
+      </div>
+      
       <br>
+
       <% if (users.length > 0) { %> <% users.forEach(user => { %>
       <hr>
       <h3 class="title"><%= user.firstName %> <%= user.lastName %></h3>
@@ -22,12 +57,11 @@
 
 
     <%- include('./partials/foot.ejs') %>
+    
+  </body >
 
-  </body>
+  <script >
 
-  <script>
-    function editUser(id){
-    window.location.href = "/adm/users/" + id}
 
   </script>
 </html>
