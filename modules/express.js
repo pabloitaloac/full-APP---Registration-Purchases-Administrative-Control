@@ -249,29 +249,42 @@ app.post('/adm/delete/users/:id', async(req,res)=>{
    
 
 
+//To user view your data
 
-app.get('/teste', async (req,res)=>{
-  try{
-    res.render('teste')
-    } catch {
-      res.send('erro')
+app.get('/user/painel/:id', async (req,res)=>{
+    try{
+      const id = req.params.id
+      const user = await UserModel.findById(id)
+
+      return res.status(200).render('userPanel', {userByID: user})
+    }
+    catch(error){
+        res.status(500).send(error.message)
     } 
+    })
 
   
 
-})
-
-app.post('/teste', async (req,res)=>{
+//Edit user by himself
+app.post('/user/edit/:id', async (req,res)=>{
   try{
-    var testando1 = req.body.testing1
-    var testando2 = req.body.testing2
+    const id = req.params.id
+    const user = await UserModel.findById(id)
 
-    // res.send(testando1())
-    await res.render('testePost', {'tst1': testando1, 'tst2': testando2})
-  } catch {
-    res.send('erro')
+    return res.status(200).render('userEdit', {userByID: user})
   }
-})
+  catch(error){
+      res.status(500).send(error.message)
+  } 
+  })
+  
+
+ 
+//FALTA APLICAR:
+    //Editar usuário (poelo user)
+    //Excluir user (ele mesmo)
+    //login
+    //page inicial user
 
 
 

@@ -1,0 +1,150 @@
+<html lang="pt-br">
+    <%- include('./partials/head.ejs') %>
+    <body>
+      <%- include('./partials/navbar.ejs') %>
+      <%- include('./partials/AddUser.ejs') %>
+
+      <div>
+      <h3>O que deseja modificar?</h3>
+    
+      
+       <h6>Id: </h6><h6 id="idSingleUser"><%= userByID.id%></h6>
+       <hr>
+      </div>
+    <br>
+    
+<form class="content" action="/adm/update/users/<%=userByID.id%>" method="post">
+
+  
+      <p id="nome">
+
+        <p>NOME:
+          <input
+            type="text"
+            class="firstNameUser"
+            name="firstNameUser"
+            id="<%= userByID.firstName%>"
+            value="<%= userByID.firstName%>"
+
+          />
+        </p>
+      </p>
+
+      <br>
+
+      <p id="sobrenome">
+
+        <p>SOBRENOME:
+          <input
+            type="text"
+            class="lastNameUser"
+            name="lastNameUser"
+            id="<%= userByID.lastName%>"
+            value="<%= userByID.lastName%>"
+
+          />
+        </p>
+      </p>
+
+      <br />
+
+      <p id="email">
+
+        <p>EMAIL:
+          <input
+            type="text"
+            class="emailUser"
+            name="emailUser"
+            id="<%= userByID.email%>"
+            value="<%= userByID.email%>"
+          />
+        </p>
+      </p>
+
+      <br />
+
+      <p id="password">
+
+        <p>SENHA:
+          <input
+            type="password"
+            class="passwordUser"
+            name="passwordUser"
+            id="passwordUser"
+            value="<%= userByID.password%>"
+          />
+          <button type="button" id="showSenha" class="showSenha" onclick="revelarSenha(passwordUser , showSenha)">Revelar senha</button>
+
+        </p>
+       
+      </p>
+
+      <br>
+
+      <p>
+      <button type="submit" onclick="editUser(firstNameUser , lastNameUser , emailUser , passwordUser)">
+        Alterar Usuário
+      </button>
+      </p>
+
+      <h4 id="pAlterar"></h4>
+</form>
+
+<br>
+
+<form class="content" id="formExclude" action="/adm/delete/users/<%=userByID.id%>" method="post">
+        <h5>Deseja EXCLUIR todo o seu cadastro?</h5>
+        
+        <p>
+            <input type="radio" name="excluir" id="sim" onclick="alert('ATENÇÃO! Excluir um cadastro é um procedimento PERMANENTE. Ele não poderá ser recuperado!')">
+            <label for="sim">Sim</label>        
+  
+            <input type="radio" name="excluir" id="nao" checked>
+            <label for="nao">Não</label>
+          
+            <button type="button" onclick="excludeUser()">Excluir Usuário</button>
+        </p>
+
+</form>
+    <%- include('./partials/foot.ejs') %>
+
+  </body>
+
+  <script>
+    function editUser(x, y, z, d) {
+      if(x.value.length == 0 && y.value.length == 0 && z.value.length == 0 && d.value.length == 0){
+        var pAlterar = document.getElementById('pAlterar')
+        pAlterar.innerHTML = 'Preencha algum campo, se desejar alterar'
+      }
+    }
+
+    function excludeUser(){
+      if(sim.checked == true){
+        // var id = document.getElementById('idSingleUser')
+
+        document.getElementById("formExclude").submit()
+
+
+          // window.location.href = `/adm/delete/users/${id.textContent}`
+        // alert('/adm/delete/users/'+id.textContent)
+        
+      }
+      else{
+        alert('Para excluir, CONFIRME')
+      }
+    }
+
+    function revelarSenha(passwordUser, showSenha){
+      if (passwordUser.type == "password") {
+        passwordUser.type = "text"
+        showSenha.textContent = "OCULTAR Senha"
+      } else {
+        passwordUser.type = "password"
+        showSenha.textContent = "MOSTRAR Senha"
+      }
+    }
+
+    
+
+  </script>
+</html>
