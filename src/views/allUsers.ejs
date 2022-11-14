@@ -1,58 +1,74 @@
-<html lang="pt-br" >
-  <%- include('./partials/head.ejs') %>
-  <body>
-    <%- include('./partials/navbar.ejs') %>
+<html lang="pt-br">
+    <%- include('./partials/head.ejs') %>
+    <body>
+      <%- include('./partials/navbar.ejs') %>
+      <%- include('./partials/AddUser.ejs') %>
 
-    <div class="content">
+<div>
+      <h3>Filtrar por:</h3>
       
-      <div id="userFilter" > Filtrar por:
 
         <form id="formFilter" action="/adm/users" onsubmit="isAnySeted()" method="post">
 
-          <div>
+            
               Nome:              
               <input type="search" name="firstNameFilter" id="firstNameFilter">
-          </div>
-
-          <div>
+            
+               | 
+            
               Ultimo Nome: 
               <input type="search" name="lastNameFilter" id="lastNameFilter">
-  
-          </div>
-
-          <div>
+            
+              |
+            
               Email: 
               <input type="search" name="emailFilter" id="emailFilter">
-          </div>
-          <input type="submit" name="applyFilter" id="applyFilter" value="Filtrar">
-          <p id="toChange"></p>
-
+            
+              <br><br>
+              <button type="submit" name="applyFilter" id="applyFilter">Aplicar Filtros</button>
+              <button type="button" onclick="window.location.href='/adm/users'">Resetar Filtros</button>
+                  <p id="toChange"></p>
         </form>
-          <br>
-          <button type="submit" onclick="window.location.href='/adm/users'">Resetar Filtros</button>
+          
 
-      </div>
+</div>
       
-      <br>
+<br>
 
-      <% if (users.length > 0) { %> <% users.forEach(user => { %>
+<div>
+       <% if (users.length > 0) { %> <% users.forEach(user => { %>
       <hr>
-      <h3 class="title"><%= user.firstName %> <%= user.lastName %></h3>
-      <p id="ident">ID: <%= user.id %></p>
-      <p>EMAIL: <%= user.email %></p>
-      <p>SENHA: <%= user.password %></p>
-      <br>
-      <button type="submit" id="<%= user.id%>" class="submit" onclick="redirectSingleUser(id)">Editar usuário</button>
-      <br>
+
+      <h6>| ID: <%= user.id %> |</h6>
+
+      <h1 class="title"><%= user.firstName %> <%= user.lastName %></h1>
+      
+
+
+      <h3>EMAIL: <%= user.email %></h3>
+      <h3>SENHA: <%= user.password %></h3>
+
+
+        <p>
+           <button type="submit" id="<%= user.id%>" class="submit" onclick="redirectSingleUser(id)">  Editar usuário  </button>
+        </p>
+
+        <br>     
+
+      
+
+
       <% }) %> <% } else { %>
       <p>Não há usuários para exibir...</p>
+
       <% } %>
-    </div>
+
+</div>
 
 
-    <%- include('./partials/foot.ejs') %>
     
   </body >
+  <%- include('./partials/foot.ejs') %>
 
   <script >
 

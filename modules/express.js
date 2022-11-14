@@ -132,17 +132,42 @@ app.get("/adm/users/:id", async (req, res) => {
 
 
 //To update user data
-// app.patch('/adm/users/update/:id', async(req,res)=>{
-//     try{
-//         const id = req.params.id
-//         const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})
-//         return res.status(200).json(user)
+// app.get('/adm/update/users/:id', async(req,res)=>{
+//   try{
+//     const id = req.params.id;
+//     const userByID = await UserModel.findById(id);
+//       res.render('userUpdated', {userByID: userByID})
 
-//     }
-//     catch(error){
-//         res.status(500).send(error.message)
-//     }
+//   }
+//   catch(error){
+//       res.status(500).send(error.message)
+//   }
 // })
+
+app.post('/adm/update/users/:id', async(req,res)=>{
+    try{
+        const id = req.params.id
+        var firstNameUpdate = req.body.firstNameUser
+        var lastNameUpdate = req.body.lastNameUser
+        var emailUpdate = req.body.emailUser
+        var passwordUpdate = req.body.passwordUser
+
+
+
+        // const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})
+        const user = await UserModel.findByIdAndUpdate(id, {
+          firstName:firstNameUpdate, 
+          lastName: lastNameUpdate,
+          email: emailUpdate,
+          password: passwordUpdate
+        }, {new: true})
+        return res.status(200).render('userUpdated',{userByID: user})
+
+    }
+    catch(error){
+        res.status(500).send(error.message)
+    }
+})
 
 //To delete user
 app.post('/adm/delete/users/:id', async(req,res)=>{

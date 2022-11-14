@@ -1,0 +1,59 @@
+<html lang="pt-br">
+    <%- include('./partials/head.ejs') %>
+    <body>
+      <%- include('./partials/navbar.ejs') %>
+      <%- include('./partials/AddUser.ejs') %>
+
+<form class="content">
+    <p>
+        <h6>Id: </h6><h6 id="idSingleUser"><%= userByID.id%></h6>
+
+        <hr><br>
+      <h1>Os dados foram alterados.</h1>
+      <h2>Os dados atualizados são:</h2> 
+      <br><hr>  
+    </p>    
+
+    <br>
+
+      <p id="nome">
+        <h3>Primeiro Nome: <%= userByID.firstName %> </h3>
+      </p>
+
+      <br>
+
+      <p id="sobrenome">
+        <h3>Ultimo Nome: <%= userByID.lastName %> </h3>
+      </p>
+
+      <br />
+
+      <p id="email">
+        <h3>EMAIL: <%= userByID.email %> </h3>
+      </p>
+
+      <br />
+
+      <p id="password">
+        <h3>SENHA: <%= userByID.password %> </h3>
+      </p>
+
+      <br>
+
+      <p>
+        <button type="button" onclick="window.location = '/adm/users'">
+            Retornar à lista de usuários
+        </button>
+      </p>
+
+      <h4 id="pAlterar"></h4>
+</form>
+
+<br>
+
+</form>
+    <%- include('./partials/foot.ejs') %>
+
+  </body>
+
+</html>

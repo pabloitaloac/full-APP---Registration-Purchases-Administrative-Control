@@ -1,46 +1,44 @@
 <html lang="pt-br">
-  <%- include('./partials/head.ejs') %>
+    <%- include('./partials/head.ejs') %>
   <body>
-    <%- include('./partials/navbar.ejs') %>
+      <%- include('./partials/navbar.ejs') %>
+      <%- include('./partials/AddUser.ejs') %>
 
 <div class="content">
-      <h3>O seguinte usuário foi excluído. Todos os dados foram perdidos.</h3>
+    <h3>
+      O seguinte usuário foi excluído.
+        <br>
+      Todos os dados foram perdidos.
+    </h3>
     
       <br>
       
-      <div>
       Id: <h5 id="idSingleUser"><%= userByID.id%></h5>     
-      </div>
 
-    <br>
-      <p id="nome">
+        <br>
+        
         <h5> NOME: <%= userByID.firstName %> </h5>
-      </p>
 
       <br>
 
-      <p id="sobrenome">
         <h5> SOBRENOME: <%= userByID.lastName %> </h5>
-      </p>
 
       <br />
 
-      <p id="email">
         <h5> EMAIL: <%= userByID.email %> </h5>
-      </p>
 
       <br />
 
-      <div id="password">
         <h5> SENHA: <%= userByID.password %> </h5>
-      </div>
+      
 
       <br>
 
       <p>
-      <input type="button" onclick="window.location = '/adm/users'" value="Retornar à lista de usuários">
-        </p>
+      <button type="button" onclick="window.location = '/adm/users'">Retornar à lista de usuários</button>
+      </p>
+
 </div>
     <%- include('./partials/foot.ejs') %>
 
-  </body>
+</body>
