@@ -249,19 +249,6 @@ app.post('/adm/delete/users/:id', async(req,res)=>{
    
 
 
-//To user view your data
-
-app.get('/user/painel/:id', async (req,res)=>{
-    try{
-      const id = req.params.id
-      const user = await UserModel.findById(id)
-
-      return res.status(200).render('userPanel', {userByID: user})
-    }
-    catch(error){
-        res.status(500).send(error.message)
-    } 
-    })
 
 //                    //
 //                    //
@@ -270,16 +257,6 @@ app.get('/user/painel/:id', async (req,res)=>{
 //                    //
 
 // HOME users
-app.get('/user/login', async (req,res)=>{
-  try{
-    res.render('userLogin')
-  }
-  catch(error){
-      res.status(500).send(error.message)
-  }
-})
-
-//LOGIN
 app.get('/user', async (req,res)=>{
   try{
     res.render('homeUser')
@@ -288,6 +265,133 @@ app.get('/user', async (req,res)=>{
       res.status(500).send(error.message)
   }
 }) 
+
+//LOGIN
+app.get('/user/login', async (req,res)=>{
+  try{
+    res.render('userLogin', {situation: null, userEmail:null, userPassword:null})      
+
+  } 
+  catch(error){
+      res.status(500).send(error.message)
+  }
+})
+
+      //Validate Login
+      app.post('/user/login', async (req,res)=>{
+        try{
+          const email = req.body.username
+          const senha = req.body.password
+          const user = await UserModel.findOne({email:email, password:senha})
+
+          //user not match - render with writed values
+          if(user == null){
+            res.render('userLogin', {situation: 'notMatched', userEmail:email, userPassword:senha}) 
+          }
+          //redirect with id found
+          else{
+            var idUser = user.id
+            res.redirect(`/user/painel/${idUser}`)
+          }
+          // return res.status(200).json({user})
+        }
+        catch(error){
+            res.status(500).send(error.message)
+        }  
+        })
+    
+//Password lost - "Esqueci senha"
+app.get('/user/login/redefinir', async (req,res)=>{
+    try{
+    res.render('esqueciSenha', {situation: null})
+    }
+    catch(error){
+      res.status(500).send(error.message)
+    }  
+})
+
+            app.post('/user/login/redefinir', async (req,res)=>{
+              try{
+
+                const email = req.body.username
+                const user = await UserModel.findOne({email:email})
+
+                      //user not match - render with writed values
+                        if(user == null){
+                          res.render('esqueciSenha', {situation: 'notMatched', userEmail:email}) 
+                        }
+                        //redirect with id found
+                        else{
+                          var idUser = user.id
+                          res.redirect(`/user/login/redefinir/${idUser}`)
+                        }    }
+              catch(error){
+                res.status(500).send(error.message)
+              }  
+            })
+
+
+
+    app.get('/user/login/redefinir/:id', async (req,res)=>{
+      try{
+        const id = req.params.id      
+        const email = req.body.username
+
+
+        //-------------------//
+        //-------------------//
+        //-------------------//
+        //----Falta fazer----//
+        //-------------------//
+        //-------------------//
+        //-------------------//
+
+
+            //renderizar página de alteração
+                //enviar valores da nova senha como post para mesma página
+
+              res.send(id)
+
+            }
+      catch(error){
+          res.status(500).send(error.message)
+      }  
+    })
+
+    //change password
+    app.post('/user/login/redefinir/:id', async (req,res)=>{
+      try{
+
+        const id = req.params.id
+        const senha = req.body.password
+
+        const user = await UserModel.findByIdAndUpdate(id, {password:senha})
+
+          res.send('senha alterada')
+      }               
+      catch(error){
+          res.status(500).send(error.message)
+      }  
+    })
+
+
+
+
+ //To user view your data
+app.get('/user/painel/:id', async (req,res)=>{
+  try{
+    const id = req.params.id
+    const user = await UserModel.findById(id)
+
+    return res.status(200).render('userPanel', {userByID: user})
+  }
+  catch(error){
+      res.status(500).send(error.message)
+  } 
+  })
+
+
+
 //Edit user by himself
 app.post('/user/edit/:id', async (req,res)=>{
   try{
@@ -342,14 +446,15 @@ app.post('/user/edit/:id', async (req,res)=>{
 
 
 //FALTA APLICAR:
-    //login   (validations)
+    //2a pagina de redefinir senha + validate
+
 
  
 
  
 
 
-
+ 
 
 
 const port = 8081;
