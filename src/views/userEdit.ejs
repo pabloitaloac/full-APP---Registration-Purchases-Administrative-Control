@@ -1,7 +1,8 @@
 <html lang="pt-br">
     <%- include('./partials/head.ejs') %>
     <body>
-      <%- include('./partials/navbar.ejs') %>
+            <%- include('./partials/navbarUser.ejs') %>
+
       <%- include('./partials/AddUser.ejs') %>
 
       <div>
@@ -13,7 +14,7 @@
       </div>
     <br>
     
-<form class="content" action="/adm/update/users/<%=userByID.id%>" method="post">
+<form class="content" action="/user/updated/<%= userByID.id%>" method="post">
 
   
       <p id="nome">
@@ -92,7 +93,7 @@
 
 <br>
 
-<form class="content" id="formExclude" action="/adm/delete/users/<%=userByID.id%>" method="post">
+<form class="content" id="formExclude" action="/user/delete/<%=userByID.id%>" method="post">
         <h5>Deseja EXCLUIR todo o seu cadastro?</h5>
         
         <p>
@@ -133,7 +134,7 @@
         alert('Para excluir, CONFIRME')
       }
     }
-
+    
     function revelarSenha(passwordUser, showSenha){
       if (passwordUser.type == "password") {
         passwordUser.type = "text"

@@ -1,0 +1,44 @@
+<html lang="pt-br">
+    <%- include('./partials/head.ejs') %>
+  <body>
+      <%- include('./partials/navbarUser.ejs') %>
+      <%- include('./partials/AddUser.ejs') %>
+
+<div class="content">
+    <h1>
+      O Seu cadastro foi excluído.
+        <br>
+      Todos os dados foram perdidos.
+    </h1>
+    
+      <br>
+      
+      Id: <h5 id="idSingleUser"><%= userByID.id%></h5>     
+
+        <br>
+        
+        <h5> NOME: <%= userByID.firstName %> </h5>
+
+      <br>
+
+        <h5> SOBRENOME: <%= userByID.lastName %> </h5>
+
+      <br />
+
+        <h5> EMAIL: <%= userByID.email %> </h5>
+
+      <br />
+
+        <h5> SENHA: <%= userByID.password %> </h5>
+      
+
+      <br>
+
+      <p>
+      <button type="button" onclick="window.location = '/'">Retornar à Página inicial</button>
+      </p>
+
+</div>
+    <%- include('./partials/foot.ejs') %>
+
+</body>

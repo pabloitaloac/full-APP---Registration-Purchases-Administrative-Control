@@ -263,13 +263,36 @@ app.get('/user/painel/:id', async (req,res)=>{
     } 
     })
 
-  
+//                    //
+//                    //
+//-----USER PARTS-----//
+//                    //
+//                    //
 
+// HOME users
+app.get('/user/login', async (req,res)=>{
+  try{
+    res.render('userLogin')
+  }
+  catch(error){
+      res.status(500).send(error.message)
+  }
+})
+
+//LOGIN
+app.get('/user', async (req,res)=>{
+  try{
+    res.render('homeUser')
+  }
+  catch(error){
+      res.status(500).send(error.message)
+  }
+}) 
 //Edit user by himself
 app.post('/user/edit/:id', async (req,res)=>{
   try{
     const id = req.params.id
-    const user = await UserModel.findById(id)
+    const user = await UserModel.findByIdAndUpdate(id)
 
     return res.status(200).render('userEdit', {userByID: user})
   }
@@ -277,17 +300,51 @@ app.post('/user/edit/:id', async (req,res)=>{
       res.status(500).send(error.message)
   } 
   })
-  
+          
+        //Edit user by himself - REDIRECT
+          app.post('/user/updated/:id', async(req,res)=>{
+            try{
+                const id = req.params.id
+                var firstNameUpdate = req.body.firstNameUser
+                var lastNameUpdate = req.body.lastNameUser
+                var emailUpdate = req.body.emailUser
+                var passwordUpdate = req.body.passwordUser
+
+
+
+                // const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})
+                const user = await UserModel.findByIdAndUpdate(id, {
+                  firstName:firstNameUpdate, 
+                  lastName: lastNameUpdate,
+                  email: emailUpdate,
+                  password: passwordUpdate
+                }, {new: true})
+                return res.status(200).render('userUpdatedByHinself',{userByID: user})
+
+            }
+            catch(error){
+                res.status(500).send(error.message)
+            }
+        })
+
+      //DELETE by himself - REDIRECT
+        app.post('/user/delete/:id', async(req,res)=>{
+          try{
+              const id = req.params.id
+              const user = await UserModel.findByIdAndRemove(id)
+      
+              return res.status(200).render('userDeletedByHinself', {userByID: user})
+          }
+          catch(error){
+              res.status(500).send(error.message)
+          } 
+        })
+
+
+//FALTA APLICAR:
+    //login   (validations)
 
  
-//FALTA APLICAR:
-    //Editar usuário (poelo user)
-    //Excluir user (ele mesmo)
-    //login
-    //page inicial user
-
-
-
 
  
 
