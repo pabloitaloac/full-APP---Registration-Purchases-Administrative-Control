@@ -182,6 +182,10 @@ app.post('/adm/delete/users/:id', async(req,res)=>{
     } 
 })
 
+// ------------------------------------------------------            
+
+
+
 //criar usuários
       //utiliza Schema em outro arquivo para fazer
       //status 201 é padrão para confirmar criação de usuários
@@ -191,63 +195,64 @@ app.post('/adm/delete/users/:id', async(req,res)=>{
         res.render("addUser");
       });
 
-      // ADD - Using url to receive json
-      app.post("/adm/add/single_user", async (req, res) => {
-        try {
+                    // ADD - Using url to receive json
+                    app.post("/adm/add/single_user", async (req, res) => {
+                      try {
 
-          var emailClient = req.body.email
-                  //If email is whrited, search in DB
-                  if(emailClient.length > 0){
-                    var validateEmailDB = await UserModel.findOne({
-                      "email": emailClient
-                    })      
-                  }
-                  //If not, create var with 'null'
-                  else {
-                    var validateEmailDB = null
-                  } 
+                        var emailClient = req.body.email
+                                //If email is whrited, search in DB
+                                if(emailClient.length > 0){
+                                  var validateEmailDB = await UserModel.findOne({
+                                    "email": emailClient
+                                  })      
+                                }
+                                //If not, create var with 'null'
+                                else {
+                                  var validateEmailDB = null
+                                } 
 
-          var firstNameClient = req.body.firstName
-          var lastNameClient = req.body.lastName
-          var passwordClient = req.body.password
-          
-          // NÃO ESTÁ INDO ?/
-          var regex = /^(?=(?:.*?[A-Z]){3})(?=(?:.*?[0-9]){2})(?=(?:.*?[!@#$%*()_+^&}{:;?.]){1})(?!.*\s)[0-9a-zA-Z!@#$%;*(){}_+^&]*$/
-          //Is all data complete? - Todos os campos escritos?
-          if(firstNameClient.length>0 && lastNameClient.length>0 && emailClient.length>0 && passwordClient.length>0){
-            
-                    // If yes, validate email and continue
-                    if (validateEmailDB != null && emailClient == validateEmailDB.email){
-                      res.send(`Email Existente!`)
-                    }
-                    //Validate password - mínimo 3 caracteres em maiúsculo, 2 números e 1 caractere especial
-                    else if(passwordClient.length < 8){
-                        res.send(` senha deve conter no minímo 8 digitos!`)
-                    }
-                    else if(!regex.exec(passwordClient))
-                    {
-                        res.send(`A senha deve conter no mínimo 3 caracteres em maiúsculo, 2 números e 1 caractere especial!`)
-                    }
-                    else {
-                        //if all OK, creat new user
-                        const user = await UserModel.create({
-                        firstName: req.body.firstName,
-                        lastName: req.body.lastName,
-                        email: req.body.email,
-                        password: req.body.password,
-                        });
-                      res.status(201).send(`Cadastro criado com email novo`)
-                    }
-          } 
-          else{
-            res.send(`Preencha TODOS os campos`)
-          }                            
-        } catch (error) {
-          res.status(500).send(`ERRO: ${error.message}`);
-        }
-      })
+                        var firstNameClient = req.body.firstName
+                        var lastNameClient = req.body.lastName
+                        var passwordClient = req.body.password
+                        
+                        // NÃO ESTÁ INDO ?/
+                        var regex = /^(?=(?:.*?[A-Z]){3})(?=(?:.*?[0-9]){2})(?=(?:.*?[!@#$%*()_+^&}{:;?.]){1})(?!.*\s)[0-9a-zA-Z!@#$%;*(){}_+^&]*$/
+                        //Is all data complete? - Todos os campos escritos?
+                        if(firstNameClient.length>0 && lastNameClient.length>0 && emailClient.length>0 && passwordClient.length>0){
+                          
+                                  // If yes, validate email and continue
+                                  if (validateEmailDB != null && emailClient == validateEmailDB.email){
+                                    res.send(`Email Existente!`)
+                                  }
+                                  //Validate password - mínimo 3 caracteres em maiúsculo, 2 números e 1 caractere especial
+                                  else if(passwordClient.length < 8){
+                                      res.send(` senha deve conter no minímo 8 digitos!`)
+                                  }
+                                  else if(!regex.exec(passwordClient))
+                                  {
+                                      res.send(`A senha deve conter no mínimo 3 caracteres em maiúsculo, 2 números e 1 caractere especial!`)
+                                  }
+                                  else {
+                                      //if all OK, creat new user
+                                      const user = await UserModel.create({
+                                      firstName: req.body.firstName,
+                                      lastName: req.body.lastName,
+                                      email: req.body.email,
+                                      password: req.body.password,
+                                      });
+                                    res.status(201).redirect(`/user/painel/${user.id}`)
+                                  }
+                        } 
+                        else{
+                          res.send(`Preencha TODOS os campos`)
+                        }                            
+                      } catch (error) {
+                        res.status(500).send(`ERRO: ${error.message}`);
+                      }
+                    })
    
 
+// ------------------------------------------------------            
 
 
 //                    //
@@ -256,10 +261,15 @@ app.post('/adm/delete/users/:id', async(req,res)=>{
 //                    //
 //                    //
 
+
+
+
+
+
 // HOME users
 app.get('/user', async (req,res)=>{
   try{
-    res.render('homeUser')
+    res.render('homeUser', {userByID: null})
   }
   catch(error){
       res.status(500).send(error.message)
@@ -269,7 +279,7 @@ app.get('/user', async (req,res)=>{
 //LOGIN
 app.get('/user/login', async (req,res)=>{
   try{
-    res.render('userLogin', {situation: null, userEmail:null, userPassword:null})      
+    res.render('userLogin', {situation: null, userEmail:null, userPassword:null, isTriedUserPanel:null})      
 
   } 
   catch(error){
@@ -375,21 +385,42 @@ app.get('/user/login/redefinir', async (req,res)=>{
     })
 
 
+// ------------------------------------------------------            
 
 
- //To user view your data
-app.get('/user/painel/:id', async (req,res)=>{
+
+ //USER PANEL
+ app.get('/user/painel', async (req,res)=>{
   try{
-    const id = req.params.id
-    const user = await UserModel.findById(id)
+        const id = req.body.id
+        const user = await UserModel.findById(id)
 
-    return res.status(200).render('userPanel', {userByID: user})
+          if(id ==null){
+            res.render('userLogin', {situation: null, userEmail:null, userPassword:null, isTriedUserPanel: true})
+
+          } else{
+            res.redirect(`/user/painel/${id}`)
+          }
   }
   catch(error){
       res.status(500).send(error.message)
   } 
   })
 
+              //Render if have ID
+              app.get('/user/painel/:id', async (req,res)=>{
+                try{
+                  const id = req.params.id
+                  const user = await UserModel.findById(id)
+
+                  return res.status(200).render('userPanel', {userByID: user})
+                }
+                catch(error){
+                    res.status(500).send(error.message)
+                } 
+                })
+
+// ------------------------------------------------------            
 
 
 //Edit user by himself

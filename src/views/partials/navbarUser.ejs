@@ -10,13 +10,11 @@
         <a href="/adm/add/users">Se cadastrar</a>
       </li>
       <li>
-        <a>Painel do Usuário</a>
+        <a onclick="userPanel()">Painel do Usuário</a>
       </li>
       <li>
         <a href="https://www.linkedin.com/in/pabloitalo/">Contacts</a>
       </li>
-      /user/painel/:id
-      
     </ul>
   </nav>
   <br>
@@ -79,3 +77,24 @@
   
   </style>
   
+  <script>
+
+    //To Know if user is logged
+    function userPanel(){
+
+      //search entire url
+      var url = window.location.href
+      //search last part of url
+      url = url.split('/');
+            const lastPartUrl = url[url.length-1]
+
+            // Is ID
+            if(lastPartUrl.length > 15){
+              location.href = `/user/painel/${lastPartUrl}`
+            }
+            // Not is ID
+            else{
+              location.href = '/user/painel'
+            }
+      }
+  </script>

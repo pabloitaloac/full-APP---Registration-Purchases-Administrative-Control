@@ -169,7 +169,7 @@ z-index: 10;
 
 
 <d id="adjustFooter">
-    <form id="formLogin" method="post">
+    <form id="formLogin" action="/user/login" method="post">
 
         <h3>Login</h3>
 
@@ -180,6 +180,15 @@ z-index: 10;
         <%  }   else    {   %>
             <%=situation %>
         <% } %>
+
+        <% if(isTriedUserPanel == true)    { %>
+            <br>
+            <p id="dadosIncorretos">Para acessar o painel de Usuário, você precisa estar Logado</p>
+        <%  }   else    {   %>
+            <%=isTriedUserPanel %>
+        <% } %>
+
+        
     
         <label for="username">Username</label>
         <input type="text" placeholder="Email" name="username" id="username" value="<%=userEmail%>">
