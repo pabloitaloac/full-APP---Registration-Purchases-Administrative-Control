@@ -1,0 +1,76 @@
+<html lang="pt-br">
+  <%- include('../partials/head.ejs') %>
+  <header>
+    <%- include('../partials/navHome.ejs') %> <%-
+    include('../partials/AddUser.ejs') %>
+  </header>
+
+  <body>
+    <div>Este é um exemplo de loja</div>
+
+    <br />
+
+
+
+    <div id="showProducts">
+    
+  
+        <li id="singleProduct">
+        <form action="">
+          <a href="">
+            <img
+              id="productImage"
+              src="https://www.paodeacucar.com/img/uploads/1/974/19514974.jpg"
+            />
+
+            <p>Chocolate</p>
+
+            <button id="">Adicionar ao carrinho</button>
+          </a>
+        </form>
+      </li>
+
+
+
+
+    </div>
+  </body>
+
+  <footer><%- include('../partials/foot.ejs') %></footer>
+
+  <style>
+    #showProducts {
+      max-width: 1000px;
+      max-height: 1000px;
+
+      width: auto;
+      height: auto;
+      padding: 10px;
+
+      display: block;
+    }
+
+    #singleProduct {
+      position: relative;
+      max-width: 200px;
+      max-height: 200px;
+      width: auto;
+      height: auto;
+
+      border: 1px;
+      border-radius: 5%;
+      border-style: solid;
+
+      padding: 5px;
+      display: inline-block;
+      margin: 5px;
+    }
+
+    #productImage {
+      max-width: 20%;
+      max-height: 20%;
+      width: auto;
+      height: auto;
+    }
+  </style>
+</html>

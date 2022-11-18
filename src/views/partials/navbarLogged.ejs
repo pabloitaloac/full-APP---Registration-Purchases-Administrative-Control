@@ -1,20 +1,18 @@
-  <nav id="userPainel">
+<nav id="userPainel">
     <ul>
       <li>
         <a href="/">Home</a>
-      </li>
-      <li>
-        <a href="/user/login">Login</a>
-      </li>
-      <li>
-        <a href="/adm/add/users">Se cadastrar</a>
-      </li>
+      </li>      
       <li>
         <a onclick="userPanel()">Painel do Usuário</a>
       </li>
       <li>
-        <a href="https://www.linkedin.com/in/pabloitalo/">Contacts</a>
-      </li>
+          <a href="https://www.linkedin.com/in/pabloitalo/">Contacts</a>
+        </li>
+
+        <li onclick="location.href='/'">
+          <p id="logout">Logout</p>
+        </li>
     </ul>
   </nav>
   <br>
@@ -29,6 +27,13 @@
   
     a{
         cursor: pointer;
+    }
+    #logout{
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.493);
+        color: rgb(255, 255, 255);
+        border:  10px;
+        padding: 3px;
     }
     navs {
       max-width: 2000px;

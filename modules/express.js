@@ -2,7 +2,9 @@ const express = require("express");
 const { findByIdAndUpdate } = require("../src/models/user.model");
 const UserModel = require("../src/models/user.model");
 
+
 const app = express();
+
 
 //To be can possible use json in requests
 app.use(express.urlencoded({ extended: false }));
@@ -12,7 +14,14 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", "src/views");
 
-//Routes
+//============  shop  ===============
+
+var shop = require('../routes/shop')
+app.use('/shop', shop)
+
+
+
+//===========   Routes  ============
 app.get("/", (req, res) => {
   res.status(200).render("home");
 });
@@ -310,6 +319,11 @@ app.get('/user/login', async (req,res)=>{
         }  
         })
     
+// ------------------------------------------------------            
+// ------------------------------------------------------            
+// ------------------------------------------------------            
+
+
 //Password lost - "Esqueci senha"
 app.get('/user/login/redefinir', async (req,res)=>{
     try{
@@ -320,6 +334,7 @@ app.get('/user/login/redefinir', async (req,res)=>{
     }  
 })
 
+            // Validate email (req)
             app.post('/user/login/redefinir', async (req,res)=>{
               try{
 
@@ -341,48 +356,36 @@ app.get('/user/login/redefinir', async (req,res)=>{
             })
 
 
+                              // Email exist - Search ID
+                              app.get('/user/login/redefinir/:id', async (req,res)=>{
+                                try{
+                                  const id = req.params.id      
+                                  const email = req.body.username
 
-    app.get('/user/login/redefinir/:id', async (req,res)=>{
-      try{
-        const id = req.params.id      
-        const email = req.body.username
+                                  const user = await UserModel.findById(id)
 
+                                      res.render('newPassword', {id:id})
+                                      }
+                                catch(error){
+                                    res.status(500).send(error.message)
+                                }  
+                              })
 
-        //-------------------//
-        //-------------------//
-        //-------------------//
-        //----Falta fazer----//
-        //-------------------//
-        //-------------------//
-        //-------------------//
+                                    // The check of password quality is at page
+                                              // collect new password at "get" page, and change this
+                                              app.post('/user/login/redefinir/:id', async (req,res)=>{
+                                                try{
 
+                                                  const id = req.params.id
+                                                  const senha = req.body.password
 
-            //renderizar página de alteração
-                //enviar valores da nova senha como post para mesma página
-
-              res.send(id)
-
-            }
-      catch(error){
-          res.status(500).send(error.message)
-      }  
-    })
-
-    //change password
-    app.post('/user/login/redefinir/:id', async (req,res)=>{
-      try{
-
-        const id = req.params.id
-        const senha = req.body.password
-
-        const user = await UserModel.findByIdAndUpdate(id, {password:senha})
-
-          res.send('senha alterada')
-      }               
-      catch(error){
-          res.status(500).send(error.message)
-      }  
-    })
+                                                  const user = await UserModel.findByIdAndUpdate(id, {password:senha})                                                  
+                                                    res.redirect(`/user/painel/${id}`)
+                                                }               
+                                                catch(error){
+                                                    res.status(500).send(error.message)
+                                                }  
+                                              })
 
 
 // ------------------------------------------------------            
