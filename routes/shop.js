@@ -1,6 +1,8 @@
 // var app = require('../modules/express')
 const express = require('express')
 const { Schema } = require('mongoose')
+const { findByIdAndUpdate } = require("../src/models/user.model");
+const UserModel = require("../src/models/user.model");
 
 
 var router = express.Router()
