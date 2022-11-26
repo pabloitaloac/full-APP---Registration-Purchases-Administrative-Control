@@ -1,0 +1,98 @@
+<html lang="pt-br">
+  <%- include('../partials/head.ejs') %>
+  <header>
+    <%- include('../partials/shop/navbarShop.ejs') %>
+    <%- include('../partials/AddUser.ejs') %>
+  </header>
+
+
+  
+  <body>
+    
+<div>
+
+        <h2>
+            Controle de estoque
+        </h2>
+
+        <a>
+           <button type="button" value="newProduct" onclick="location.href = '/adm/estoque/novo-produto'">Cadastrar Produto</button> 
+
+        </a>
+
+        <br>
+
+<%  if(estoque != null) {%>
+
+
+      <%  estoque.forEach( singleProduct => {   %>
+
+        <h4>Produto: </h4>
+        <%=singleProduct.productName  %>
+
+        <br>
+        
+        <h4>Código de Barras: </h4>
+        <%=singleProduct.productCode  %>
+
+        <br>
+
+        <h4>Quantidade em estoque: </h4>
+        <%=singleProduct.productQtd  %>
+
+        <br>
+
+        <h4>Custo: </h4>
+        <%=singleProduct.productCost  %>
+
+        <br>
+
+        <h4>Preço de Venda: </h4>
+        <%=singleProduct.productNormalPrice  %>
+
+        <br>
+
+        <h4>Preço de venda - Afiliados: </h4>
+        <%=singleProduct.productSpecialPrice  %>
+
+        <br>
+
+        <p>
+          <button id="<%=singleProduct.productName%>" onclick="editSingleProduct(id)">Editar Produto</button>
+        </p>
+        
+        <br><hr>
+      <%  })  %>
+
+    <% }  else {    %>
+        <br>
+        <h4>
+            ESTOQUE VAZIO
+        </h4>
+    <%  }   %>
+
+
+
+
+
+
+</div>
+
+
+  </body>
+
+
+  <script>
+
+    function editSingleProduct(productName){
+
+      // To change space in '-', to bettar url view
+      var adjustURL = productName.replace(/ /g, '-')
+        location.href = `/adm/estoque/produto/${adjustURL}`
+
+
+    }
+  </script>
+
+
+</html>

@@ -3,6 +3,7 @@ const express = require('express')
 const { Schema } = require('mongoose')
 const { findByIdAndUpdate } = require("../src/models/user.model");
 const UserModel = require("../src/models/user.model");
+const ProductModel = require('../src/models/product.model')
 
 
 var router = express.Router()
@@ -251,7 +252,74 @@ router.get("/users", async (req, res) => {
      
   
   // ------------------------------------------------------            
+  router.get('/estoque', async (req,res)=>{
+
+        const product = await ProductModel.find({})
+
+    res.render('./adm/estoque', {estoque:product})
+  })
+
+
+        router.get('/estoque/novo-produto', async (req,res)=>{
+          res.render('./adm/newProduct', {estoque:null})
+
+
+        })
+
+              router.post('/estoque/novo-produto', async (req,res)=>{
+
+                //CREATE PRODUCT HERE
+                const product = await ProductModel.create({
+                  
+                  productCode: req.body.productCode,
+                  productName: req.body.productName,
+                  productQtd: req.body.productQtd,
+                  productCost: req.body.productCost,
+                  productNormalPrice: req.body.productNormalPrice,
+                  productSpecialPrice: req.body.productSpecialPrice,
   
+                  });
+
+                  console.log('Produco criado')
+
+                  res.render('./adm/singleProductEdit', {
+                     product: product,
+                     isNew: true
+                  })
+              })
+
+
+router.get('/estoque/produto/:productName', async (req,res)=>{
+
+  var productName = req.params.productName
+
+      var adjustProductName = productName.replace(/-/g, ' ')
+
+  const product = await ProductModel.findOne({
+    productName: adjustProductName
+  })
+
+  res.render('./adm/singleProductEdit', {
+    product: product,
+    isNew: false
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

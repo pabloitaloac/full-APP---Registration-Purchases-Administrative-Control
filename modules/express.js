@@ -44,8 +44,11 @@ app.get("/", (req, res) => {
 
 //FALTA APLICAR:
       //  Validação usuário
-      //  Página de cadastro
-      //  Data Bases ( ADM / PEDIDOS / PRODUTOS )
+      //  Página de cadastro de produtos
+      //  Data Bases ( ADM / PEDIDOS )
+      //  Validações de form - edit Product
+      //  Edit Product - BackEnd
+      //  navBars with new functions
 
 //CORRIGIR:
       //  login - bug css 

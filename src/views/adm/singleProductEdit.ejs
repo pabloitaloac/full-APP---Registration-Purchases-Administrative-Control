@@ -1,0 +1,88 @@
+<html lang="pt-br">
+    <%- include('../partials/head.ejs') %>
+  <body>
+      <%- include('../partials/navbarUser.ejs') %>
+      <%- include('../partials/AddUser.ejs') %>
+
+<div class="content">
+    <%  if(isNew == true){   %>
+
+    <h1>
+        Produto adicionado com sucesso!
+        <br>
+        
+    </h1>
+
+    <%  } else if(isNew == false) { %> %>
+
+      <h1>
+        Produto:
+        <br>
+        
+    </h1>
+<%  } %>
+    
+      <br>
+      
+      Id: <h5 id=""><%= product.id%></h5>     
+
+        <br>
+        
+        <h5> NOME:</h5>
+        <p>
+        <input type="text" name="<%= product.productName %>" id="<%= product.productName %>" value="<%= product.productName %>">
+        </p>
+
+      <br>
+
+        <h5> CÓDIGO DE BARRAS:</h5>
+        <p>
+          <input type="number" name="<%= product.productCode %>" id="<%= product.productCode %>" value="<%= product.productCode %>">
+        </p>
+
+      <br />
+
+        <h5> Quantidade em estoque:</h5>
+        <p>
+          <input type="number" name="<%= product.productQtd %>" id="<%= product.productQtd %>" value="<%= product.productQtd %>">
+        </p>
+
+      <br />
+
+        <h5> Preço de Custo:</h5>
+        <p>
+          <input type="number" name="<%= product.productCost %>" id="<%= product.productCost %>" value="<%= product.productCost %>">
+        </p>
+      
+
+      <br>
+
+        <h5> Preço de Venda:</h5>
+        <p>
+          <input type="number" name="<%= product.productNormalPrice %>" id="<%= product.productNormalPrice %>" value="<%= product.productNormalPrice %>">
+        </p>
+      
+
+      <br>
+
+      <h5> Preço de Afiliados:</h5>
+      <p>
+        <input type="number" name="<%= product.productSpecialPrice %>" id="<%= product.productSpecialPrice %>" value="<%= product.productSpecialPrice %>">
+      </p>
+      
+
+      <br>
+
+      <p>
+      <button type="button" >Editar Esse Produto</button>
+      </p>
+      <br>
+      <p>
+        <button type="button" onclick="location.href = '/adm/estoque'">Ver Todos os Produtos</button>
+      </p>
+        
+
+</div>
+    <%- include('../partials/foot.ejs') %>
+
+</body>

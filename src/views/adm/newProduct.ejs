@@ -1,0 +1,101 @@
+<html lang="pt-br">
+  <%- include('../partials/head.ejs') %>
+  <header>
+    <%- include('../partials/shop/navbarShop.ejs') %>
+    <%- include('../partials/AddUser.ejs') %>
+  </header>
+
+
+  
+  <body>
+    
+<div>
+
+        <h2>
+            Adicionar Produto
+        </h2>
+
+        <a>
+           <form action="" method="post" id="newProduct">
+
+                <label for="productName">Nome do Produto: </label>
+                <input type="text" name="productName" id="productName">
+
+                <br>
+
+                <label for="productCode">Código do Produto: </label>
+                <input type="text" name="productCode" id="productCode">
+
+                <br>
+
+                <label for="productQtd">Quantidade: </label>
+                <input type="number" name="productQtd" id="productQtd">
+
+                <br>
+                
+                <label for="productCost">Preço de Compra (R$): </label>
+                <input type="number" name="productCost" id="productCost">
+
+                <br>
+                
+                <label for="productNormalPrice">Preço de Venda (R$): </label>
+                <input type="number" name="productNormalPrice" id="productNormalPrice">
+
+                <br> 
+
+                <label for="productSpecialPrice">Preço de Venda - AFILIADOS (R$): </label>
+                <input type="number" name="productSpecialPrice" id="productSpecialPrice">
+
+                <br> <br>
+                
+                <p>
+                <button type="button" value="createProduct"
+                onclick="create(productName, productCode, productQtd, productCost, productNormalPrice, productSpecialPrice)">Cadastrar
+                </p>
+
+
+           </form>
+
+        </a>
+
+
+
+
+
+
+</div>
+
+
+  </body>
+
+<script>
+
+function create(productCode, productName, productQtd, productCost, productNormalPrice, productSpecialPrice){
+
+    var code = productCode.value
+    var name = productName.value
+    var qtd = productQtd.value
+    var cost = productCost.value
+    var price = productNormalPrice.value
+    var offer = productSpecialPrice.value
+    
+        if(name.length==0 || code.length==0 || qtd.length==0 || cost.length==0 || price.length==0 || offer.length==0){
+
+            alert('Favor preencher todos os dados')
+
+        }
+
+        else{
+            //SUBMIT
+
+            document.getElementById('newProduct').submit()
+
+            // alert(`TUDO OK! - Nome: ${name}, Código: ${code}, Qtd: ${qtd}, Custo: ${cost}, Preço: ${price}, Afiliado: ${offer} `)
+        }
+
+}
+
+</script>
+
+
+</html>
