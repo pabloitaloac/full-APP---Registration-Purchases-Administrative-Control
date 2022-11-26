@@ -30,6 +30,9 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true,
         minlength: 1
+    },
+    productImage: {
+        type: String
     }
 })
 

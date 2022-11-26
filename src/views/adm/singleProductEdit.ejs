@@ -24,34 +24,36 @@
     
       <br>
       
-      Id: <h5 id=""><%= product.id%></h5>     
 
         <br>
         
         <h5> NOME:</h5>
+        
+<form method="post"  id="thisProduct">
+
         <p>
-        <input type="text" name="<%= product.productName %>" id="<%= product.productName %>" value="<%= product.productName %>">
+        <input type="text" name="productName" id="<%= product.productName %>" value="<%= product.productName %>">
         </p>
 
       <br>
 
         <h5> CÓDIGO DE BARRAS:</h5>
         <p>
-          <input type="number" name="<%= product.productCode %>" id="<%= product.productCode %>" value="<%= product.productCode %>">
+          <input type="number" name="productCode" id="<%= product.productCode %>" value="<%= product.productCode %>">
         </p>
 
       <br />
 
         <h5> Quantidade em estoque:</h5>
         <p>
-          <input type="number" name="<%= product.productQtd %>" id="<%= product.productQtd %>" value="<%= product.productQtd %>">
+          <input type="number" name="productQtd" id="<%= product.productQtd %>" value="<%= product.productQtd %>">
         </p>
 
       <br />
 
         <h5> Preço de Custo:</h5>
         <p>
-          <input type="number" name="<%= product.productCost %>" id="<%= product.productCost %>" value="<%= product.productCost %>">
+          <input type="number" name="productCost" id="<%= product.productCost %>" value="<%= product.productCost %>">
         </p>
       
 
@@ -59,7 +61,7 @@
 
         <h5> Preço de Venda:</h5>
         <p>
-          <input type="number" name="<%= product.productNormalPrice %>" id="<%= product.productNormalPrice %>" value="<%= product.productNormalPrice %>">
+          <input type="number" name="productNormalPrice" id="<%= product.productNormalPrice %>" value="<%= product.productNormalPrice %>">
         </p>
       
 
@@ -67,22 +69,65 @@
 
       <h5> Preço de Afiliados:</h5>
       <p>
-        <input type="number" name="<%= product.productSpecialPrice %>" id="<%= product.productSpecialPrice %>" value="<%= product.productSpecialPrice %>">
+        <input type="number" name="productSpecialPrice" id="<%= product.productSpecialPrice %>" value="<%= product.productSpecialPrice %>">
       </p>
       
+      <br>
+
+      <h5> Imagem (URL):</h5>
+      <p>
+        <input type="text" name="productImage" id="<%= product.productImage %>" value="<%= product.productImage %>">
+      </p>
 
       <br>
 
       <p>
-      <button type="button" >Editar Esse Produto</button>
+      <button type="button" id="<%=product.productName%>" onclick="editThisProduct(id)" >Editar Esse Produto</button>
       </p>
+
       <br>
+      
+      <p>
+      <button type="button" id="<%=product.productName%>" onclick="deleteThisProduct(id)">Deletar</button>
+      </p>
+      
+      <br>
+
       <p>
         <button type="button" onclick="location.href = '/adm/estoque'">Ver Todos os Produtos</button>
       </p>
-        
+
+
+</form>        
 
 </div>
     <%- include('../partials/foot.ejs') %>
 
 </body>
+
+
+<script>
+
+function deleteThisProduct(thisProductName){
+
+// To change space in '-', to bettar url view
+  var adjustURL = thisProductName.replace(/ /g, '-')
+  location.href = `/adm/estoque/produto/deletar/${adjustURL}`
+
+
+}
+
+
+function editThisProduct(thisProductName){
+
+// To change space in '-', to bettar url view
+  var adjustURL = thisProductName.replace(/ /g, '-')
+  // location.href = `/adm/estoque/produto/${adjustURL}`
+
+  document.getElementById('thisProduct').submit()
+
+}
+
+
+
+</script>

@@ -15,106 +15,105 @@
     <div class="showProducts" id="showProducts">
     
 
-      productCode: req.body.productCode,
-      productName: req.body.productName,
-      productQtd: req.body.productQtd,
-      productCost: req.body.productCost,
-      productNormalPrice: req.body.productNormalPrice,
-      productSpecialPrice: req.body.productSpecialPrice,
-      productImage: req.body.productImage
       
+      
+      
+      
+      
+      
+            
   
-<%  var myArray = Object.values(allProducts)  %>
 
+<%  if(allProducts.length > 0) { allProducts.forEach( product => {     %>
 
-
-<% if(myArray.length>0){    %>
   
-      <%  for ( i=0 ; i<myArray.length  ; i++ ) { %>  
+  
+  
+  
+  
+  
 
-
-
-        <!-- <li > -->
-          <form id="singleProduct">
-              <!-- <a href=""> -->
-                <img
-                  id="<%=myArray[i].nome%>-image"
-                  class="imageProduct"
-                  src="<%= myArray[i].img%>        
-                  "
-                />
-    
-
-                <p class="name"  id="name"><%=myArray[i].nome%></p>
-    
-
-                <p class="situation">disponíveis: &nbsp</p>                
-                <p class="situation" id="<%=myArray[i].nome%>-situation"><%= myArray[i].qtd%></p>
+  
+  <!-- <li > -->
+    <form id="singleProduct">
+      <!-- <a href=""> -->
+        <img
+        id="image"
+        class="imageProduct"
+        src="<%=product.productImage%>"
+        />
+        
+        
+        <p class="name"  id="<%=product.productName%>-name"><%=product.productName%></p>
+        
+        
+        <p class="situation">disponíveis: &nbsp</p>                
+        <p class="situation" id="<%=product.productName%>-situation"><%=product.productQtd%></p>
     
                 <br>
-
-                <p class="preCost">Preço: &nbsp</p>
-                <p class="rs">R$</p><p class="cost" id="<%=myArray[i].nome%>-cost"><%=myArray[i].precoRegular%></p>
-    
-
-                  <%  if(myArray[i].precoPromocao != null){%>
-
-                    <p class="prePromo">Clube Fidelidade: &nbsp</p>
-                    <p class="rs">R$</p><p class="promo" id="<%=myArray[i].nome%>-promo"><%=myArray[i].precoPromocao%></p>
                 
-                    <br>
-
-                  <% } else {%>
-                  
-                     <p id="<%=myArray[i].nome%>-promo"></p>
-                  
-                     <br>
-                   <%  }%>
+                <p class="preCost">Preço: &nbsp</p>
+                <p class="rs">R$</p><p class="cost" id="<%=product.productName%>-cost"><%=product.productNormalPrice%></p>
+                
+                
+                
+                
+                <p class="prePromo">Clube Fidelidade: &nbsp</p>
+                <p class="rs">R$</p><p class="promo" id="<%=product.productName%>-promo"><%=product.productSpecialPrice%></p>
+                
+                <br>
+                
+                
+                
+                <p id="promo"></p>
+                
+                <br>
+                
                 
                 <label class="txtQtdProduct" for="qtdProduct">Quantidade:</label>
                 <input type="number" class="qtdProduct" id="qtdProduct">
                 
                 <br><br>
-
-                <button type="button" id="<%=myArray[i].nome%>" 
-                  onclick="addToCart(id)">                  
-                  Adicionar ao carrinho
-                </button>
-              <!-- </a> -->
-          </form>
-        <!-- </li> -->
-  
-
-<%  }}   %>     
-
-        <p>
-          <select name="pageSelector" id="pageSelector">
-              <option value="1">1</option>
-          </select>
-        </p>
-</div>
-
-
-
-  <b class="cartInPage" id="cartInPage">
-
-    <h3 class="nameCart">Carrinho: <hr><br></h3>
-      <p class="cartToChange" id="cartToChange">        
-      </p>
-      <br><hr>
-      <p class="totalToChange" id="totalToChange">
                 
-        TOTAL: R$0.00
-      </p>
-
-  </b>          
-
-</a>
-
-</body>
-
-  <footer><%- include('../partials/foot.ejs') %></footer>
-
+                <button type="button" id="<%=product.productName%>" 
+                onclick="addToCart(id)">                  
+                Adicionar ao carrinho
+              </button>
+              <!-- </a> -->
+            </form>
+            <!-- </li> -->
+            
+            
+<%  })  } %>
+            
+            <p>
+              <select name="pageSelector" id="pageSelector">
+                <option value="1">1</option>
+              </select>
+            </p>
+          </div>
+          
+          
+          
+          <b class="cartInPage" id="cartInPage">
+            
+            <h3 class="nameCart">Carrinho: <hr><br></h3>
+            <p class="cartToChange" id="cartToChange">        
+            </p>
+            <br><hr>
+            <p class="totalToChange" id="totalToChange">
+              
+              TOTAL: R$0.00
+            </p>
+            
+          </b>          
+          
+        </a>
+        
+      </body>
+      
+      <footer><%- include('../partials/foot.ejs') %></footer>
+      
   <style>
 
     .allContents{                
@@ -315,12 +314,7 @@ function addToCart(thisProduct){
 
     //adding to cart
 
-      // var product = document.createTextNode(`${n} `)
       
-
-      
-      
-        // `${n} , Disponibilidade: ${s}, Valor: R$${c}, Promoção: R$${p}`
     
       var createPImage = document.createElement("a")
                 createPImage.className = 'infoCart'
