@@ -259,6 +259,23 @@ router.get("/users", async (req, res) => {
     res.render('./adm/estoque', {estoque:product})
   })
 
+  router.post('/estoque', async (req,res)=>{
+
+    var filterProduct = req.body.filter
+    
+    console.log(`Filtro: ${filterProduct}`);
+
+    const product = await ProductModel.findOne({
+      
+      productCode: filterProduct 
+      // productName: filterProduct
+    })
+
+
+  res.render('./adm/estoque', {estoque:product})
+  })
+  
+
 
         router.get('/estoque/novo-produto', async (req,res)=>{
           res.render('./adm/newProduct', {estoque:null})
@@ -340,11 +357,9 @@ router.get('/estoque/produto/:productName', async (req,res)=>{
             productSpecialPrice: productSpecialPrice,
             productImage: productImage,
           })
-
-          res.render('./adm/singleProductEdit', {
-            product: product,
-            isNew: false
-          })
+                 
+        res.redirect(`/adm/estoque/produto/${productName}`)
+        
         })
 
 

@@ -47,12 +47,12 @@ router.get('/login', async (req,res)=>{
 
           //user not match - render with writed values
           if(user == null){
-            res.render('userLogin', {situation: 'notMatched', userEmail:email, userPassword:senha}) 
+            res.render('userLogin', {situation: 'notMatched', userEmail:email, userPassword:senha, isTriedUserPanel:null} )
           }
           //redirect with id found
           else{
             var idUser = user.id
-            res.redirect(`/painel/${idUser}`)
+            res.redirect(`/user/painel/${idUser}`)
           }
           // return res.status(200).json({user})
         }
@@ -144,7 +144,7 @@ router.get('/login/redefinir', async (req,res)=>{
             res.render('userLogin', {situation: null, userEmail:null, userPassword:null, isTriedUserPanel: true})
 
           } else{
-            res.redirect(`/painel/${id}`)
+            res.redirect(`/adm/painel/${id}`)
           }
   }
   catch(error){
@@ -159,6 +159,7 @@ router.get('/login/redefinir', async (req,res)=>{
                   const user = await UserModel.findById(id)
 
                   return res.status(200).render('userPanel', {userByID: user})
+
                 }
                 catch(error){
                     res.status(500).send(error.message)

@@ -44,11 +44,8 @@ app.get("/", (req, res) => {
 
 //FALTA APLICAR:
       //  Validação usuário
-      //  Página de cadastro de produtos
       //  Data Bases ( ADM / PEDIDOS )
-      //  Validações de form - edit Product
-      //  Edit Product - BackEnd
-      //  navBars with new functions
+
 
 //CORRIGIR:
       //  login - bug css 
@@ -60,7 +57,7 @@ app.get("/", (req, res) => {
  
 
 
-const port = 8081;
-app.listen(port, () => {
-  console.log(`rodando com EXPRESS na porta ${port}`);
+const PORT = 8081;
+app.listen(PORT, () => {
+  console.log(`rodando com EXPRESS na porta ${PORT}`);
 });

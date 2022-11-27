@@ -1,7 +1,7 @@
 <html lang="pt-br">
     <%- include('../partials/head.ejs') %>
   <body>
-      <%- include('../partials/navbarUser.ejs') %>
+    <%- include('../partials/navbar.ejs') %>
       <%- include('../partials/AddUser.ejs') %>
 
 <div class="content">
@@ -16,86 +16,78 @@
     <%  } else if(isNew == false) { %> %>
 
       <h1>
-        Produto:
-        <br>
-        
-    </h1>
+        Produto:        
+      </h1>
+
 <%  } %>
     
-      <br>
       
-
-        <br>
         
-        <h5> NOME:</h5>
         
 <form method="post"  id="thisProduct">
-
-        <p>
+          
+        <h5> NOME:</h5>
+        <a>
         <input type="text" name="productName" id="<%= product.productName %>" value="<%= product.productName %>">
-        </p>
+        </a>
 
       <br>
 
         <h5> CÓDIGO DE BARRAS:</h5>
-        <p>
-          <input type="number" name="productCode" id="<%= product.productCode %>" value="<%= product.productCode %>">
-        </p>
+        <a>
+          <input type="text" name="productCode" id="<%= product.productCode %>" value="<%= product.productCode %>">
+        </a>
 
       <br />
 
         <h5> Quantidade em estoque:</h5>
-        <p>
+        <a>
           <input type="number" name="productQtd" id="<%= product.productQtd %>" value="<%= product.productQtd %>">
-        </p>
+        </a>
 
       <br />
 
         <h5> Preço de Custo:</h5>
-        <p>
+        <a>
           <input type="number" name="productCost" id="<%= product.productCost %>" value="<%= product.productCost %>">
-        </p>
+        </a>
       
 
       <br>
 
         <h5> Preço de Venda:</h5>
-        <p>
+        <a>
           <input type="number" name="productNormalPrice" id="<%= product.productNormalPrice %>" value="<%= product.productNormalPrice %>">
-        </p>
+        </a>
       
 
       <br>
 
       <h5> Preço de Afiliados:</h5>
-      <p>
+      <a>
         <input type="number" name="productSpecialPrice" id="<%= product.productSpecialPrice %>" value="<%= product.productSpecialPrice %>">
-      </p>
+      </a>
       
       <br>
 
       <h5> Imagem (URL):</h5>
-      <p>
+      <a>
         <input type="text" name="productImage" id="<%= product.productImage %>" value="<%= product.productImage %>">
-      </p>
+      </a>
 
-      <br>
+      <br><br>
 
-      <p>
+      <a>
       <button type="button" id="<%=product.productName%>" onclick="editThisProduct(id)" >Editar Esse Produto</button>
-      </p>
 
-      <br>
+      |
       
-      <p>
       <button type="button" id="<%=product.productName%>" onclick="deleteThisProduct(id)">Deletar</button>
-      </p>
       
-      <br>
+      |
 
-      <p>
-        <button type="button" onclick="location.href = '/adm/estoque'">Ver Todos os Produtos</button>
-      </p>
+      <button type="button" onclick="location.href = '/adm/estoque'">Ver Todos os Produtos</button>
+      </a>
 
 
 </form>        
@@ -105,6 +97,17 @@
 
 </body>
 
+<style>
+
+h5{
+  display: inline-table;
+}
+a{
+  display: inline-table;
+}
+
+
+</style>
 
 <script>
 

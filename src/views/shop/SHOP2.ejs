@@ -53,13 +53,13 @@
                 <br>
                 
                 <p class="preCost">Preço: &nbsp</p>
-                <p class="rs">R$</p><p class="cost" id="<%=product.productName%>-cost"><%=product.productNormalPrice%></p>
+                <p class="rs">R$</p><p class="cost" id="<%=product.productName%>-cost"><%=product.productNormalPrice.toFixed(2)%></p>
                 
                 
                 
                 
                 <p class="prePromo">Clube Fidelidade: &nbsp</p>
-                <p class="rs">R$</p><p class="promo" id="<%=product.productName%>-promo"><%=product.productSpecialPrice%></p>
+                <p class="rs">R$</p><p class="promo" id="<%=product.productName%>-promo"><%=product.productSpecialPrice.toFixed(2)%></p>
                 
                 <br>
                 
@@ -71,12 +71,12 @@
                 
                 
                 <label class="txtQtdProduct" for="qtdProduct">Quantidade:</label>
-                <input type="number" class="qtdProduct" id="qtdProduct">
+                <input type="number" class="qtdProduct" name="qtdProduct" id="qtdProduct" value="1">
                 
                 <br><br>
                 
                 <button type="button" id="<%=product.productName%>" 
-                onclick="addToCart(id)">                  
+                onclick="addToCart(id, qtdProduct)">                  
                 Adicionar ao carrinho
               </button>
               <!-- </a> -->
@@ -281,71 +281,84 @@
 
 //guardando valor carrinho
 var totalCart = []
+var qtdCart = []
 
-function addToCart(thisProduct){
+function addToCart(thisProduct, qtdProduct){
 
-    var n = thisProduct
-    var im = document.getElementById(thisProduct+'-image')
-    var s = document.getElementById(thisProduct+'-situation').textContent
-    var c = document.getElementById(thisProduct+'-cost').textContent
-        var cToNumber = parseFloat(c)
-    var p = document.getElementById(thisProduct+'-promo').textContent
-      if(p.length<=0){
-        var p = null
-      }
-      else{
-        var c = p
-        var isPromo = true
+    var q = qtdProduct.value
 
-        var cToNumber = parseFloat(c)
-      }
+      var n = thisProduct
+      var im = document.getElementById(thisProduct+'-image')
+      var s = document.getElementById(thisProduct+'-situation').textContent
 
-      //calculing - var sum == total
-      totalCart.push(cToNumber)
+
+      var c = ((document.getElementById(thisProduct+'-cost').textContent)*q).toFixed(2)
+          var cToNumber = parseFloat(c)
+
+      var p = ((document.getElementById(thisProduct+'-promo').textContent)*q).toFixed(2)
+        if(p.length<=0){
+          var p = null
+        }
+        else{
+          var c = p
+          var isPromo = true
+
+          var cToNumber = parseFloat(c)
+        }
+
+        //calculing - var sum == total
+        totalCart.push(cToNumber)
+        
+                var sum = 0.00;
+
+                for(var i =0;i<totalCart.length;i++){
+                  sum+=totalCart[i];
+                }
+
+        qtdCart.push(parseFloat(q))
+
+                var qtdSum = 0
+
+                for(var i = 0 ; i<qtdCart.length ; i++){
+                  qtdSum+=qtdCart[i]
+                }
+                
+
+
+      //adding to cart
+
+        
       
-              var sum = 0.00;
+        var createPImage = document.createElement("a")
+                  createPImage.className = 'infoCart'
+        var createPNome = document.createElement("a")
+                  createPNome.className = 'infoCart'
 
-              for(var i =0;i<totalCart.length;i++){
-                sum+=totalCart[i];
-              }
+        var createPCost = document.createElement("a")
+                  createPCost.className = 'infoCart'
 
-              
+                if(isPromo == true){
+                  var createInfoPromo = document.createElement("a")
+                            createInfoPromo.className = 'infoCartPromo'
 
-
-    //adding to cart
-
-      
-    
-      var createPImage = document.createElement("a")
-                createPImage.className = 'infoCart'
-      var createPNome = document.createElement("a")
-                createPNome.className = 'infoCart'
-
-      var createPCost = document.createElement("a")
-                createPCost.className = 'infoCart'
-
-              if(isPromo == true){
-                var createInfoPromo = document.createElement("a")
-                          createInfoPromo.className = 'infoCartPromo'
-
-                createInfoPromo.innerHTML = `CLUBE!   &nbsp&nbsp&nbsp`
-              }
-              
+                  createInfoPromo.innerHTML = `CLUBE!   &nbsp&nbsp&nbsp`
+                }
+                
 
 
-      createPNome.innerHTML = `${n} | `
-      createPCost.innerHTML = `R$${c}<br>`
-      document.getElementById('totalToChange').innerHTML = `TOTAL: R$${sum.toFixed(2)}`
-      
-      if(isPromo == true){
-        document.getElementById('cartToChange').append(createInfoPromo)  
-      }
-      
-      document.getElementById('cartToChange').append(createPNome)        
-      document.getElementById('cartToChange').append(createPCost)
-      
+        createPNome.innerHTML = `| ${q} X ${n} = `
+        createPCost.innerHTML = `R$${c}<br>`
+        document.getElementById('totalToChange').innerHTML = `Itens: ${qtdSum} | TOTAL: R$${sum.toFixed(2)}`
+        
+        if(isPromo == true){
+          document.getElementById('cartToChange').append(createInfoPromo)  
+        }
+        
+        document.getElementById('cartToChange').append(createPNome)        
+        document.getElementById('cartToChange').append(createPCost)
+        
 
-      //att total (02 decimals)
+        //att total (02 decimals)
       
 }
 

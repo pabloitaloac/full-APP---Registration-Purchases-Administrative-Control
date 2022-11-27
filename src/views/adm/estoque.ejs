@@ -1,7 +1,7 @@
 <html lang="pt-br">
   <%- include('../partials/head.ejs') %>
   <header>
-    <%- include('../partials/shop/navbarShop.ejs') %>
+    <%- include('../partials/navbar.ejs') %>
     <%- include('../partials/AddUser.ejs') %>
   </header>
 
@@ -15,62 +15,76 @@
             Controle de estoque
         </h2>
 
-        <a>
-           <button type="button" value="newProduct" onclick="location.href = '/adm/estoque/novo-produto'">Cadastrar Produto</button> 
-
-        </a>
-
         <br>
+        
+        <p>
+          <!-- <form action="" method="post" id="filterForm">
+            <input placeholder="Código de Barras" type="text" name="filter" id="filter">
+            <button type="button" value="filterProduct" onclick="filterProduct(filter)">Filtrar</button> 
+            | -->
+            
+            <button type="button" value="newProduct" onclick="location.href = '/adm/estoque/novo-produto'">Cadastrar Produto</button> 
+          <!-- </form> -->
+        </p>
 
+
+
+
+        
 <%  if(estoque != null) {%>
-
 
       <%  estoque.forEach( singleProduct => {   %>
 
-        <h4>Produto: </h4>
-        <%=singleProduct.productName  %>
+        <br><hr>
+        <a id="eachProduct">
 
-        <br>
+          <h3><%=singleProduct.productName.toUpperCase()  %></h3>
+
+          <br>          
+
+          <h4>Código de Barras: </h4>
+          <p> <%=singleProduct.productCode  %></p>
+
+          <br>
+
+          <h4>Quantidade em estoque: </h4>
+          <p> <%=singleProduct.productQtd  %></p>
+
+          <br>
+
+          <h4>Custo: </h4>
+          <p>R$ <%=singleProduct.productCost.toFixed(2)  %></p>
+
+          <br>
+
+          <h4>Preço de Venda: </h4>
+          <p>R$ <%=singleProduct.productNormalPrice.toFixed(2)  %></p>
+
+          <br>
+
+          <h4>Preço de venda - Afiliados: </h4>
+          <p>R$ <%=singleProduct.productSpecialPrice.toFixed(2)  %></p>
         
-        <h4>Código de Barras: </h4>
-        <%=singleProduct.productCode  %>
+        </a>
 
-        <br>
-
-        <h4>Quantidade em estoque: </h4>
-        <%=singleProduct.productQtd  %>
-
-        <br>
-
-        <h4>Custo: </h4>
-        <%=singleProduct.productCost  %>
-
-        <br>
-
-        <h4>Preço de Venda: </h4>
-        <%=singleProduct.productNormalPrice  %>
-
-        <br>
-
-        <h4>Preço de venda - Afiliados: </h4>
-        <%=singleProduct.productSpecialPrice  %>
-
-        <br>
 
         <p>
           <button id="<%=singleProduct.productName%>" onclick="editSingleProduct(id)">Editar Produto</button>
         </p>
         
-        <br><hr>
-      <%  })  %>
+        
 
-    <% }  else {    %>
-        <br>
-        <h4>
+        <%  })  %>
+        
+        
+        
+        <% }  else {    %>
+          <br>
+          <h4>
             ESTOQUE VAZIO
-        </h4>
-    <%  }   %>
-
+          </h4>
+          <%  }   %>
+          
 
 
 
@@ -82,7 +96,28 @@
   </body>
 
 
+<style>
+
+    h4, p {
+      display: inline;
+    }
+
+</style>
+
+
+
   <script>
+
+function filterProduct(filter){
+
+  var nameFilter = filter.value
+
+document.getElementById('filterForm').submit()
+
+
+
+}
+
 
     function editSingleProduct(productName){
 
