@@ -153,7 +153,7 @@ router.get("/users", async (req, res) => {
   
   
   
-          // const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})
+          // const user = await UserModel.findByIdAndUpdate(id, req.JSON, {new: true})
           const user = await UserModel.findByIdAndUpdate(id, {
             firstName:firstNameUpdate, 
             lastName: lastNameUpdate,
@@ -259,51 +259,73 @@ router.get("/users", async (req, res) => {
     res.render('./adm/estoque', {estoque:product})
   })
 
-  router.post('/estoque', async (req,res)=>{
 
-    var filterProduct = req.body.filter
-    
-    console.log(`Filtro: ${filterProduct}`);
+            router.post('/estoque', async (req,res)=>{
 
-    const product = await ProductModel.findOne({
-      
-      productCode: filterProduct 
-      // productName: filterProduct
-    })
+    // //Create tags to can search product
+    var productTagFilter = req.body.filter
+    //change special characteres and all in low case
+    var auxproductFilter = productTagFilter.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+    //excluding separators       
+    // productTagFilter.push(auxproductFilter)
+    productTagFilter = auxproductFilter.split(/[\s,;.-]+/)
 
+  
+              
+              const product = await ProductModel.find({
+                
+                productTag: productTagFilter 
+                // productName: filterProduct
+              })
+              
+console.log(`Produto: ${product} / Filtro: ${productTagFilter}`);
+// res.send(`Produto: ${product} / Filtro: ${productTagFilter}`)
 
-  res.render('./adm/estoque', {estoque:product})
-  })
+            res.render('./adm/estoque', {estoque:product})
+
+})
   
 
 
-        router.get('/estoque/novo-produto', async (req,res)=>{
-          res.render('./adm/newProduct', {estoque:null})
+router.get('/estoque/novo-produto', async (req,res)=>{
+  res.render('./adm/newProduct', {estoque:null})
 
 
-        })
+})
 
+        //CREATE PRODUCT HERE
               router.post('/estoque/novo-produto', async (req,res)=>{
 
-                //CREATE PRODUCT HERE
+                //Create tags to can search product
+                var productTag = []
+                //change special characteres and all in low case
+                var auxproductName = (req.body.productName).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+                //excluding separators              
+                productTag = auxproductName.split(/[\s,;.-]+/)                                
+
                 const product = await ProductModel.create({
-                  
+                    
                   productCode: req.body.productCode,
                   productName: req.body.productName,
                   productQtd: req.body.productQtd,
                   productCost: req.body.productCost,
                   productNormalPrice: req.body.productNormalPrice,
                   productSpecialPrice: req.body.productSpecialPrice,
-                  productImage: req.body.productImage
+                  productImage: req.body.productImage,
   
+
+                  productTag: productTag,
+
                   });
 
-                  console.log('Produco criado')
 
-                  res.render('./adm/singleProductEdit', {
-                     product: product,
-                     isNew: true
-                  })
+                  console.log(`Produco criado. Tags: ${productTag}`);
+                  res.json(`Produco criado. Tags: ${productTag}`);
+
+                  // res.render('./adm/singleProductEdit', {
+                  //    product: product,
+                  //    isNew: true
+                  // })
               })
 
 
@@ -347,16 +369,28 @@ router.get('/estoque/produto/:productName', async (req,res)=>{
             var productSpecialPrice = req.body.productSpecialPrice
             var productImage = req.body.productImage
 
-          const product = await ProductModel.findOneAndUpdate({
-            productName: adjustProductName,
+         
+          //Create tags to can search product
+          var productTag = []
+          //change special characteres and all in low case
+          var auxproductName = (req.body.productName).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+          //excluding separators              
+          productTag = auxproductName.split(/[\s,;.-]+/)                                
 
-            productCode: productCode,
-            productQtd: productQtd,
-            productCost: productCost,
-            productNormalPrice: productNormalPrice,
-            productSpecialPrice: productSpecialPrice,
-            productImage: productImage,
-          })
+          const product = await ProductModel.findOneAndUpdate({
+              
+            productCode: req.body.productCode,
+            productName: req.body.productName,
+            productQtd: req.body.productQtd,
+            productCost: req.body.productCost,
+            productNormalPrice: req.body.productNormalPrice,
+            productSpecialPrice: req.body.productSpecialPrice,
+            productImage: req.body.productImage,
+
+
+            productTag: productTag,
+
+            })
                  
         res.redirect(`/adm/estoque/produto/${productName}`)
         

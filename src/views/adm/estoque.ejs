@@ -18,13 +18,13 @@
         <br>
         
         <p>
-          <!-- <form action="" method="post" id="filterForm">
-            <input placeholder="Código de Barras" type="text" name="filter" id="filter">
+          <form action="" method="post" id="filterForm">
+            <input placeholder="Nome" type="search" name="filter" id="filter">
             <button type="button" value="filterProduct" onclick="filterProduct(filter)">Filtrar</button> 
-            | -->
+            |
             
             <button type="button" value="newProduct" onclick="location.href = '/adm/estoque/novo-produto'">Cadastrar Produto</button> 
-          <!-- </form> -->
+          </form>
         </p>
 
 
@@ -112,7 +112,12 @@ function filterProduct(filter){
 
   var nameFilter = filter.value
 
-document.getElementById('filterForm').submit()
+  if(nameFilter.length>0){
+    document.getElementById('filterForm').submit()
+  }
+  else{
+    alert(`Digite algum filtro!`)
+  }
 
 
 
