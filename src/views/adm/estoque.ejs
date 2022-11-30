@@ -17,7 +17,7 @@
 
         <br>
         
-        <p>
+        <!-- <p>
           <form action="" method="post" id="filterForm">
             <input placeholder="Nome" type="search" name="filter" id="filter">
             <button type="button" value="filterProduct" onclick="filterProduct(filter)">Filtrar</button> 
@@ -25,18 +25,31 @@
             
             <button type="button" value="newProduct" onclick="location.href = '/adm/estoque/novo-produto'">Cadastrar Produto</button> 
           </form>
+        </p> -->
+        <p>
+          <form action="" method="post" id="filterForm">
+            <input placeholder="Nome" type="search" name="filter" id="filter">
+            <button type="button"
+            value="filterProduct"
+            onclick="filterProduct(filter)"
+            >Filtrar</button> 
+            |
+            
+            <button type="button" value="newProduct" onclick="location.href = '/adm/estoque/novo-produto'">Cadastrar Produto</button> 
+          </form>
         </p>
 
 
-
-
         
-<%  if(estoque != null) {%>
+<p id="allProducts">
 
-      <%  estoque.forEach( singleProduct => {   %>
+<%  if(estoque != null) {%>
+          
+  <%  estoque.forEach( singleProduct => {   %>
+    <a id="eachProduct" name="eachProduct" class="eachProduct">
 
         <br><hr>
-        <a id="eachProduct">
+
 
           <h3><%=singleProduct.productName.toUpperCase()  %></h3>
 
@@ -62,24 +75,35 @@
 
           <br>
 
+          <%  if(singleProduct.productSpecialPrice != null){ %>
+            <h4>Preço de venda - Afiliados: </h4>
+            <p>R$ <%=singleProduct.productSpecialPrice.toFixed(2)  %></p>
+        
+          <% } else {%>
           <h4>Preço de venda - Afiliados: </h4>
-          <p>R$ <%=singleProduct.productSpecialPrice.toFixed(2)  %></p>
+          <p>sem clube</p>
+          <% } %>
+          
+          <p>
+            <button id="<%=singleProduct.productName%>"
+              onclick="editSingleProduct(id)"
+              >Editar Produto
+            </button>
+          </p>
+          
+          
+          
         
+
         </a>
+<%  })  %>
 
-
-        <p>
-          <button id="<%=singleProduct.productName%>" onclick="editSingleProduct(id)">Editar Produto</button>
-        </p>
-        
-        
-
-        <%  })  %>
         
         
         
         <% }  else {    %>
           <br>
+
           <h4>
             ESTOQUE VAZIO
           </h4>
@@ -87,8 +111,7 @@
           
 
 
-
-
+</p>
 
 </div>
 
@@ -109,7 +132,8 @@
   <script>
 
 function filterProduct(filter){
-
+  
+  
   var nameFilter = filter.value
 
   if(nameFilter.length>0){

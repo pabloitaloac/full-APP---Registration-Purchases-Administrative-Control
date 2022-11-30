@@ -57,15 +57,20 @@
                 
                 
                 
+                <%  if(product.productSpecialPrice != null){ %>
+                  <p class="prePromo">Clube Fidelidade: &nbsp</p>
+                  <p class="rs">R$</p><p class="promo" id="<%=product.productName%>-promo"><%=product.productSpecialPrice.toFixed(2)%></p>
+                  <br>
+                  
+                  <p id="promo"></p>
+
+                  <% } else {%>
+                    <p class="promo" id="<%=product.productName%>-promo"><%=null %></p>
+                  <% } %>
+          
                 
-                <p class="prePromo">Clube Fidelidade: &nbsp</p>
-                <p class="rs">R$</p><p class="promo" id="<%=product.productName%>-promo"><%=product.productSpecialPrice.toFixed(2)%></p>
-                
-                <br>
                 
                 
-                
-                <p id="promo"></p>
                 
                 <br>
                 
@@ -296,7 +301,7 @@ function addToCart(thisProduct, qtdProduct){
           var cToNumber = parseFloat(c)
 
       var p = ((document.getElementById(thisProduct+'-promo').textContent)*q).toFixed(2)
-        if(p.length<=0){
+        if((document.getElementById(thisProduct+'-promo').textContent).length<=0){
           var p = null
         }
         else{

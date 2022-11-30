@@ -256,9 +256,11 @@ router.get("/users", async (req, res) => {
 
         const product = await ProductModel.find({})
 
-    res.render('./adm/estoque', {estoque:product})
+    res.render('./adm/estoque', {estoque:product, isFilter: true})
   })
 
+ 
+ 
 
             router.post('/estoque', async (req,res)=>{
 
@@ -266,25 +268,25 @@ router.get("/users", async (req, res) => {
     var productTagFilter = req.body.filter
     //change special characteres and all in low case
     var auxproductFilter = productTagFilter.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-    //excluding separators       
-    // productTagFilter.push(auxproductFilter)
-    productTagFilter = auxproductFilter.split(/[\s,;.-]+/)
+    productTagFilter = auxproductFilter
+    // //excluding separators       
+
+    // productTagFilter = auxproductFilter.split(/[\s,;.-]+/)
 
   
               
-              const product = await ProductModel.find({
-                
+              const product = await ProductModel.find({                
                 productTag: productTagFilter 
-                // productName: filterProduct
               })
               
-console.log(`Produto: ${product} / Filtro: ${productTagFilter}`);
-// res.send(`Produto: ${product} / Filtro: ${productTagFilter}`)
+// console.log(`Produto: ${product} / Filtro: ${productTagFilter}`);
 
             res.render('./adm/estoque', {estoque:product})
 
 })
+
   
+  // ------------------------------------------------------            
 
 
 router.get('/estoque/novo-produto', async (req,res)=>{
@@ -301,25 +303,34 @@ router.get('/estoque/novo-produto', async (req,res)=>{
                 //change special characteres and all in low case
                 var auxproductName = (req.body.productName).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
                 //excluding separators              
-                productTag = auxproductName.split(/[\s,;.-]+/)                                
-
-                const product = await ProductModel.create({
+                productTag = auxproductName.split(/[\s,;.-]+/)  
+                      
+                // creating any possible match of words
+                // use the first letter
+                productTag.push(auxproductName[0])
+                      //add the next letter to before, and create new tag
+                      for(var i = 1 ; i < auxproductName.length ; i++) {
+                            productTag.push((productTag[productTag.length-1])+(auxproductName[i]))
+                      }
                     
-                  productCode: req.body.productCode,
-                  productName: req.body.productName,
-                  productQtd: req.body.productQtd,
-                  productCost: req.body.productCost,
-                  productNormalPrice: req.body.productNormalPrice,
-                  productSpecialPrice: req.body.productSpecialPrice,
-                  productImage: req.body.productImage,
-  
 
-                  productTag: productTag,
+                      const product = await ProductModel.create({
+                          
+                        productCode: req.body.productCode,
+                        productName: req.body.productName,
+                        productQtd: req.body.productQtd,
+                        productCost: req.body.productCost,
+                        productNormalPrice: req.body.productNormalPrice,
+                        productSpecialPrice: req.body.productSpecialPrice,
+                        productImage: req.body.productImage,
+        
 
-                  });
+                        productTag: productTag,
+
+                        });
 
 
-                  console.log(`Produco criado. Tags: ${productTag}`);
+                  // console.log(`Produco criado. Tags: ${productTag}`);
                   res.json(`Produco criado. Tags: ${productTag}`);
 
                   // res.render('./adm/singleProductEdit', {
@@ -367,6 +378,9 @@ router.get('/estoque/produto/:productName', async (req,res)=>{
             var productCost = req.body.productCost
             var productNormalPrice = req.body.productNormalPrice
             var productSpecialPrice = req.body.productSpecialPrice
+                if(productSpecialPrice.length == 0){
+                  productSpecialPrice = null
+                }
             var productImage = req.body.productImage
 
          
@@ -375,7 +389,15 @@ router.get('/estoque/produto/:productName', async (req,res)=>{
           //change special characteres and all in low case
           var auxproductName = (req.body.productName).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
           //excluding separators              
-          productTag = auxproductName.split(/[\s,;.-]+/)                                
+          productTag = auxproductName.split(/[\s,;.-]+/)  
+                
+          // creating any possible match of words
+          // use the first letter
+          productTag.push(auxproductName[0])
+                //add the next letter to before, and create new tag
+                for(var i = 1 ; i < auxproductName.length ; i++) {
+                      productTag.push((productTag[productTag.length-1])+(auxproductName[i]))
+                }                                
 
           const product = await ProductModel.findOneAndUpdate({
               
