@@ -45,8 +45,7 @@ app.get("/", (req, res) => {
 //FALTA APLICAR:
       //  Validação usuário
       //  Data Bases ( ADM / PEDIDOS )
-      // Filter products
-
+      //  Vincular DB pedidos a usuários
 
 //CORRIGIR:
       //  login - bug css 

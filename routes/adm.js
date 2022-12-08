@@ -285,8 +285,10 @@ router.get("/users", async (req, res) => {
 
 })
 
-  
-  // ------------------------------------------------------            
+    
+
+// ------------------------------------------------------            
+
 
 
 router.get('/estoque/novo-produto', async (req,res)=>{
@@ -340,38 +342,26 @@ router.get('/estoque/novo-produto', async (req,res)=>{
               })
 
 
-router.get('/estoque/produto/:productName', async (req,res)=>{
-
-  var productName = req.params.productName
-
-      var adjustProductName = productName.replace(/-/g, ' ')
+// ------------------------------------------------------            
 
 
-  var productCode = req.body.productCode
-  var productQtd = req.body.productQtd
-  var productCost = req.body.productCost
-  var productNormalPrice = req.body.productNormalPrice
-  var productSpecialPrice = req.body.productSpecialPrice
-  var productImage = req.body.productImage
+router.get('/estoque/produto/:id', async (req,res)=>{
 
-
-  const product = await ProductModel.findOne({
-    productName: adjustProductName,
-    
-  })
+  var id = req.params.id
+  
+  var product = await ProductModel.findById(id)
+  
+              console.log(`Produto encontrado: ${product}`);
 
   res.render('./adm/singleProductEdit', {
     product: product,
     isNew: false
   })
 })
+ 
+        router.post('/estoque/produto/:id', async (req,res)=>{
 
-        router.post('/estoque/produto/:productName', async (req,res)=>{
-
-            var productName = req.params.productName
-
-              var adjustProductName = productName.replace(/-/g, ' ')
-
+            var id = req.params.id
 
             var productCode = req.body.productCode
             var productQtd = req.body.productQtd
@@ -399,42 +389,49 @@ router.get('/estoque/produto/:productName', async (req,res)=>{
                       productTag.push((productTag[productTag.length-1])+(auxproductName[i]))
                 }                                
 
-          const product = await ProductModel.findOneAndUpdate({
+console.log(`product name: ${auxproductName}`);
               
-            productCode: req.body.productCode,
-            productName: req.body.productName,
-            productQtd: req.body.productQtd,
-            productCost: req.body.productCost,
-            productNormalPrice: req.body.productNormalPrice,
-            productSpecialPrice: req.body.productSpecialPrice,
-            productImage: req.body.productImage,
+          var product = await ProductModel.findByIdAndUpdate(
+            id,
 
+            {
 
+            productCode: productCode,
+            productName: auxproductName,
+            productQtd: productQtd,
+            productCost: productCost,
+            productNormalPrice: productNormalPrice,
+            productSpecialPrice: productSpecialPrice,
+            productImage: productImage,
+
+ 
             productTag: productTag,
 
-            })
-                 
-        res.redirect(`/adm/estoque/produto/${productName}`)
-        
+            }
+          )
+                   
+             
+            console.log(`Produto atualizado: ${id}`);
+
+
+        res.redirect(`/adm/estoque/produto/${id}`)
+              
         })
 
 
 
 
-router.get('/estoque/produto/deletar/:productName', async (req,res)=>{
+router.get('/estoque/produto/deletar/:id', async (req,res)=>{
 
-  var productName = req.params.productName
+  var id = req.params.id
 
-      var adjustProductName = productName.replace(/-/g, ' ')
 
-  const product = await ProductModel.findOneAndDelete({
-    productName: adjustProductName
-  })
+  const product = await ProductModel.findByIdAndDelete(id)
 
   res.send(`exclusão: ${product}`)
 })
 
-
+ 
 
 
 

@@ -22,9 +22,9 @@
 <%  } %>
     
       
+        <h6><%=product.id  %></h6>
         
-        
-<form method="post"  id="thisProduct">
+<form method="post"  id="thisProduct" action="/adm/estoque/produto/<%=product.id%>">
           
         <h5> NOME:</h5>
         <a>
@@ -78,11 +78,12 @@
       <br><br>
 
       <a>
-      <button type="button" id="<%=product.productName%>" onclick="editThisProduct(id)" >Editar Esse Produto</button>
+      <button type="submit" id="<%=product.id%>">Editar Esse Produto</button>
 
       |
       
-      <button type="button" id="<%=product.productName%>" onclick="deleteThisProduct(id)">Deletar</button>
+      <button type="button" id="<%=product.id%>" 
+        onclick="location.href = '/adm/estoque/produto/deletar/<%=product.id%>'">Deletar</button>
       
       |
 
@@ -111,25 +112,14 @@ a{
 
 <script>
 
-function deleteThisProduct(thisProductName){
+function deleteThisProduct(id){
 
-// To change space in '-', to bettar url view
-  var adjustURL = thisProductName.replace(/ /g, '-')
-  location.href = `/adm/estoque/produto/deletar/${adjustURL}`
+  location.href = `/adm/estoque/produto/deletar/${id}`
 
 
-}
+} 
 
 
-function editThisProduct(thisProductName){
-
-// To change space in '-', to bettar url view
-  var adjustURL = thisProductName.replace(/ /g, '-')
-  // location.href = `/adm/estoque/produto/${adjustURL}`
-
-  document.getElementById('thisProduct').submit()
-
-}
 
 
 

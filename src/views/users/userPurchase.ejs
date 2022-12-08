@@ -1,0 +1,141 @@
+<html lang="pt-br">
+    <%- include('../partials/head.ejs') %>
+  
+<body>
+<%- include('../partials/navbarUser.ejs') %>
+<%- include('../partials/AddUser.ejs') %>
+
+<div>
+
+    <h2>
+        Meus pedidos:
+    </h2>
+    <h6>
+        User ID: <%= id  %>
+    </h6>
+
+
+        <% if(purchases == null){ %>
+            <p class="infoPurchase">
+                Sem compras no momento
+            </p>
+        <% } else { %>
+
+            
+            <% purchases.forEach(  singlePurchase => {   %>
+                
+<a class="eachPurchase">
+
+    <p class="infos">
+        <img src="<%=singlePurchase.img  %>">
+    </p>
+
+    
+    <p class="infos">
+                    <p class="infoPurchase">
+                        Produto:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.productName  %>
+                        </p>
+
+                        <br>
+
+                    <p class="infoPurchase">
+                        Quantidade:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.qtd  %>
+                        </p>
+
+                        <br>
+
+                    <p class="infoPurchase">
+                        Preço total:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.price  %>
+                        </p>
+
+                        <br>
+
+                    <p class="infoPurchase">
+                        Endereço de entrega:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.adress  %>
+                        </p>
+                
+                        <br>
+
+                    <p class="infoPurchase">
+                        Forma de pagamento:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.paymentMethod  %>
+                        </p>
+
+            </p>
+
+                    <button type="button" onclick="location.href = '/'">
+                        Ver detalhes
+                    </button>
+</a>
+
+
+                    <%  }) } %>
+
+
+</div>
+
+
+
+    
+</body>
+
+
+<footer>
+<%- include('../partials/foot.ejs') %>
+</footer>
+
+
+
+
+<style>
+    .infoPurchase{
+
+        display: inline;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 10pt;
+
+
+
+    }
+
+    .infoPurchaseResult{
+
+
+        display: inline;
+        font-size: 8pt;
+
+
+
+    }
+
+    .eachPurchase{
+        border: solid 1pt;
+        padding: 10px;
+        margin: 5px;
+        /* display: inline; */
+        pointer-events: none;
+
+    }
+
+    img{
+        max-width: 50px;
+        
+
+    }
+
+</style>

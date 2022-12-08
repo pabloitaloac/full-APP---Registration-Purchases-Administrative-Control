@@ -49,11 +49,12 @@
     <a id="eachProduct" name="eachProduct" class="eachProduct">
 
         <br><hr>
+        
+        <h3><%=singleProduct.productName.toUpperCase()  %></h3>
+        
+        <h6>ID: <%=singleProduct.id%></h6>
 
-
-          <h3><%=singleProduct.productName.toUpperCase()  %></h3>
-
-          <br>          
+        <br>          
 
           <h4>Código de Barras: </h4>
           <p> <%=singleProduct.productCode  %></p>
@@ -84,8 +85,10 @@
           <p>sem clube</p>
           <% } %>
           
+          <br>
+          
           <p>
-            <button id="<%=singleProduct.productName%>"
+            <button name="<%=singleProduct.id%>" id="<%=singleProduct.id%>"
               onclick="editSingleProduct(id)"
               >Editar Produto
             </button>
@@ -148,11 +151,10 @@ function filterProduct(filter){
 }
 
 
-    function editSingleProduct(productName){
+    function editSingleProduct(id){
 
       // To change space in '-', to bettar url view
-      var adjustURL = productName.replace(/ /g, '-')
-        location.href = `/adm/estoque/produto/${adjustURL}`
+        location.href = `/adm/estoque/produto/${id}`
 
 
     }
