@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
  
 
 
-const PORT = 8081;
+const PORT = 80;
 app.listen(PORT, () => {
   console.log(`rodando com EXPRESS na porta ${PORT}`);
 });
