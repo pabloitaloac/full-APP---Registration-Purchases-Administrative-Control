@@ -1,27 +1,33 @@
 <html lang="pt-br">
+<head>
+
     <%- include('./partials/head.ejs') %>
     <body>
       <%- include('./partials/navbar.ejs') %>
       <%- include('./partials/AddUser.ejs') %>
+</head>
 
 <div>
       <h3>Filtrar por:</h3>
       
-
+<br>
         <form id="formFilter" action="/adm/users" onsubmit="isAnySeted()" method="post">
 
             
-              Nome:              
+             <h5> Nome:       
+            </h5>      
               <input type="search" name="firstNameFilter" id="firstNameFilter">
             
-               | 
+               <br>
             
-              Ultimo Nome: 
+               <h5> Ultimo Nome:       
+              </h5>
               <input type="search" name="lastNameFilter" id="lastNameFilter">
             
-              |
+              <br>
             
-              Email: 
+              <h5> Email: 
+              </h5>
               <input type="search" name="emailFilter" id="emailFilter">
             
               <br><br>
@@ -41,12 +47,20 @@
 
       <h6>| ID: <%= user.id %> |</h6>
 
-      <h1 class="title"><%= user.firstName %> <%= user.lastName %></h1>
+      <br>
+      
+      <h2 class="title"><%= user.firstName %> <%= user.lastName %></h2>
       
 
 
-      <h3>EMAIL: <%= user.email %></h3>
-      <h3>SENHA: <%= user.password %></h3>
+      <h4>EMAIL: 
+      </h4>
+      <h6><%= user.email %></h6>
+
+      <h4>SENHA: 
+      </h4>
+      
+      <h6><%= user.password %></h6>
 
 
         <p>
@@ -59,7 +73,11 @@
 
 
       <% }) %> <% } else { %>
+      <br>
+
       <p>Não há usuários para exibir...</p>
+      
+      <br>
 
       <% } %>
 

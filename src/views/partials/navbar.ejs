@@ -20,9 +20,13 @@
 <style>
   @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
+  @media only screen and (max-device-width: 900px) {
+  div { width:100%; }
+  }
+
   htmsl {
     height: 100%;
-    background-image: linear-gradient(to right top, #8e44ad 0%, #3498db 100%);
+    /* background-image: linear-gradient(to right top, #8e44ad 0%, #3498db 100%); */
   }
 
   navs {
@@ -64,6 +68,20 @@
     text-decoration: none;
     display: block;
   }
+
+  @media only screen and (max-device-width: 900px) {
+    
+    nav ul li a {
+    padding: 5px;
+    font-family: "Open Sans";
+    text-transform: uppercase;
+    color: white;
+    font-size: 12pt;
+    text-decoration: none;
+    display: block;
+  }
+
+}
 
   nav ul li a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1),

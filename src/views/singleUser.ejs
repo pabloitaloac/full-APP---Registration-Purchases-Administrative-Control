@@ -1,25 +1,35 @@
 <html lang="pt-br">
+  
+  <head>
     <%- include('./partials/head.ejs') %>
-    <body>
-      <%- include('./partials/navbar.ejs') %>
-      <%- include('./partials/AddUser.ejs') %>
+    <%- include('./partials/navbarLogged.ejs') %> 
+    <%- include('./partials/AddUser.ejs') %> 
+    
+  </head>
+  
+<body>
 
-      <div>
+<div>
       <h3>O que deseja modificar?</h3>
     
       
        <h6>Id: </h6><h6 id="idSingleUser"><%= userByID.id%></h6>
        <hr>
-      </div>
-    <br>
-    
-<form class="content" action="/adm/update/users/<%=userByID.id%>" method="post">
+
+</div>
+
+<br>
+
+<div>
+<form action="/user/updated/<%= userByID.id%>" method="post">
 
   
-      <p id="nome">
+      <!-- <p id="nome"> -->
 
-        <p>NOME:
-          <input
+          <h4> NOME:
+          </h4>
+
+            <input
             type="text"
             class="firstNameUser"
             name="firstNameUser"
@@ -27,14 +37,16 @@
             value="<%= userByID.firstName%>"
 
           />
-        </p>
-      </p>
+      <!-- </p> -->
 
-      <br>
+      <br>      <br />
 
-      <p id="sobrenome">
 
-        <p>SOBRENOME:
+      <!-- <p id="sobrenome"> -->
+
+          <h4> SOBRENOME:
+          </h4>
+  
           <input
             type="text"
             class="lastNameUser"
@@ -43,14 +55,16 @@
             value="<%= userByID.lastName%>"
 
           />
-        </p>
-      </p>
+      <!-- </p> -->
 
-      <br />
+      <br />      <br />
 
-      <p id="email">
 
-        <p>EMAIL:
+      <!-- <p id="email"> -->
+
+         <h4> EMAIL:
+        </h4>
+
           <input
             type="text"
             class="emailUser"
@@ -58,14 +72,17 @@
             id="<%= userByID.email%>"
             value="<%= userByID.email%>"
           />
-        </p>
-      </p>
+      <!-- </p> -->
 
-      <br />
+      <br />      <br />
 
-      <p id="password">
 
-        <p>SENHA:
+      <!-- <p id="password"> -->
+
+          <h4> SENHA:
+          </h4>
+  
+
           <input
             type="password"
             class="passwordUser"
@@ -75,25 +92,27 @@
           />
           <button type="button" id="showSenha" class="showSenha" onclick="revelarSenha(passwordUser , showSenha)">Revelar senha</button>
 
-        </p>
        
-      </p>
+      <!-- </p> -->
 
-      <br>
+      <br>      <br />
 
-      <p>
+
+      <!-- <p> -->
       <button type="submit" onclick="editUser(firstNameUser , lastNameUser , emailUser , passwordUser)">
         Alterar Usuário
       </button>
-      </p>
+      <!-- </p> -->
 
       <h4 id="pAlterar"></h4>
 </form>
+</div>
 
 <br>
 
-<form class="content" id="formExclude" action="/adm/delete/users/<%=userByID.id%>" method="post">
-        <h5>Deseja EXCLUIR o usuário?</h5>
+<div>
+<form id="formExclude" action="/user/delete/<%=userByID.id%>" method="post">
+        <h5>Deseja EXCLUIR todo o seu cadastro?</h5>
         
         <p>
             <input type="radio" name="excluir" id="sim" onclick="alert('ATENÇÃO! Excluir um cadastro é um procedimento PERMANENTE. Ele não poderá ser recuperado!')">
@@ -106,9 +125,12 @@
         </p>
 
 </form>
-    <%- include('./partials/foot.ejs') %>
+</div>
 
-  </body>
+
+</body>
+
+<%- include('./partials/foot.ejs') %>
 
   <script>
     function editUser(x, y, z, d) {
@@ -133,7 +155,7 @@
         alert('Para excluir, CONFIRME')
       }
     }
-
+    
     function revelarSenha(passwordUser, showSenha){
       if (passwordUser.type == "password") {
         passwordUser.type = "text"

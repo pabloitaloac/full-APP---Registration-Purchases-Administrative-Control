@@ -1,6 +1,6 @@
 <html lang="pt-br">
-  <%- include('../partials/head.ejs') %>
   <header>
+    <%- include('../partials/head.ejs') %>
     <%- include('../partials/shop/navbarShop.ejs') %>
     <%- include('../partials/AddUser.ejs') %>
   </header>
@@ -10,31 +10,14 @@
 
     <br />
     
+<!-- <div> -->
 <a class="allContents" id="allContents">
 
-    <div class="showProducts" id="showProducts">
+<div class="showProducts" id="showProducts">
     
-
-      
-      
-      
-      
-      
-      
-            
-  
 
 <%  if(allProducts.length > 0) { allProducts.forEach( product => {     %>
 
-  
-  
-  
-  
-  
-  
-
-  
-  <!-- <li > -->
     <form id="singleProduct">
       <!-- <a href=""> -->
         <img
@@ -55,7 +38,7 @@
                 <p class="preCost">Preço: &nbsp</p>
                 <p class="rs">R$</p><p class="cost" id="<%=product.productName%>-cost"><%=product.productNormalPrice.toFixed(2)%></p>
                 
-                
+                <br>
                 
                 <%  if(product.productSpecialPrice != null){ %>
                   <p class="prePromo">Clube Fidelidade: &nbsp</p>
@@ -81,22 +64,24 @@
                 <br><br>
                 
                 <button type="button" id="<%=product.productName%>" 
-                onclick="addToCart(id, qtdProduct)">                  
-                Adicionar ao carrinho
-              </button>
-              <!-- </a> -->
-            </form>
-            <!-- </li> -->
-            
-            
-<%  })  } %>
-            
+                  onclick="addToCart(id, qtdProduct)">                  
+                  Adicionar ao carrinho
+                </button>
+                <!-- </a> -->
+              </form>
+              <!-- </li> -->
+              
+              
+              <%  })  } %>
+              
+
             <p>
               <select name="pageSelector" id="pageSelector">
                 <option value="1">1</option>
               </select>
             </p>
-          </div>
+
+</div>
           
           
           
@@ -113,9 +98,9 @@
             
           </b>          
           
-        </a>
+</a>
         
-      </body>
+</body>
       
       <footer><%- include('../partials/foot.ejs') %></footer>
       
@@ -173,10 +158,10 @@
     
     
     .showProducts {
-      width: 900px;
-      
+      width: auto;    
       height: auto;    
-      padding: 10px;
+
+      /* padding: 10px; */
 
 
       text-align: center;
@@ -188,8 +173,8 @@
     }
 
     #singleProduct {
-      width: 200px;
-      height: 250px;
+      /* width: 150px;
+      height: 200px; */
       
 
       border: 1px;

@@ -2,174 +2,172 @@
 <html lang="pt-br">
 <head>
     <%- include('./partials/navbarUser.ejs') %>
-
-  <!-- Design by foolishdeveloper.com -->
-    <title>Glassmorphism login Form Tutorial in html css</title>
+    <%- include('./partials/head.ejs') %>
+    <%- include('./partials/AddUser.ejs') %>
  
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
-    <style media="screen">
-      *,
+
+<!-- <style media="screen">
+/* *,
 *:before,
 *:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body{
-    background: linear-gradient(
-          90deg,
-          rgba(65, 184, 131, 1) 0%,
-          rgba(0, 212, 255, 1) 100%
-        );
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+} */
 
-}
-.background{
-    width: 430px;
-    height: 520px;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
-    position: absolute;
+/* body{
+background: linear-gradient(
+    90deg,
+    rgba(65, 184, 131, 1) 0%,
+    rgba(0, 212, 255, 1) 100%
+);
+
+} */
+
+/* .background{
+width: 430px;
+height: 520px;
+transform: translate(-50%,-50%);
+left: 50%;
+top: 50%;
+position: absolute;
 z-index: 0;
 
-}
+} */
 .background .shape{
-    height: 200px;
-    width: 200px;
-    position: relative;
-    border-radius: 50%;
+height: 200px;
+width: 200px;
+position: relative;
+border-radius: 50%;
 }
 .shape:first-child{
-    background: linear-gradient(
-        #1845ad,
-        #23a2f6
-    );
-    left: -80px;
-    top: -80px;
+background: linear-gradient(
+#1845ad,
+#23a2f6
+);
+left: -80px;
+top: -80px;
 }
 .shape:last-child{
-    background: linear-gradient(
-        to right,
-        #ff512f,
-        #f09819
-    );
-    right: -330px;
-    bottom: -200px;
+background: linear-gradient(
+to right,
+#ff512f,
+#f09819
+);
+right: -330px;
+bottom: -200px;
 
 }
 form{
-    height: auto;
-    width: 400px;
-    background-color: rgba(247, 0, 255, 0.37);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 30px 35px;
-    position: relative;
-    left: 40%;
+height: auto;
+width: 400px;
+background-color: rgba(247, 0, 255, 0.37);
+border-radius: 10px;
+backdrop-filter: blur(10px);
+border: 2px solid rgba(255,255,255,0.1);
+box-shadow: 0 0 40px rgba(8,7,16,0.6);
+padding: 30px 35px;
+position: relative;
+left: 40%;
 
 }
 
 sad00000000000{
-    transform: translate(-50%,-50%);
-    position: absolute;
-    top: 50%;
-    left: 50%;
+transform: translate(-50%,-50%);
+position: absolute;
+top: 50%;
+left: 50%;
 
 }
 form *{
-    font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
+font-family: 'Poppins',sans-serif;
+color: #ffffff;
+letter-spacing: 0.5px;
+outline: none;
+border: none;
 }
 form h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
+font-size: 32px;
+font-weight: 500;
+line-height: 42px;
+text-align: center;
 }
 
 label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
+display: block;
+margin-top: 30px;
+font-size: 16px;
+font-weight: 500;
 }
 input{
-    display: block;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
+display: block;
+height: 50px;
+width: 100%;
+background-color: rgba(255,255,255,0.07);
+border-radius: 3px;
+padding: 0 10px;
+margin-top: 8px;
+font-size: 14px;
+font-weight: 300;
 }
 ::placeholder{
-    color: #e5e5e5;
+color: #e5e5e5;
 }
 button{
-    margin-top: 50px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
+margin-top: 50px;
+width: 100%;
+background-color: #ffffff;
+color: #080710;
+padding: 15px 0;
+font-size: 18px;
+font-weight: 600;
+border-radius: 5px;
+cursor: pointer;
 }
-    #createUser , #changePassword{
-        background-color: #ffffff00;
-        color: #ffffff;
-        width: auto;       
-        padding: auto;
-        font-size: 14px;
-        padding: 5px 5px;
-        margin-top: auto;
-        text-align: left;
-        cursor: pointer;
+#createUser , #changePassword{
+background-color: #ffffff00;
+color: #ffffff;
+width: auto;       
+padding: auto;
+font-size: 14px;
+padding: 5px 5px;
+margin-top: auto;
+text-align: left;
+cursor: pointer;
 
 
-    }
+}
 
-    #dadosIncorretos{
-        color: rgb(255, 255, 255);
-        text-align: center;
-        background-color: #ff0000d7;
-        width: 100%;
-        font-size: 20px;
-        font-weight: bold;
-        padding: 5px ;
-        border-radius: 40px;
+#dadosIncorretos{
+color: rgb(255, 255, 255);
+text-align: center;
+background-color: #ff0000d7;
+width: 100%;
+font-size: 20px;
+font-weight: bold;
+padding: 5px ;
+border-radius: 40px;
 
 
-    }
+}
 
-    #foot{    
-        top: 60%;                         
+#foot{    
+top: 60%;                         
 z-index: 10;
-    }
+}
 
 
-    </style>
+</style> -->
+
 </head>
 <body>
-    <div class="background">
+    <!-- <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
-    </div>
+    </div> -->
 
 
-<d id="adjustFooter">
-
+<div>
 
     <form id="formChangePassword" action="/user/login/redefinir" method="post">
 
@@ -182,13 +180,17 @@ z-index: 10;
         <%  }   else   {   %>
         <% } %>
     
+        <br>
+
         <label for="username">Digite seu email:</label>
+
+        <br>
+
         <input type="text" placeholder="Email" name="username" id="username" >
             <p id="usernameToChange"></p>
 
-            <hr>
             
-        
+        <br>
         
         <button type="button" name="buttonLogin" id="buttonLogin" onclick="validar(username)">Alterar Senha</button>       
 
@@ -196,13 +198,14 @@ z-index: 10;
             
     </form>
 
+</div>
+
     
     <p id="foot">
         <%- include('./partials/foot.ejs') %>
 
     </p>
 
-</d>
 
 
 </body>

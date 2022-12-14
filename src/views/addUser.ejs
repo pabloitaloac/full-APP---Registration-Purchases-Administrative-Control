@@ -1,42 +1,55 @@
 <html lang="pt-br">
-    <%- include('./partials/head.ejs') %>
-    <body>
-      <%- include('./partials/navbarUser.ejs') %>
-            <%- include('./partials/AddUser.ejs') %>
-      
-      <div>
+<head>
+  <%- include('./partials/head.ejs') %>
+  <%- include('./partials/navbarUser.ejs') %>
+  <%- include('./partials/AddUser.ejs') %>
+</head>
+
+<body>
+     
+            
+<div>
         <h1>Adicionar úsuários</h1>
 
         <p id="avisoDeVerificacao">            
             <h6>Obs.:<br><li>VERIFICAMOS se o email já existe na base de dados,<br>e o cadastro é feito apenas com emails diferentes</li></h6>
-            <br>
             <h6><li> Também VERIFICAMOS se a senha possui os requisitos mínimos</li></h6>
-            <br><br>
+            
         </p>
+
+</div>
+
+<br>
+
+<div>
 
         <form id="addUserForm" action="/adm/add/single_user" method="post">
           
           <p>* Primeiro Nome:
+            <br>
             <input type="text" name="firstName" id="firstName" >
           </p>
 
           <br>
 
           <p>* Ultimo Nome:
+            <br>
             <input type="text" name="lastName" id="lastName" >
           </p>
 
           <br>
 
           <p id="emailCamp">* Email:
+            <br>
             <input type="text" name="email" id="email"  >
           </p>
 
           <br>
 
           <p>* Senha:
+            <br>
             <input type="password" name="password" id="password"  >
-            <br>            <br>
+            <br>           
               <h6 id="passwordConditions">
                 <p>REQUISITOS da senha:</p>
                 <li>08 caracteres;</li>

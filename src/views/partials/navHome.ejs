@@ -6,8 +6,6 @@
     <li>
       <a href="/adm/users"> Acessar como Administrativo</a>
     </li>
-    
-
     <li>
       <a href="https://www.linkedin.com/in/pabloitalo/">Contacts</a>
     </li>
@@ -19,6 +17,8 @@
 <style>
   @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
+
+  
   htmsl {
     height: 100%;
     background-image: linear-gradient(to right top, #8e44ad 0%, #3498db 100%);
@@ -32,38 +32,52 @@
       #ffffff 25%,
       #ffffff 75%,
       rgba(255, 255, 255, 0) 100%
-    );
-    margin: 0 auto;
-    padding: 6px 0;
-  }
+      );
+      margin: 0 auto;
+      padding: 6px 0;
+    }
 
-  nav ul {
-    text-align: center;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.2) 25%,
-      rgba(255, 255, 255, 0.2) 75%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1),
-      inset 0 0 1px rgba(255, 255, 255, 0.6);
-  }
+    nav ul {
+      text-align: center;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0) 100%
+        );
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.1),
+        inset 0 0 1px rgba(255, 255, 255, 0.6);
+      }
+      
+      nav ul li {
+        display: inline-block;
+      }
+      
+      nav ul li a {
+        padding: 20px;
+        font-family: "Open Sans";
+        text-transform: uppercase;
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        display: block;
+      }
 
-  nav ul li {
-    display: inline-block;
-  }
-
-  nav ul li a {
-    padding: 20px;
-    font-family: "Open Sans";
-    text-transform: uppercase;
-    color: white;
-    font-size: 18px;
-    text-decoration: none;
-    display: block;
-  }
-
+      @media only screen and (max-device-width: 900px) {
+    
+        nav ul li a {
+        padding: 5px;
+        font-family: "Open Sans";
+        text-transform: uppercase;
+        color: white;
+        font-size: 12pt;
+        text-decoration: none;
+        display: block;
+      }
+    
+    }
+      
   nav ul li a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1),
       inset 0 0 1px rgba(255, 255, 255, 0.6);
