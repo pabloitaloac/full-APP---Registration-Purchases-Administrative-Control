@@ -162,41 +162,35 @@ z-index: 10;
 </head>
 
 <body>
-    <!-- <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div> -->
+    
+    
 
 <div>
 
-        <form id="formLogin" action="/user/login" method="post">
+        <form id="formLogin"  method="post">
             
             <h3>Login</h3>
             
-            
-            <% if(situation == 'notMatched')    { %>
-                <br>
-                <p id="dadosIncorretos">Email ou senha incorreto(s)</p>
-                <%  }   else    {   %>
-                    <%=situation %>
-                    <% } %>
+            <br>
+
+
                     
-                    <% if(isTriedUserPanel == true)    { %>
-                        <br>
-                        <p id="dadosIncorretos">Para acessar o painel de Usuário, você precisa estar Logado</p>
-                        <%  }   else    {   %>
-                            <%=isTriedUserPanel %>
-        <% } %>
         
         
         
         <label for="username">Username</label>
-        <input type="text" placeholder="Email" name="username" id="username" value="<%=userEmail%>">
-        <p id="usernameToChange"></p>
+        <input type="text" placeholder="Email" name="username" id="username">
+        <br>
+        <c id="usernameToChange">        
+        </c>
         
+        <br>
+
         <label for="password">Password</label>
-        <input type="password" placeholder="Password" name="password" id="password" value="<%=userPassword%>">
-        <p id="passwordToChange"></p>
+        <input type="password" placeholder="Password" name="password" id="password" >
+        <br>
+        <c id="passwordToChange">        
+        </c>
         
         <br>
 
@@ -209,6 +203,27 @@ z-index: 10;
         
     </form>
     
+    <%  if(message){   %>
+        
+        <p>
+            <label  style="color: red;"><%=message%></label>
+        </p>
+        <%  }   %>
+
+
+        <br>
+    <h4>
+        OBS.: a aplicação possui autenticação.
+        <br>
+        Para visualizar como usuário, utilize o usuário padrão:
+    </h4>
+    <br>
+    <h3>
+        Username:   user
+        <br>
+        Password:    123
+    </h3>
+
 </div>
     
     <p id="foot">
@@ -230,11 +245,19 @@ z-index: 10;
             if(username.value.length == 0){
                 var usernameToChange = document.getElementById('usernameToChange')
                 
+                usernameToChange.style.cssText =
+                    'color: white;' +
+                    'background-color: red;' +
+                    'border: 1px solid magenta'
                 usernameToChange.innerHTML = 'Preencha o campo'
             }
             if(password.value.length == 0){
                 var passwordToChange = document.getElementById('passwordToChange')
                 
+                passwordToChange.style.cssText =
+                    'color: white;' +
+                    'background-color: red;' +
+                    'border: 1px solid magenta;' 
                 passwordToChange.innerHTML = 'Preencha o campo'
             }
         }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<body>
+    
+    <h1>Login</h1>
+
+    <form action="/login" method="post">
+        <input type="text" name="username"> <br>
+        <input type="password" name="password"> <br>
+        <input type="submit" value="Login">
+    </form>
+
+    <%  if(message){   %>
+        
+        <p>
+            <label  style="color: red;"><%=message%></label>
+        </p>
+        <%  }   %>
+
+
+<h3>
+    OBS.: a aplicação possui autenticação.
+    <br>
+    Para visualizar como usuário, utilize o usuário padrão:
+</h3>
+<h4>
+    Nome: user
+    <br>
+    Senha: 123
+</h4>
+</body>
+</html>

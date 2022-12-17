@@ -4,7 +4,9 @@ const { Schema } = require('mongoose')
 const { findByIdAndUpdate } = require("../src/models/user.model");
 const UserModel = require("../src/models/user.model");
 const { route } = require('./adm');
-
+const passport = require('passport')
+const mainAPP = require('../modules/express')
+const auth = require('../modules/auth')
 
 var router = express.Router()
 
@@ -29,39 +31,42 @@ router.get('/', async (req,res)=>{
 }) 
 
 //LOGIN
-router.get('/login', async (req,res)=>{
-  try{
-    res.render('userLogin', {situation: null, userEmail:null, userPassword:null, isTriedUserPanel:null})      
+// router.get('/login', async (req,res)=>{
+//   try{
+//     res.render('userLogin', {situation: null, userEmail:null, userPassword:null, isTriedUserPanel:null})      
 
-  } 
-  catch(error){
-      res.status(500).send(error.message)
-  }
-})
+//   } 
+//   catch(error){
+//       res.status(500).send(error.message)
+//   }
+// })
 
-      //Validate Login
-      router.post('/login', async (req,res)=>{
-        try{
-          const email = req.body.username
-          const senha = req.body.password
-          const user = await UserModel.findOne({email:email, password:senha})
+//       //Validate Login
+//       router.post('/login', async (req,res)=>{
+//         try{
+//           const email = req.body.username
+//           const senha = req.body.password
+//           const user = await UserModel.findOne({email:email, password:senha})
 
-          //user not match - render with writed values
-          if(user == null){
-            res.render('userLogin', {situation: 'notMatched', userEmail:email, userPassword:senha, isTriedUserPanel:null} )
-          }
-          //redirect with id found
-          else{
-            var idUser = user.id
-            res.redirect(`/user/painel/${idUser}`)
-          }
-          // return res.status(200).json({user})
-        }
-        catch(error){
-            res.status(500).send(error.message)
-        }  
-        })
-    
+//           //user not match - render with writed values
+//           if(user == null){
+//             res.render('userLogin', {situation: 'notMatched', userEmail:email, userPassword:senha, isTriedUserPanel:null} )
+//           }
+//           //redirect with id found
+//           else{
+//             var idUser = user.id
+//             res.redirect(`/user/painel/${idUser}`)
+//           }
+//           // return res.status(200).json({user})
+//         }
+//         catch(error){
+//             res.status(500).send(error.message)
+//         }  
+//         })
+   
+
+
+
 // ------------------------------------------------------            
 // ------------------------------------------------------            
 // ------------------------------------------------------            
@@ -138,14 +143,22 @@ router.get('/login/redefinir', async (req,res)=>{
  //USER PANEL
  router.get('/painel', async (req,res)=>{
   try{
-        const id = req.body.id
+
+        // const id = '?????????????'
+
+        //     console.log(id);
+
+
         const user = await UserModel.findById(id)
 
           if(id ==null){
-            res.render('userLogin', {situation: null, userEmail:null, userPassword:null, isTriedUserPanel: true})
+            res.send('erro')
+
+            // res.render('userLogin', {message: `User não encontrado.`})
 
           } else{
-            res.redirect(`/adm/painel/${id}`)
+            res.send('ok')
+            // res.redirect(`/adm/painel/${id}`)
           }
   }
   catch(error){
