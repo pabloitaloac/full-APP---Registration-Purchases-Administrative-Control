@@ -178,7 +178,7 @@ z-index: 10;
         
         
         
-        <label for="username">Username</label>
+        <label for="username">Email</label>
         <input type="text" placeholder="Email" name="username" id="username">
         <br>
         <c id="usernameToChange">        
@@ -187,17 +187,18 @@ z-index: 10;
         <br>
 
         <label for="password">Password</label>
-        <input type="password" placeholder="Password" name="password" id="password" >
+        <input type="password" placeholder="Password" name="password" id="password">
+        <input value="Revelar senha" type="button" id="showSenha" class="showSenha" onclick="revelarSenha(password , showSenha)"></input>
         <br>
         <c id="passwordToChange">        
         </c>
-        
         <br>
+
 
         <button type="button" name="buttonLogin" id="buttonLogin" onclick="validar(username,password)">Log In</button>       
         
-        <br><br> 
-        
+        <hr>
+
         <button type="button" id="changePassword" onclick="location.href='/user/login/redefinir'">Esqueci minha senha</button>
         <button type="button" id="createUser" onclick="location.href='/adm/add/users'">Criar conta</button>
         
@@ -219,10 +220,20 @@ z-index: 10;
     </h4>
     <br>
     <h3>
-        Username:   user
-        <br>
-        Password:    123
+        Username:  
     </h3>
+    <p>
+            <input id="defaultUserName" value='dev@pabloitalo.com'>
+            <input type="button" value="Copiar" onclick="copydefaultUserName()">
+    </p>
+    <h3>
+        Password:  
+    </h3>
+        <p> 
+            <input id="defaultPassword" value='12345abcdeABCDE@@'>  
+            <input type="button" value="Copiar" onclick="copydefaultPassword()">
+        </p> 
+
 
 </div>
     
@@ -236,6 +247,53 @@ z-index: 10;
 </body>
 
 <script>
+
+function revelarSenha(password, showSenha){
+      if (password.type == "password") {
+        password.type = "text"
+        showSenha.value = "OCULTAR"
+      } else {
+        password.type = "password"
+        showSenha.value = "MOSTRAR"
+      }
+}
+
+    function copydefaultUserName(){
+
+        /* Selecionamos por ID o nosso input */
+        var textoCopiado = document.getElementById("defaultUserName")
+
+        /* Deixamos o texto selecionado (em azul) */
+        textoCopiado.select();
+
+        /* Copia o texto que está selecionado */
+        document.execCommand("copy");
+
+        alert("Texto copiado");        
+
+    }
+
+    function copydefaultPassword(){
+        /* Selecionamos por ID o nosso input */
+        var textoCopiado = document.getElementById("defaultPassword")
+
+        /* Deixamos o texto selecionado (em azul) */
+        textoCopiado.select();
+
+        /* Copia o texto que está selecionado */
+        document.execCommand("copy");
+
+        alert("Texto copiado");        
+
+
+}
+    
+
+
+
+
+
+
     function validar(username,password){
         
         if(username.value.length > 0 && password.value.length > 0){

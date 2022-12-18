@@ -74,20 +74,20 @@ router.get('/', async (req, res, next)=>{
 
 router.post('/',
     
-    passport.authenticate('local-login', { session: false, failureRedirect:'/login?fail=true'}),
+    passport.authenticate('local-login', { failureRedirect:'/login?fail=true'}),
     
     async (req,res)=>{
-            console.log('entrou na function');
 
             var email = req.body.username
             var password= req.body.password
-            console.log(`username': ${email}, password: ${password}`)
             
             const user = await UserModel.findOne({email:email})
                 const userID = user.id
-            console.log(`ID: ${userID}`);
+                
+                // create cookie and set userID to knw if is logged
+                res.cookie('userID',userID, { maxAge: 1 * 60 * 1000 });
 
-            // res.location(`/user/painel/${userID}`) 
+
             res.redirect(`/user/painel/${userID}`) 
 
 

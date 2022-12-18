@@ -67,8 +67,8 @@
 
           <input
             type="text"
-            class="emailUser"
-            name="emailUser"
+            class="email"
+            name="email"
             id="<%= userByID.email%>"
             value="<%= userByID.email%>"
           />
@@ -85,21 +85,21 @@
 
           <input
             type="password"
-            class="passwordUser"
-            name="passwordUser"
-            id="passwordUser"
+            class="password"
+            name="password"
+            id="password"
             value="<%= userByID.password%>"
           />
-          <button type="button" id="showSenha" class="showSenha" onclick="revelarSenha(passwordUser , showSenha)">Revelar senha</button>
+          <button type="button" id="showSenha" class="showSenha" onclick="revelarSenha(password , showSenha)">Revelar senha</button>
 
        
       <!-- </p> -->
 
       <br>      <br />
 
-
+      password
       <!-- <p> -->
-      <button type="submit" onclick="editUser(firstNameUser , lastNameUser , emailUser , passwordUser)">
+      <button type="submit" onclick="editUser(firstNameUser , lastNameUser , email , password)">
         Alterar Usuário
       </button>
       <!-- </p> -->
@@ -156,12 +156,12 @@
       }
     }
     
-    function revelarSenha(passwordUser, showSenha){
-      if (passwordUser.type == "password") {
-        passwordUser.type = "text"
+    function revelarSenha(password, showSenha){
+      if (password.type == "password") {
+        password.type = "text"
         showSenha.textContent = "OCULTAR Senha"
       } else {
-        passwordUser.type = "password"
+        password.type = "password"
         showSenha.textContent = "MOSTRAR Senha"
       }
     }

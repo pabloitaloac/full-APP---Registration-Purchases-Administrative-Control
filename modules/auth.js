@@ -31,6 +31,7 @@ const { Passport } = require('passport')
 module.exports = function(passport){
 
     // function findUser(username){
+
     //     console.log(`username: ${username}`);
 
     //     // const user = await UserModel.findOne({ email: username });
@@ -42,16 +43,15 @@ module.exports = function(passport){
     //     return users.find(item => item.id === id)
     // }
 
+
             // create cookie to save login at frontend
+            
+            
             passport.serializeUser((user,done) => {
-
                 done(null, user.id)
-
-
             })
 
             passport.deserializeUser( async (id, done) =>{
-
                 try{
                     // const user = finUserById(id)
                     const user = await UserModel.findById(id);
@@ -60,10 +60,10 @@ module.exports = function(passport){
                 catch(err){
                     console.log(err);
                 }
-
             })
  
-
+    
+        
     passport.use(
     "local-login",
     new LocalStrategy(
@@ -101,6 +101,7 @@ module.exports = function(passport){
             const user = await UserModel.findOne({ email: username });
             if (!user) return done(null, false);
             const isMatch = await user.matchPassword(password);
+                const id = user.id
             if (!isMatch){
                 return done(null, false);
             }
@@ -115,6 +116,8 @@ module.exports = function(passport){
         }
     }
     ))
+
+    
 
 
 }

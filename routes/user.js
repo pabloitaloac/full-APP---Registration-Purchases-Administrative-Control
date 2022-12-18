@@ -7,13 +7,17 @@ const { route } = require('./adm');
 const passport = require('passport')
 const mainAPP = require('../modules/express')
 const auth = require('../modules/auth')
+var cookieParser = require('cookie-parser')
+const bcrypt = require('bcryptjs');
+
 
 var router = express.Router()
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
  
- 
+router.use(cookieParser())
+
 
 
 
@@ -144,22 +148,33 @@ router.get('/login/redefinir', async (req,res)=>{
  router.get('/painel', async (req,res)=>{
   try{
 
-        // const id = '?????????????'
+            // Cookies if have been signed
+            var userIDAtCookie = req.cookies.userID
+
+            console.log(`userIDAtCookie: ${userIDAtCookie}`);
+
+            if(!userIDAtCookie || userIDAtCookie == null || userIDAtCookie == undefined){
+              res.redirect('/login')
+            }
+            else if(userIDAtCookie){
+              res.redirect(`/user/painel/${userIDAtCookie}`)
+            }
+
+
+        // const id = req.cookies.userID.value
 
         //     console.log(id);
 
 
-        const user = await UserModel.findById(id)
+        // const user = await UserModel.findById(id)
 
-          if(id ==null){
-            res.send('erro')
+        //   if(id ==null){
 
-            // res.render('userLogin', {message: `User não encontrado.`})
+        //     res.send(`Erro. User não encontrado.`)
 
-          } else{
-            res.send('ok')
-            // res.redirect(`/adm/painel/${id}`)
-          }
+        //   } else{
+        //     res.redirect(`/user/painel/${id}`)
+        //   }
   }
   catch(error){
       res.status(500).send(error.message)
@@ -202,9 +217,15 @@ router.post('/edit/:id', async (req,res)=>{
                 const id = req.params.id
                 var firstNameUpdate = req.body.firstNameUser
                 var lastNameUpdate = req.body.lastNameUser
-                var emailUpdate = req.body.emailUser
-                var passwordUpdate = req.body.passwordUser
+                var emailUpdate = req.body.email
+                var passwordUpdate = req.body.password
 
+                // // generate salt
+                // const salt =  bcrypt.genSalt(10);
+                // // hash the password
+                // const hashedPassword = bcrypt.hashSync(passwordUpdate, salt);
+
+                //   console.log(hashedPassword);
 
 
                 // const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})

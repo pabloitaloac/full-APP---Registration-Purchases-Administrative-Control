@@ -4,6 +4,10 @@ const { Schema } = require('mongoose')
 const { findByIdAndUpdate } = require("../src/models/user.model");
 const UserModel = require("../src/models/user.model");
 const ProductModel = require('../src/models/product.model')
+const passport = require('passport');
+const { query } = require('express');
+const mainAPP = require('../modules/express')
+const auth = require('../modules/auth')
 
 
 var router = express.Router()
@@ -11,7 +15,10 @@ var router = express.Router()
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
  
- 
+
+
+
+
 router.get('/', (req,res)=>{
     res.send('kflçwfw')
 })
@@ -129,7 +136,8 @@ router.get("/users", async (req, res) => {
   });
    
   
-  
+
+
   //To update user data
   // router.get('/update/users/:id', async(req,res)=>{
   //   try{
@@ -143,15 +151,75 @@ router.get("/users", async (req, res) => {
   //   }
   // })
   
+  // router.post('/update/users/:id',
+  // passport.authenticate('local-edit', { failureRedirect:'/erronarotaadminedit'}),
+    
+  //   async (req,res)=>{
+
+
+  //     try{
+  //         const id = req.params.id
+  //         var firstNameUpdate = req.body.firstNameUser
+  //         var lastNameUpdate = req.body.lastNameUser
+  //         var emailUpdate = req.body.emailUser
+  //         var passwordUpdate = req.body.password
+  
+  
+  
+  //         // const user = await UserModel.findByIdAndUpdate(id, req.JSON, {new: true})
+  //         const user = await UserModel.findByIdAndUpdate(id, {
+  //           firstName:firstNameUpdate, 
+  //           lastName: lastNameUpdate,
+  //           email: emailUpdate,
+  //           password: passwordUpdate
+  //         }, {new: true})
+  //         return res.status(200).render('userUpdated',{userByID: user})
+  
+  //     }
+  //     catch(error){
+  //         res.status(500).send(error.message)
+  //     }
+
+
+
+
+
+
+
+
+
+  //   //         var email = req.body.username
+  //   //         var password= req.body.password
+            
+  //   //         const user = await UserModel.findOne({email:email})
+  //   //             const userID = user.id
+                
+  //   //             // create cookie and set userID to knw if is logged
+  //   //             res.cookie('userID',userID, { maxAge: 1 * 60 * 1000 });
+
+
+  //   //         res.redirect(`/user/painel/${userID}`) 
+
+
+                
+  // })
+
+
+// ---------------------------------
+
+
+
+
   router.post('/update/users/:id', async(req,res)=>{
       try{
           const id = req.params.id
           var firstNameUpdate = req.body.firstNameUser
           var lastNameUpdate = req.body.lastNameUser
-          var emailUpdate = req.body.emailUser
-          var passwordUpdate = req.body.passwordUser
+          var emailUpdate = req.body.email
+          var passwordUpdate = req.body.password
   
   
+          console.log(`1: ${firstNameUpdate},1: ${lastNameUpdate},1: ${emailUpdate},1: ${passwordUpdate}`);
   
           // const user = await UserModel.findByIdAndUpdate(id, req.JSON, {new: true})
           const user = await UserModel.findByIdAndUpdate(id, {

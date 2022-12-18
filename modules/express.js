@@ -22,17 +22,6 @@ const UserModel = require("../src/models/user.model");
 const app = express();
 
 
-//auth session 
-app.use(session({
-      secret:'abcABC123@@', //need to save apart
-      resave: false, //save session for any request?
-      saveUninitialized: false, //save anonymous session?
-      cookie: { maxAge: 10 * 60 * 1000  }   //min * sec * msec
-      
-}))
-
-app.use(passport.initialize())
-app.use(passport.session())
 
 
 //To be can possible use json in requests
@@ -45,11 +34,29 @@ app.set("views", "src/views");
 
 
 
+//auth session 
+app.use(session({
+      secret:'123', //need to save apart
+      resave: false, //save session for any request?
+      saveUninitialized: false, //save anonymous session?
+      cookie: { maxAge: 1 * 60 * 1000 } ,  //min * sec * msec
+}))
+
+
+ 
+            app.use(passport.initialize())
+            app.use(passport.session())
+
 //===========   ROUTES  ============
 
-app.get("/", (req, res) => {
-  res.status(200).render("home");
-});
+      //============  login  ===============
+
+      var loginRoute = require('../routes/login')
+      app.use('/login', loginRoute) 
+
+      app.get("/", (req, res) => {
+      res.status(200).render("home");
+      });                     
 
       //============  shop  ===============
 
@@ -61,10 +68,6 @@ app.get("/", (req, res) => {
       var admRoute = require('../routes/adm')
       app.use('/adm', admRoute)
 
-      //============  login  ===============
-
-      var loginRoute = require('../routes/login')
-      app.use('/login', loginRoute) 
 
       //============  user  ===============
 
