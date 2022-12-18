@@ -72,29 +72,33 @@ router.get('/', async (req, res, next)=>{
 //     })
 // ) 
 
-router.post('/', async (req,res)=>{
+router.post('/',
+    
+    passport.authenticate('local-login', { session: false, failureRedirect:'/login?fail=true'}),
+    
+    async (req,res)=>{
+            console.log('entrou na function');
 
-    var email = req.body.username
-    
-    var password= req.body.password
-    
-    console.log(`username: ${email}, password: ${password}`)
-    
-    const user = await UserModel.findOne({email:email, password: password})
-    
-    try{
-        
-        // parado aqui
-            passport.authenticate('local', { 
-                successRedirect:`/user/painel/`,
-                failureRedirect:`/login?fail=true`, 
+            var email = req.body.username
+            var password= req.body.password
+            console.log(`username': ${email}, password: ${password}`)
             
-            })
+            const user = await UserModel.findOne({email:email})
+                const userID = user.id
+            console.log(`ID: ${userID}`);
+
+            // res.location(`/user/painel/${userID}`) 
+            res.redirect(`/user/painel/${userID}`) 
+
+
+                
     }
-    catch(err) {
-    console.log(err)
-    }
-    })
+    )
+
+
+    
+    
+    
 
 
 module.exports = router   

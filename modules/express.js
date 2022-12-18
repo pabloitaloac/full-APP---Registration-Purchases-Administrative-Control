@@ -2,6 +2,7 @@ const express = require("express");
 const { findByIdAndUpdate } = require("../src/models/user.model");
 const UserModel = require("../src/models/user.model");
 
+
       // authentication
       const passport = require('passport')
       const session = require('express-session')
@@ -9,7 +10,9 @@ const UserModel = require("../src/models/user.model");
 
             //function to be used for private routes
             function authenticationMiddleware(req, res, next){
-                  if(req.isAuthenticated()){    return next()}
+                  if(req.isAuthenticated()){
+                        next()
+                  }
                   else{
                         res.redirect('/login')
                   }
@@ -18,17 +21,18 @@ const UserModel = require("../src/models/user.model");
 
 const app = express();
 
-      //auth session 
-      app.use(session({
-            secret:'123', //need to save apart
-            resave: false, //save session for any request?
-            saveUninitialized: false, //save anonymous session?
-            cookie: { maxAge: 10 * 60 * 1000  }   //min * sec * msec
 
-      }))
+//auth session 
+app.use(session({
+      secret:'abcABC123@@', //need to save apart
+      resave: false, //save session for any request?
+      saveUninitialized: false, //save anonymous session?
+      cookie: { maxAge: 10 * 60 * 1000  }   //min * sec * msec
+      
+}))
 
-      app.use(passport.initialize())
-      app.use(passport.session())
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 //To be can possible use json in requests
