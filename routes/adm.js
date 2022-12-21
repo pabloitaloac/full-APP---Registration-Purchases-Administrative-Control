@@ -8,6 +8,8 @@ const passport = require('passport');
 const { query } = require('express');
 const mainAPP = require('../modules/express')
 const auth = require('../modules/auth')
+const bcrypt = require("bcryptjs")
+
 
 
 var router = express.Router()
@@ -52,12 +54,7 @@ router.get("/users", async (req, res) => {
                       //if not exist
                       else if(emailAtDB.length == 0){
                         
-                        // res.end()
-                        
-  
-   
-  
-                        // res.send(` Email pesquisado não encontrado `)
+                        res.render("allUsers", { users: emailAtDB} )
                       }
               }   
   
@@ -75,7 +72,7 @@ router.get("/users", async (req, res) => {
                     } 
                     //if not exist
                     else if(lastNameAtDB.length == 0){
-                      res.send(` Último Nome pesquisado não encontrado `)
+                      res.render("allUsers", { users: lastNameAtDB} )
                     }
             }
   
@@ -93,7 +90,7 @@ router.get("/users", async (req, res) => {
                   } 
                   //if not exist
                   else if(firstNameAtDB.length == 0){
-                    res.send(` Primeiro Nome pesquisado não encontrado `)
+                    res.render("allUsers", { users: firstNameAtDB} )
                   }
           }
             
@@ -110,6 +107,7 @@ router.get("/users", async (req, res) => {
               
    
         
+      
    
   
   // router.get('/users', async (req,res)=>{
@@ -136,6 +134,18 @@ router.get("/users", async (req, res) => {
   });
    
   
+  //DELETE by himself - REDIRECT
+  router.post('/deleteUser/:id', async(req,res)=>{
+    try{
+        const id = req.params.id
+        const user = await UserModel.findByIdAndRemove(id)
+
+        return res.status(200).render('userDeletedByHinself', {userByID: user})
+    }
+    catch(error){
+        res.status(500).send(error.message)
+    } 
+  })
 
 
   //To update user data
@@ -289,26 +299,47 @@ router.get("/users", async (req, res) => {
                             
                                     // If yes, validate email and continue
                                     if (validateEmailDB != null && emailClient == validateEmailDB.email){
-                                      res.send(`Email Existente!`)
+                                      res.render("addUser", {errToAdd: 'email', firstName: firstNameClient, lastName: lastNameClient, email: null , password: passwordClient});
                                     }
                                     //Validate password - mínimo 3 caracteres em maiúsculo, 2 números e 1 caractere especial
                                     else if(passwordClient.length < 8){
-                                        res.send(` senha deve conter no minímo 8 digitos!`)
+                                      res.render("addUser", {errToAdd: 'passwordLength', firstName: firstNameClient, lastName: lastNameClient, email: emailClient , password: null});
                                     }
                                     else if(!regex.exec(passwordClient))
                                     {
-                                        res.send(`A senha deve conter no mínimo 3 caracteres em maiúsculo, 2 números e 1 caractere especial!`)
+                                      res.render("addUser", {errToAdd: 'passwordCondictions', firstName: firstNameClient, lastName: lastNameClient, email: emailClient , password: null});
                                     }
-                                    else {
-                                        //if all OK, creat new user
-                                        const user = await UserModel.create({
-                                        firstName: req.body.firstName,
-                                        lastName: req.body.lastName,
-                                        email: req.body.email,
-                                        password: req.body.password,
-                                        });
-                                      res.status(201).redirect(`/user/painel/${user.id}`)
+                                    else { 
+                                      //if all OK, creat new user
+
+                                        // HASHING PASSWORD + Create User
+                                          bcrypt.genSalt(10, async (err, salt) => {
+                                                                          
+                                          
+                                          bcrypt.hash(passwordClient, salt, async function(err, hash) {
+                                            // Store hash in the database
+                                
+
+                                            const passwordHashed = hash
+
+
+                                                  const user = await UserModel.create({
+                                                  firstName: req.body.firstName,
+                                                  lastName: req.body.lastName,
+                                                  email: req.body.email,
+                                                  password: passwordHashed,
+                                                  });
+
+
+                                                res.status(201).redirect(`/user/painel/${user.id}`)
+                                          
+                                        })
+                                        
+                                      }) 
+                                      
                                     }
+
+
                           } 
                           else{
                             res.send(`Preencha TODOS os campos`)

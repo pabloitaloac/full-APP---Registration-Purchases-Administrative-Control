@@ -23,32 +23,55 @@
 
 <div>
 
-        <form id="addUserForm" action="/adm/add/single_user" method="post">
+<form id="addUserForm" action="/adm/add/single_user" method="post">
           
           <p>* Primeiro Nome:
             <br>
-            <input type="text" name="firstName" id="firstName" >
+            <input type="text" name="firstName" id="firstName" value="<%=firstName%>">
           </p>
 
           <br>
 
           <p>* Ultimo Nome:
             <br>
-            <input type="text" name="lastName" id="lastName" >
+            <input type="text" name="lastName" id="lastName" value="<%=lastName%>">
           </p>
 
-          <br>
+          <br> 
 
           <p id="emailCamp">* Email:
             <br>
-            <input type="text" name="email" id="email"  >
+            <input type="text" name="email" id="email"  value="<%=email%>">
           </p>
-
+          
+          
+                  <% if(errToAdd == 'email'){  %>
+                    <p style="color: red;">
+                      Email já cadastrado
+                    </p>
+                    <% } %>
+            
           <br>
 
           <p>* Senha:
             <br>
-            <input type="password" name="password" id="password"  >
+            <input type="password" name="password" id="password"  value="<%=password%>">
+            
+                            <% if(errToAdd == 'passwordLength'){  %>
+                              <p style="color: red;">
+                                A senha deve conter no minímo 8 digitos
+                              </p>
+                            <% } %>
+                
+                            <% if(errToAdd == 'passwordCondictions'){  %>
+                              <p style="color: red;">
+                                A senha deve conter no mínimo:
+                                <li style="color: red;"> 3 caracteres em maiúsculo;</li>
+                                <li style="color: red;"> 2 números;</li>
+                                <li style="color: red;"> 1 caractere especial!</li>
+                              </p>
+                            <% } %>
+  
             <br>           
               <h6 id="passwordConditions">
                 <p>REQUISITOS da senha:</p>
@@ -66,13 +89,13 @@
 
 
 
-        </form>
+</form>
         
-      </div>
+</div>
 
-      <%- include('./partials/foot.ejs') %>
+<%- include('./partials/foot.ejs') %>
 
-    </body>
+</body>
 
 <script>
 

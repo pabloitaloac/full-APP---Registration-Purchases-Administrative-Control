@@ -9,22 +9,90 @@
   
 <body>
 
+
+
+
 <div>
-      <h3>O que deseja modificar?</h3>
-    
-      
-       <h6>Id: </h6><h6 id="idSingleUser"><%= userByID.id%></h6>
-       <hr>
+
+  <h3>Dados do usuário:</h3>
+
+
+  <li id="liUserData">
+    <h5 id="h4UserData">
+      ID:
+    </h5>
+
+    <h6 id="pUserData">
+      <%=userByID.id  %>
+    </h6>
+  </li>
+  <br><br>
+
+  <li id="liUserData">
+    <h4 id="h4UserData">
+      Primeiro Nome:
+    </h4>
+
+    <p id="pUserData">
+      <%=userByID.firstName  %>
+    </p>
+    <hr>
+  </li>
+
+  <li id="liUserData">
+    <h4 id="h4UserData">
+      Sobrenome:
+    </h4>
+
+    <p id="pUserData">
+      <%=userByID.lastName  %>
+    </p>
+    <hr>
+  </li>
+
+  <li id="liUserData">
+    <h4 id="h4UserData">
+      Email:
+    </h4>
+
+    <p id="pUserData">
+      <%=userByID.email  %>
+    </p>
+    <hr>
+  </li>
+
+
+<br>
+Senha com HASH?
+<br>
+<%=userByID.password%>
+
+
+
 
 </div>
 
-<br>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- code to edit user -->
+<!-- 
 <div>
 <form action="/user/updated/<%= userByID.id%>" method="post">
 
-  
-      <!-- <p id="nome"> -->
 
           <h4> NOME:
           </h4>
@@ -37,12 +105,10 @@
             value="<%= userByID.firstName%>"
 
           />
-      <!-- </p> -->
 
       <br>      <br />
 
 
-      <!-- <p id="sobrenome"> -->
 
           <h4> SOBRENOME:
           </h4>
@@ -55,12 +121,10 @@
             value="<%= userByID.lastName%>"
 
           />
-      <!-- </p> -->
 
       <br />      <br />
 
 
-      <!-- <p id="email"> -->
 
          <h4> EMAIL:
         </h4>
@@ -72,12 +136,10 @@
             id="<%= userByID.email%>"
             value="<%= userByID.email%>"
           />
-      <!-- </p> -->
 
       <br />      <br />
 
 
-      <!-- <p id="password"> -->
 
           <h4> SENHA:
           </h4>
@@ -93,25 +155,24 @@
           <button type="button" id="showSenha" class="showSenha" onclick="revelarSenha(password , showSenha)">Revelar senha</button>
 
        
-      <!-- </p> -->
 
       <br>      <br />
 
       password
-      <!-- <p> -->
       <button type="submit" onclick="editUser(firstNameUser , lastNameUser , email , password)">
         Alterar Usuário
       </button>
-      <!-- </p> -->
 
       <h4 id="pAlterar"></h4>
 </form>
 </div>
+ -->
+
 
 <br>
 
 <div>
-<form id="formExclude" action="/user/delete/<%=userByID.id%>" method="post">
+<form id="formExclude" action="/adm/deleteUser/<%=userByID.id%>" method="post">
         <h5>Deseja EXCLUIR todo o seu cadastro?</h5>
         
         <p>
@@ -132,13 +193,29 @@
 
 <%- include('./partials/foot.ejs') %>
 
+<style>
+
+#liUserData, #h4UserData, #pUserData{
+
+  display: inline;
+
+
+
+}
+
+
+
+</style>
+
+
+
   <script>
-    function editUser(x, y, z, d) {
-      if(x.value.length == 0 && y.value.length == 0 && z.value.length == 0 && d.value.length == 0){
-        var pAlterar = document.getElementById('pAlterar')
-        pAlterar.innerHTML = 'Preencha algum campo, se desejar alterar'
-      }
-    }
+    // function editUser(x, y, z, d) {
+    //   if(x.value.length == 0 && y.value.length == 0 && z.value.length == 0 && d.value.length == 0){
+    //     var pAlterar = document.getElementById('pAlterar')
+    //     pAlterar.innerHTML = 'Preencha algum campo, se desejar alterar'
+    //   }
+    // }
 
     function excludeUser(){
       if(sim.checked == true){
@@ -156,15 +233,15 @@
       }
     }
     
-    function revelarSenha(password, showSenha){
-      if (password.type == "password") {
-        password.type = "text"
-        showSenha.textContent = "OCULTAR Senha"
-      } else {
-        password.type = "password"
-        showSenha.textContent = "MOSTRAR Senha"
-      }
-    }
+    // function revelarSenha(password, showSenha){
+    //   if (password.type == "password") {
+    //     password.type = "text"
+    //     showSenha.textContent = "OCULTAR Senha"
+    //   } else {
+    //     password.type = "password"
+    //     showSenha.textContent = "MOSTRAR Senha"
+    //   }
+    // }
 
     
 

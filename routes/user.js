@@ -34,6 +34,67 @@ router.get('/', async (req,res)=>{
   }
 }) 
 
+
+// ------------------------------------------------------            
+
+
+
+ //USER PANEL
+ router.get('/painel', async (req,res)=>{
+  try{
+
+            // Cookies if have been signed
+            var userIDAtCookie = req.cookies.userID
+
+            console.log(`userIDAtCookie: ${userIDAtCookie}`);
+
+            if(!userIDAtCookie || userIDAtCookie == null || userIDAtCookie == undefined){
+              res.redirect('/login')
+            }
+            else if(userIDAtCookie){
+              res.redirect(`/user/painel/${userIDAtCookie}`)
+            }
+
+
+        // const id = req.cookies.userID.value
+
+        //     console.log(id);
+
+
+        // const user = await UserModel.findById(id)
+
+        //   if(id ==null){
+
+        //     res.send(`Erro. User não encontrado.`)
+
+        //   } else{
+        //     res.redirect(`/user/painel/${id}`)
+        //   }
+  }
+  catch(error){
+      res.status(500).send(error.message)
+  } 
+  })
+
+              //Render if have ID
+              router.get('/painel/:id', async (req,res)=>{
+                try{
+                  const id = req.params.id
+                  const user = await UserModel.findById(id)
+
+                  return res.status(200).render('userPanel', {userByID: user})
+
+                }
+                catch(error){
+                    res.status(500).send(error.message)
+                } 
+                })
+
+// ------------------------------------------------------    
+
+
+
+
 //LOGIN
 // router.get('/login', async (req,res)=>{
 //   try{
@@ -72,8 +133,59 @@ router.get('/', async (req,res)=>{
 
 
 // ------------------------------------------------------            
+// ------------------------------------------------------      
+
+
+//Edit user by himself
+router.post('/edit/:id', async (req,res)=>{
+  try{
+    const id = req.params.id
+    const user = await UserModel.findByIdAndUpdate(id)
+
+    return res.status(200).render('userEdit', {userByID: user})
+  }
+  catch(error){
+      res.status(500).send(error.message)
+  } 
+  })
+           
+        //Edit user by himself - REDIRECT
+          router.post('/updated/:id', async(req,res)=>{
+            try{
+                const id = req.params.id
+                var firstNameUpdate = req.body.firstNameUser
+                var lastNameUpdate = req.body.lastNameUser
+                var emailUpdate = req.body.email
+                var passwordUpdate = req.body.password
+
+                // // generate salt
+                // const salt =  bcrypt.genSalt(10);
+                // // hash the password
+                // const hashedPassword = bcrypt.hashSync(passwordUpdate, salt);
+
+                //   console.log(hashedPassword);
+
+
+                // const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})
+                const user = await UserModel.findByIdAndUpdate(id, {
+                  firstName:firstNameUpdate, 
+                  lastName: lastNameUpdate,
+                  email: emailUpdate,
+                  password: passwordUpdate
+                }, {new: true})
+                return res.status(200).render('userUpdatedByHinself',{userByID: user})
+
+            }
+            catch(error){
+                res.status(500).send(error.message)
+            }
+        })
+
+
+
+
 // ------------------------------------------------------            
-// ------------------------------------------------------            
+
 
 
 //Password lost - "Esqueci senha"
@@ -140,121 +252,9 @@ router.get('/login/redefinir', async (req,res)=>{
                                               })
 
 
-// ------------------------------------------------------            
 
 
-
- //USER PANEL
- router.get('/painel', async (req,res)=>{
-  try{
-
-            // Cookies if have been signed
-            var userIDAtCookie = req.cookies.userID
-
-            console.log(`userIDAtCookie: ${userIDAtCookie}`);
-
-            if(!userIDAtCookie || userIDAtCookie == null || userIDAtCookie == undefined){
-              res.redirect('/login')
-            }
-            else if(userIDAtCookie){
-              res.redirect(`/user/painel/${userIDAtCookie}`)
-            }
-
-
-        // const id = req.cookies.userID.value
-
-        //     console.log(id);
-
-
-        // const user = await UserModel.findById(id)
-
-        //   if(id ==null){
-
-        //     res.send(`Erro. User não encontrado.`)
-
-        //   } else{
-        //     res.redirect(`/user/painel/${id}`)
-        //   }
-  }
-  catch(error){
-      res.status(500).send(error.message)
-  } 
-  })
-
-              //Render if have ID
-              router.get('/painel/:id', async (req,res)=>{
-                try{
-                  const id = req.params.id
-                  const user = await UserModel.findById(id)
-
-                  return res.status(200).render('userPanel', {userByID: user})
-
-                }
-                catch(error){
-                    res.status(500).send(error.message)
-                } 
-                })
-
-// ------------------------------------------------------            
-
-
-//Edit user by himself
-router.post('/edit/:id', async (req,res)=>{
-  try{
-    const id = req.params.id
-    const user = await UserModel.findByIdAndUpdate(id)
-
-    return res.status(200).render('userEdit', {userByID: user})
-  }
-  catch(error){
-      res.status(500).send(error.message)
-  } 
-  })
-          
-        //Edit user by himself - REDIRECT
-          router.post('/updated/:id', async(req,res)=>{
-            try{
-                const id = req.params.id
-                var firstNameUpdate = req.body.firstNameUser
-                var lastNameUpdate = req.body.lastNameUser
-                var emailUpdate = req.body.email
-                var passwordUpdate = req.body.password
-
-                // // generate salt
-                // const salt =  bcrypt.genSalt(10);
-                // // hash the password
-                // const hashedPassword = bcrypt.hashSync(passwordUpdate, salt);
-
-                //   console.log(hashedPassword);
-
-
-                // const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})
-                const user = await UserModel.findByIdAndUpdate(id, {
-                  firstName:firstNameUpdate, 
-                  lastName: lastNameUpdate,
-                  email: emailUpdate,
-                  password: passwordUpdate
-                }, {new: true})
-                return res.status(200).render('userUpdatedByHinself',{userByID: user})
-
-            }
-            catch(error){
-                res.status(500).send(error.message)
-            }
-        })
-
-      //DELETE by himself - REDIRECT
-        router.post('/delete/:id', async(req,res)=>{
-          try{
-              const id = req.params.id
-              const user = await UserModel.findByIdAndRemove(id)
       
-              return res.status(200).render('userDeletedByHinself', {userByID: user})
-          }
-          catch(error){
-              res.status(500).send(error.message)
-          } 
-        })
 
 
 // -------------------------------------------
@@ -286,6 +286,7 @@ var purchases = [ {
 })
 
 
+// -------------------------------------------
 
 
 

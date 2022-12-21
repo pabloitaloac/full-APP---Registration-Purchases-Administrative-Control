@@ -41,36 +41,23 @@
       
 <br>
 
-<div>
+<div >
        <% if (users.length > 0) { %> <% users.forEach(user => { %>
-      <hr>
-
-      <h6>| ID: <%= user.id %> |</h6>
-
-      <br>
       
-      <h2 class="title"><%= user.firstName %> <%= user.lastName %></h2>
+<hr>
+      <li id="liUserData">
+        <h4 id="h4UserData">
+          Usuário:
+        </h4>  
+        <p id="pUserData">
+          "<%= user.firstName %> <%= user.lastName %>"
+        </p>      
+      </li>    
       
-
-
-      <h4>EMAIL: 
-      </h4>
-      <h6><%= user.email %></h6>
-
-      <h4>SENHA: 
-      </h4>
-      
-      <h6><%= user.password %></h6>
-
-
-        <p>
-           <button type="submit" id="<%= user.id%>" class="submit" onclick="redirectSingleUser(id)">  Editar usuário  </button>
-        </p>
-
-        <br>     
-
-      
-
+      <p>
+          <button type="submit" id="<%= user.id%>" class="submit" onclick="redirectSingleUser(id)">  Ver dados / Excluir usuário  </button>
+      </p>
+    <br>
 
       <% }) %> <% } else { %>
       <br>
@@ -87,6 +74,19 @@
     
   </body >
   <%- include('./partials/foot.ejs') %>
+
+<style>
+  #liUserData, #h4UserData, #pUserData{
+
+display: inline;
+
+
+
+}
+
+
+</style>
+
 
   <script >
 

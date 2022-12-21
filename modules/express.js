@@ -12,7 +12,7 @@ const UserModel = require("../src/models/user.model");
             function authenticationMiddleware(req, res, next){
                   if(req.isAuthenticated()){
                         next()
-                  }
+                  }                
                   else{
                         res.redirect('/login')
                   }
