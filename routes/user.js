@@ -140,7 +140,7 @@ router.get('/', async (req,res)=>{
 router.post('/edit/:id', async (req,res)=>{
   try{
     const id = req.params.id
-    const user = await UserModel.findByIdAndUpdate(id)
+    const user = await UserModel.findById(id)
 
     return res.status(200).render('userEdit', {userByID: user})
   }
@@ -155,25 +155,33 @@ router.post('/edit/:id', async (req,res)=>{
                 const id = req.params.id
                 var firstNameUpdate = req.body.firstNameUser
                 var lastNameUpdate = req.body.lastNameUser
-                var emailUpdate = req.body.email
-                var passwordUpdate = req.body.password
+                var emailUpdate = req.body.emailUser
+                var passwordUpdate = req.body.passwordUser
 
-                // // generate salt
-                // const salt =  bcrypt.genSalt(10);
-                // // hash the password
-                // const hashedPassword = bcrypt.hashSync(passwordUpdate, salt);
+console.log(firstNameUpdate + ' ' + lastNameUpdate + ' ' + emailUpdate + ' ' + passwordUpdate);
 
-                //   console.log(hashedPassword);
+              //if all OK, creat new user
 
+                    // HASHING PASSWORD + Create User
+                    bcrypt.genSalt(10, async (err, salt) => {
+                    bcrypt.hash(passwordUpdate, salt, async function(err, hash) {
+                        // Store hash in the database                              
+                        const passwordHashed = hash
 
-                // const user = await UserModel.findByIdAndUpdate(id, req.body, {new: true})
-                const user = await UserModel.findByIdAndUpdate(id, {
-                  firstName:firstNameUpdate, 
-                  lastName: lastNameUpdate,
-                  email: emailUpdate,
-                  password: passwordUpdate
-                }, {new: true})
-                return res.status(200).render('userUpdatedByHinself',{userByID: user})
+                        const user = await UserModel.findByIdAndUpdate(id, {
+                          firstName:firstNameUpdate, 
+                          lastName: lastNameUpdate,
+                          email: emailUpdate,
+                          password: passwordHashed
+                        }, {new: true})
+
+                        console.log(passwordHashed);
+                        console.log(user);
+
+                        return res.status(200).render('userUpdatedByHinself',{userByID: user})
+
+                    })                                        
+                  }) 
 
             }
             catch(error){
@@ -183,81 +191,40 @@ router.post('/edit/:id', async (req,res)=>{
 
 
 
+// DELETE
+// ------------------------------------------------------            
+router.post('/deleteUser/:id', async(req,res)=>{
+  try{
+      const id = req.params.id
+      const user = await UserModel.findByIdAndRemove(id)
 
+      return res.status(200).render('userDeletedByHinself', {userByID: user})
+  }
+  catch(error){
+      res.status(500).send(error.message)
+  } 
+})
 // ------------------------------------------------------            
 
 
 
-//Password lost - "Esqueci senha"
-router.get('/login/redefinir', async (req,res)=>{
-    try{
-    res.render('esqueciSenha', {situation: null})
-    }
-    catch(error){
-      res.status(500).send(error.message)
-    }  
-})
-
-            // Validate email (req)
-            router.post('/login/redefinir', async (req,res)=>{
-              try{
-
-                const email = req.body.username
-                const user = await UserModel.findOne({email:email})
-
-                      //user not match - render with writed values
-                        if(user == null){
-                          res.render('esqueciSenha', {situation: 'notMatched', userEmail:email}) 
-                        }
-                        //redirect with id found
-                        else{
-                          var idUser = user.id
-                          res.redirect(`/login/redefinir/${idUser}`)
-                        }    }
-              catch(error){
-                res.status(500).send(error.message)
-              }  
-            })
-
-
-                              // Email exist - Search ID
-                              router.get('/login/redefinir/:id', async (req,res)=>{
-                                try{
-                                  const id = req.params.id      
-                                  const email = req.body.username
-
-                                  const user = await UserModel.findById(id)
-
-                                      res.render('newPassword', {id:id})
-                                      }
-                                catch(error){
-                                    res.status(500).send(error.message)
-                                }  
-                              })
-
-                                    // The check of password quality is at page
-                                              // collect new password at "get" page, and change this
-                                              router.post('/login/redefinir/:id', async (req,res)=>{
-                                                try{
-
-                                                  const id = req.params.id
-                                                  const senha = req.body.password
-
-                                                  const user = await UserModel.findByIdAndUpdate(id, {password:senha})                                                  
-                                                    res.redirect(`/painel/${id}`)
-                                                }               
-                                                catch(error){
-                                                    res.status(500).send(error.message)
-                                                }  
-                                              })
 
 
 
 
-      
 
 
-// -------------------------------------------
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS
+// UNDER CONSTRUCTIONS 
 
 router.get('/:id/pedidos', (req,res)=>{
     var id = req.params.id

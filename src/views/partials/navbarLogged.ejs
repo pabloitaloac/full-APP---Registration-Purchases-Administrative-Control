@@ -13,7 +13,7 @@
           <a href="https://www.linkedin.com/in/pabloitalo/">Contacts</a>
         </li>
 
-        <li onclick="location.href='/'">
+        <li onclick="location.href = '/logout'">
           <p id="logout">Logout</p>
         </li>
     </ul>
@@ -103,6 +103,22 @@
   </style>
   
   <script>
+
+function logout(){
+
+  alert('inicio')
+
+  var c = document.cookie.split("; ");
+
+  alert(c)
+
+  for (i in c) 
+  document.cookie =/^[^=]+/.exec(c[i])[0]+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";    
+
+    document.location('/login')
+
+}
+
 
     //To Know if user is logged
     function userPanel(){

@@ -9,7 +9,7 @@ const { query } = require('express');
 const mainAPP = require('../modules/express')
 const auth = require('../modules/auth')
 const bcrypt = require("bcryptjs")
-
+const cookieParser = require('cookie-parser');
 
 
 var router = express.Router()
@@ -17,6 +17,7 @@ var router = express.Router()
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
  
+router.use(cookieParser())
 
 
 
@@ -269,9 +270,9 @@ router.get("/users", async (req, res) => {
   
         //Page of ADD users - redirect to url to add effectivity users
         router.get("/add/users", async (req, res) => {
-          res.render("addUser");
+          res.render("addUser", {user: null});
         });
-  
+   
                       // ADD - Using url to receive json
                       router.post("/add/single_user", async (req, res) => {
                         try {

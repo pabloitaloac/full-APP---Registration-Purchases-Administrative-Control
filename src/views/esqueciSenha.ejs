@@ -169,16 +169,10 @@ z-index: 10;
 
 <div>
 
-    <form id="formChangePassword" action="/user/login/redefinir" method="post">
+    <form id="formChangePassword" action="/login/redefinir" method="post">
 
         <h3>Redefinir senha</h3>
 
-        <% if(situation == 'notMatched')    { %>
-            <br>
-            <p id="dadosIncorretos">Email inexistente</p>
-
-        <%  }   else   {   %>
-        <% } %>
     
         <br>
 
@@ -186,9 +180,13 @@ z-index: 10;
 
         <br>
 
-        <input type="text" placeholder="Email" name="username" id="username" >
-            <p id="usernameToChange"></p>
-
+        <input type="text" placeholder="Email" name="username" id="username" value="<%=userEmail%>">
+            <p id="usernameToChange" style="color: red;"></p>
+            <% if(situation == 'notMatched')    { %>
+                
+                <p id="usernameToChange" style="color: red;">Email inexistente</p>    
+            <%  }     %>
+    
             
         <br>
         

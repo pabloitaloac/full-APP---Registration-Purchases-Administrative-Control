@@ -9,19 +9,67 @@
      
             
 <div>
-        <h1>Adicionar úsuários</h1>
-
+        <h1>Adicionar úsuário</h1>
         <p id="avisoDeVerificacao">            
             <h6>Obs.:<br><li>VERIFICAMOS se o email já existe na base de dados,<br>e o cadastro é feito apenas com emails diferentes</li></h6>
-            <h6><li> Também VERIFICAMOS se a senha possui os requisitos mínimos</li></h6>
-            
+            <h6><li> Também VERIFICAMOS se a senha possui os requisitos mínimos</li></h6>            
         </p>
-
-</div>
 
 <br>
 
-<div>
+<%  if(user == null){   %>
+
+  <form id="addUserForm" action="/adm/add/single_user" method="post">
+          
+    <p>* Primeiro Nome:
+      <br>
+      <input type="text" name="firstName" id="firstName">
+    </p>
+
+    <br>
+
+    <p>* Ultimo Nome:
+      <br>
+      <input type="text" name="lastName" id="lastName" >
+    </p>
+
+    <br> 
+
+    <p id="emailCamp">* Email:
+      <br>
+      <input type="text" name="email" id="email" >
+    </p>
+    
+          
+    <br>
+
+    <p>* Senha:
+      <br>
+      <input type="password" name="password" id="password"  >      
+
+      <br>           
+        <h6 id="passwordConditions">
+          <p>REQUISITOS da senha:</p>
+          <li>08 caracteres;</li>
+          <li>3 caracteres em maiúsculo;</li>
+          <li>2 números;</li>
+          <li>1 Caractere especial</li>
+        </h6>
+    </p>
+
+    <br>
+
+    <button type="button" onclick="submitForm()">Cadastrar</button>
+    <button type="reset" >Resetar</button>
+
+</form>
+
+
+
+
+
+<!-- If exist previous attempt to login -->
+<%  }else{%>
 
 <form id="addUserForm" action="/adm/add/single_user" method="post">
           
@@ -87,10 +135,12 @@
           <button type="button" onclick="submitForm()">Cadastrar</button>
           <button type="reset" >Resetar</button>
 
-
-
 </form>
         
+<%  } %>
+
+
+
 </div>
 
 <%- include('./partials/foot.ejs') %>

@@ -9,7 +9,7 @@
 
     <h1>
         Produto adicionado com sucesso!
-        <br>
+      <br>
         
     </h1>
 
@@ -23,6 +23,8 @@
     
       
         <h6><%=product.id  %></h6>
+        
+        <br>
         
 <form method="post"  id="thisProduct" action="/adm/estoque/produto/<%=product.id%>">
           
@@ -42,14 +44,14 @@
 
         <h5> Quantidade em estoque:</h5>
         <a>
-          <input type="number" name="productQtd" id="<%= product.productQtd %>" value="<%= product.productQtd %>">
+          <input type="number" name="productQtd" id="<%= product.productQtd %>" value="<%= product.productQtd %>" min="0" value="0" step=".01">
         </a>
 
       <br />
 
         <h5> Preço de Custo:</h5>
         <a>
-          <input type="number" name="productCost" id="<%= product.productCost %>" value="<%= product.productCost %>">
+          <input type="number" name="productCost" id="<%= product.productCost %>" value="<%= product.productCost %>" min="0" value="0" step=".01">
         </a>
       
 
@@ -57,7 +59,7 @@
 
         <h5> Preço de Venda:</h5>
         <a>
-          <input type="number" name="productNormalPrice" id="<%= product.productNormalPrice %>" value="<%= product.productNormalPrice %>">
+          <input type="number" name="productNormalPrice" id="<%= product.productNormalPrice %>" value="<%= product.productNormalPrice %>" min="0" value="0" step=".01">
         </a>
       
 
@@ -65,7 +67,7 @@
 
       <h5> Preço de Afiliados:</h5>
       <a>
-        <input type="number" name="productSpecialPrice" id="<%= product.productSpecialPrice %>" value="<%= product.productSpecialPrice %>">
+        <input type="number" name="productSpecialPrice" id="<%= product.productSpecialPrice %>" value="<%= product.productSpecialPrice %>" min="0" value="0" step=".01">
       </a>
       
       <br>

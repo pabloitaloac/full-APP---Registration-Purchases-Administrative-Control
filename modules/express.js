@@ -1,7 +1,7 @@
 const express = require("express");
 const { findByIdAndUpdate } = require("../src/models/user.model");
 const UserModel = require("../src/models/user.model");
-
+const cookieParser = require('cookie-parser');
 
       // authentication
       const passport = require('passport')
@@ -28,6 +28,8 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.use(cookieParser())
+
 //View Engine - EJS
 app.set("view engine", "ejs");
 app.set("views", "src/views");
@@ -39,7 +41,7 @@ app.use(session({
       secret:'123', //need to save apart
       resave: false, //save session for any request?
       saveUninitialized: false, //save anonymous session?
-      cookie: { maxAge: 1 * 60 * 1000 } ,  //min * sec * msec
+      cookie: { maxAge: 10 * 60 * 1000 } ,  //min * sec * msec
 }))
 
 
@@ -49,15 +51,22 @@ app.use(session({
 
 //===========   ROUTES  ============
 
-      //============  login  ===============
-
-      var loginRoute = require('../routes/login')
-      app.use('/login', loginRoute) 
+      //============  Home  ===============
 
       app.get("/", (req, res) => {
       res.status(200).render("home");
       });                     
 
+      //============  login  ===============
+
+      var loginRoute = require('../routes/login')
+      app.use('/login', loginRoute) 
+
+      //============  logout  ===============
+
+      var logoutRoute = require('../routes/logout')
+      app.use('/logout', logoutRoute)  
+            
       //============  shop  ===============
 
       var shopRoute = require('../routes/shop')
