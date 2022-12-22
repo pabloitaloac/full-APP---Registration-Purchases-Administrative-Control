@@ -10,7 +10,7 @@
         <a href="/adm/add/users">Se cadastrar</a>
       </li>
       <li>
-        <a onclick="userPanel()">Painel do Usuário</a>
+        <a href = '/user/painel'>Painel do Usuário</a>
       </li>
       <li>
         <a href="/shop">Shop</a>
@@ -100,21 +100,21 @@
   <script>
 
     //To Know if user is logged
-    function userPanel(){
+    // function userPanel(){
 
-      //search entire url
-      var url = window.location.href
-      //search last part of url
-      url = url.split('/');
-            const lastPartUrl = url[url.length-1]
+    //   //search entire url
+    //   var url = window.location.href
+    //   //search last part of url
+    //   url = url.split('/');
+    //         const lastPartUrl = url[url.length-1]
 
-            // Is ID
-            if(lastPartUrl.length > 15){
-              location.href = `/user/painel/${lastPartUrl}`
-            }
-            // Not is ID
-            else{
-              location.href = '/user/painel'
-            }
-      }
+    //         // Is ID
+    //         if(lastPartUrl.length > 15){
+    //           location.href = `/user/painel/${lastPartUrl}`
+    //         }
+    //         // Not is ID
+    //         else{
+    //           location.href = '/user/painel'
+    //         }
+    //   }
   </script>

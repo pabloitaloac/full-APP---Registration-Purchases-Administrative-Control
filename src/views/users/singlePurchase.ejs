@@ -1,0 +1,186 @@
+<html lang="pt-br">
+    <%- include('../partials/head.ejs') %>
+  
+<head>
+    <%- include('../partials/navbarLogged.ejs') %>
+    <%- include('../partials/AddUser.ejs') %>
+
+</head>
+
+
+<body>
+
+<div>
+
+    <h2>
+        Seu Pedido: 
+    </h2>
+    
+    
+
+
+
+                
+<a class="eachPurchase">
+
+    <p class="infos">
+        <img src="<%=singlePurchase.img  %>">
+    </p>
+
+    
+    <p class="infos">
+                    <p class="infoPurchase">
+                        Produto:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.productName  %>
+                        </p>
+
+                        <br>
+
+                    <p class="infoPurchase">
+                        Quantidade:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.qtd  %>
+                        </p>
+
+                        <br>
+
+                    <p class="infoPurchase">
+                        Preço total:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.price  %>
+                        </p>
+
+                        <br>
+
+                    <p class="infoPurchase">
+                        Endereço de entrega:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.adress  %>
+                        </p>
+                
+                        <br>
+
+                    <p class="infoPurchase">
+                        Forma de pagamento:
+                    </p>
+
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.paymentMethod  %>
+                        </p>
+
+                        <br>
+
+                    <p class="infoPurchase">
+                        Data da compra:
+                    </p>
+                        <p class="infoPurchaseResult">
+                            <%=singlePurchase.date  %>
+                        </p>
+
+                        <br>
+
+                        <p class="infoPurchase">
+                            Status:
+                        </p>
+                            <p class="infoPurchaseResult">
+                                <%=singlePurchase.purchaseStatus  %>
+                            </p>
+    
+                            <br>
+
+                            <p class="infoPurchase">
+                                Situação da entraga:
+                            </p>
+                                <p class="infoPurchaseResult">
+                                    <%=singlePurchase.deliveryDate  %>
+                                </p>
+    
+            </p>
+
+            
+
+                    <button type="button" onclick="alert('redirecionamento para atendimento')">
+                        Falar com atendente
+                    </button>
+
+
+
+</a>
+
+
+
+
+</div>
+
+
+
+    
+</body>
+
+
+<footer>
+<%- include('../partials/foot.ejs') %>
+</footer>
+
+
+<script>
+function viewProduct(id){
+
+    const userAtCookie = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('userID='))
+    ?.split('=')[1];
+
+
+location.href = `/user/${userAtCookie}/pedidos/${id}`
+
+
+}
+
+</script>
+
+
+
+<style>
+    .infoPurchase{
+
+        display: inline;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 10pt;
+
+
+
+    }
+
+    .infoPurchaseResult{
+
+
+        display: inline;
+        font-size: 8pt;
+
+
+
+    }
+
+    .eachPurchase{
+        border: solid 1pt;
+        padding: 10px;
+        margin: 5px;
+        /* display: inline; */
+        pointer-events: none;
+
+    }
+
+    img{
+        max-width: 50px;
+        
+
+    }
+
+</style>

@@ -1,9 +1,14 @@
 <html lang="pt-br">
     <%- include('../partials/head.ejs') %>
   
+<head>
+    <%- include('../partials/navbarLogged.ejs') %>
+    <%- include('../partials/AddUser.ejs') %>
+
+</head>
+
+
 <body>
-<%- include('../partials/navbarUser.ejs') %>
-<%- include('../partials/AddUser.ejs') %>
 
 <div>
 
@@ -77,9 +82,16 @@
 
             </p>
 
-                    <button type="button" onclick="location.href = '/'">
+                    <!-- <button type="button" onclick="location.href = `/`">
+                        Ver detalhes
+                    </button> -->
+
+                    <button type="button" id="<%=singlePurchase.id%>" onclick="viewProduct(id)">
                         Ver detalhes
                     </button>
+
+
+
 </a>
 
 
@@ -98,6 +110,22 @@
 <%- include('../partials/foot.ejs') %>
 </footer>
 
+
+<script>
+function viewProduct(id){
+
+    const userAtCookie = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('userID='))
+    ?.split('=')[1];
+
+
+location.href = `/user/${userAtCookie}/pedidos/${id}`
+
+
+}
+
+</script>
 
 
 
