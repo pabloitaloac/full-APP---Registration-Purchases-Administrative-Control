@@ -34,7 +34,7 @@ app.use(cookieParser())
 app.set("view engine", "ejs");
 app.set("views", "src/views");
 
-
+ 
 
 //auth session 
 app.use(session({

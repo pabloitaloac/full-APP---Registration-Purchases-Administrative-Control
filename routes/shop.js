@@ -20,6 +20,16 @@ router.get('/', async (req,res)=>{
 
         var product = await ProductModel.find({})
 
+        var cookieCART = req.cookies['CART']
+
+        if(cookieCART == null || cookieCART == undefined || cookieCART == ''){
+            res.cookie('CART', '' ,  { maxAge: 360 * 24 * 60 * 60 * 1000 })
+            console.log('cookieCART criado');
+        }
+        else{
+            console.log('cookie existente');
+        }
+
     res.render('./shop/SHOP2.ejs', {allProducts: product})
 })
 

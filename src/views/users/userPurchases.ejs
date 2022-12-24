@@ -31,54 +31,25 @@
                 
 <a class="eachPurchase">
 
-    <p class="infos">
+    <!-- <p class="infos">
         <img src="<%=singlePurchase.img  %>">
-    </p>
+    </p> -->
 
     
     <p class="infos">
+        <img src="<%=singlePurchase.img  %>">
                     <p class="infoPurchase">
-                        Produto:
+                        PEDIDO:
                     </p>
                         <p class="infoPurchaseResult">
-                            <%=singlePurchase.productName  %>
+
+                            <%=singlePurchase.qtd%>X     |   <%=singlePurchase.productName%>   |     R$<%=singlePurchase.price  %>
                         </p>
 
                         <br>
 
-                    <p class="infoPurchase">
-                        Quantidade:
-                    </p>
-                        <p class="infoPurchaseResult">
-                            <%=singlePurchase.qtd  %>
-                        </p>
 
-                        <br>
 
-                    <p class="infoPurchase">
-                        Preço total:
-                    </p>
-                        <p class="infoPurchaseResult">
-                            <%=singlePurchase.price  %>
-                        </p>
-
-                        <br>
-
-                    <p class="infoPurchase">
-                        Endereço de entrega:
-                    </p>
-                        <p class="infoPurchaseResult">
-                            <%=singlePurchase.adress  %>
-                        </p>
-                
-                        <br>
-
-                    <p class="infoPurchase">
-                        Forma de pagamento:
-                    </p>
-                        <p class="infoPurchaseResult">
-                            <%=singlePurchase.paymentMethod  %>
-                        </p>
 
             </p>
 
