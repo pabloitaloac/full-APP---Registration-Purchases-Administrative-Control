@@ -8,6 +8,20 @@
   <body>
     <div>Este é um exemplo de loja</div>
 
+    <div>
+      <form  method="post" id="formTestAjax" action="/shop/ajax">
+        valor1:
+        <input type="number" name="valor1" id="valor1">
+        Valor2:
+        <input type="number" name="valor2" id="valor2">
+        <button type="button" onclick="tstAjax(valor1, valor2)" value="teste Ajax">teste Ajax</button>
+
+        <br>
+
+        <p id="changeByAjax" name="changeByAjax"></p>
+      </form>
+    </div>
+
     <br />
     
 <!-- <div> -->
@@ -64,7 +78,7 @@
                 <br><br>
                 
                 <button type="button" id="<%=product.productCode%>" 
-                  onclick="addToCart('CART', id, qtdProduct.value)">                  
+                  onclick="addToCart(id, qtdProduct.value)">                  
                   Adicionar ao carrinho
                 </button>
                 <!-- </a> -->
@@ -270,132 +284,233 @@
 
 <script>
 
-//guardando valor carrinho
-// var totalCart = []
-// var qtdCart = []
-
-
-
-
-var allProducts = [] 
-  // document.cookie = `CART=`
-
-  var cookie = {};
+function tstAjax(valor1, valor2){
   
-  document.cookie.split(';').forEach(function(el) {
-    var [k,v] = el.split('=');
-    cookie[k.trim()] = v;
-  })
-  
-  
-  var CART = cookie['CART'].replace('[[', '[').replace(']]', ']').replace('],[' , ',')
-  // var CART = cookie['CART']
+  event.preventDefault()  //avoid change page
 
-  CART = CART.split(',')
-  
-  CART.push('[1]')
-  CART.push('[2]')
-  CART.push('[3]')
-  CART.push('[4]')
-  CART.push('[5]')
-  
-alert(CART)
+  var valor1 = Number(valor1.value)
+  var valor2 = Number(valor2.value)
 
-for(let i = 0 ; i < 10 ; i++){
-  alert(CART [i])
+  var ajax = new XMLHttpRequest()
+
+      ajax.open('POST', '/shop/ajax')
+        var params = `valor1=${valor1}&&valor2=${valor2}`
+
+      ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+
+      ajax.onreadystatechange = function(){
+        document.getElementById('changeByAjax').innerHTML = ajax.responseText
+      }
+      
+      ajax.send(params)
+
+
 
 }
 
-  alert(typeof CART)
 
-  // var CART = cookie['CART']
+
+function addToCart(id, qtdProduct){
+  var qtdProduct = Number(qtdProduct)
+
+  // Item awready exist in cart?
+  if(!window.localStorage.getItem(id)){    
+    // Add item to LocalStorage
+      window.localStorage.setItem(id,qtdProduct)
+  }
+  else{
+    // know the quantity of this existent item
+    var thisItemQtd = Number(window.localStorage.getItem(id))
+        thisItemQtd = thisItemQtd + qtdProduct
+    
+    // update item to LocalStorage with currently quantity
+    window.localStorage.setItem(id,thisItemQtd)
+  }
+
+  // Show all products with json
+  var allLocal = JSON.stringify(window.localStorage)
+    allLocal = allLocal.replace('{', '').replace('}', '')
+    allLocal = allLocal.split(',')
+
+
+
+
+
+    
+
+          // separe each item
+          allLocal.forEach(item => {
+              // separe/show each product with json
+              item  = item.replace('"', '').replace('":"',':').replace('"', '')
+              item = item.split(':')
+
+              itemCode =Number(item[0])
+              itemQtd = Number(item[1])
+
+            // alert(`itemCode: ${itemCode} | itemQtd: ${itemQtd}`)
+
+
+
+            // SENDIND WITH AJAX  ===============
+
+            var ajax = new XMLHttpRequest()
+
+            ajax.open('POST', '/shop/cart')
+              var params = `itemCode=${itemCode}&&itemQtd=${itemQtd}`
+
+            ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+
+            ajax.onreadystatechange = function(){
+              var newItem = document.createElement('p')
+              var cartToChange =  document.getElementById('cartToChange')
+                  cartToChange.appendChild(newItem)
+
+              newItem.innerHTML = ajax.responseText
+            }
+
+
+            ajax.send(params)
+
+
+
+});
+
+
+
+
 
   
 
 
+}
 
 
 
-  //   CART = CART.split(',').map(function(n) {
-  //   return Array(n);
-  //   });
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var allProducts = [] 
+
+//   var cookie = {};
+  
+//   document.cookie.split(';').forEach(function(el) {
+//     var [k,v] = el.split('=');
+//     cookie[k.trim()] = v;
+//   })
+  
+  
+//   var CART = cookie['CART'].replace('[[', '[').replace(']]', ']').replace('],[' , ',')
+
+//   CART = CART.split(',')
+  
+//   CART.push('[1]')
+//   CART.push('[2]')
+//   CART.push('[3]')
+//   CART.push('[4]')
+//   CART.push('[5]')
+  
+// alert(CART)
+
+// for(let i = 0 ; i < 10 ; i++){
+//   alert(CART [i])
+
+// }
+
+//   alert(typeof CART)
 
   
-
 
       
 
-  // DO NOT TOUCH ON RETURNs!!!!!!!!!
-function addToCart(cookieCART, productCode, productQtd) {
-  // document.cookie = `CART=`
+//   // DO NOT TOUCH ON RETURNs!!!!!!!!!
+// function addToCart(cookieCART, productCode, productQtd) {
+//   // document.cookie = `CART=`
 
-// CREATE ARRAY WITH SINGLE PRODUCTS + QTD
+// // CREATE ARRAY WITH SINGLE PRODUCTS + QTD
 
-  // IF IS A NEW PAGE, FORCE THE FIRST PUSH
-  if(allProducts.length == 0){
-    allProducts.push([parseInt(productCode),parseInt(productQtd)])
-    alert(allProducts.length)
-    alert(JSON.stringify(allProducts))
+//   // IF IS A NEW PAGE, FORCE THE FIRST PUSH
+//   if(allProducts.length == 0){
+//     allProducts.push([parseInt(productCode),parseInt(productQtd)])
+//     alert(allProducts.length)
+//     alert(JSON.stringify(allProducts))
 
-    document.cookie = `CART=${JSON.stringify(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
-    // document.cookie = `CART=${JSON.parse(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
+//     document.cookie = `CART=${JSON.stringify(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
+//     // document.cookie = `CART=${JSON.parse(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
 
-    return 
+//     return 
 
-  }
-  else{
+//   }
+//   else{
 
-    // TO VERIFY IF EXISTS THE PRODUCT ON PAGE
-      for( var i = 0 ; i < allProducts.length; i++){
-        alert(`FOR [${i}] [0]`)
+//     // TO VERIFY IF EXISTS THE PRODUCT ON PAGE
+//       for( var i = 0 ; i < allProducts.length; i++){
+//         alert(`FOR [${i}] [0]`)
 
-        // PRODUCT IS AWREADY FINDED AT ARRAY
-        if(productCode == allProducts[i][0]){
-          allProducts[i][1] = parseInt(allProducts[i][1]) + parseInt(productQtd)
-          allProducts[i][0] = parseInt(allProducts[i][0])
+//         // PRODUCT IS AWREADY FINDED AT ARRAY
+//         if(productCode == allProducts[i][0]){
+//           allProducts[i][1] = parseInt(allProducts[i][1]) + parseInt(productQtd)
+//           allProducts[i][0] = parseInt(allProducts[i][0])
 
-          alert(`A [${i}] [0]`)
+//           alert(`A [${i}] [0]`)
           
-          alert(`MATCH - productCode: ${allProducts[i][0]}, productQtd: ${allProducts[i][1]}  `)
-          alert(allProducts.length)     
-          alert(JSON.stringify(allProducts))
+//           alert(`MATCH - productCode: ${allProducts[i][0]}, productQtd: ${allProducts[i][1]}  `)
+//           alert(allProducts.length)     
+//           alert(JSON.stringify(allProducts))
 
-          document.cookie = `CART=${JSON.stringify(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
-          // document.cookie = `CART=${JSON.parse(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
+//           document.cookie = `CART=${JSON.stringify(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
+//           // document.cookie = `CART=${JSON.parse(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
 
-          return 
+//           return 
 
         
                   
-          }
-      }
-  }
+//           }
+//       }
+//   }
 
-  // IF NOT EXIST, (!= OF THE LAST ONE) AND IS THE END OF THE LIST, CREATE NEW PRODUCT
-      if (productCode != allProducts[allProducts.length - 1][0]){
-                  alert(`B [${i}] [0]`)
+//   // IF NOT EXIST, (!= OF THE LAST ONE) AND IS THE END OF THE LIST, CREATE NEW PRODUCT
+//       if (productCode != allProducts[allProducts.length - 1][0]){
+//                   alert(`B [${i}] [0]`)
 
-                  allProducts.push([parseInt(productCode),parseInt(productQtd)])
-                  alert(allProducts.length)
-                  alert(JSON.stringify(allProducts))
+//                   allProducts.push([parseInt(productCode),parseInt(productQtd)])
+//                   alert(allProducts.length)
+//                   alert(JSON.stringify(allProducts))
 
-                  document.cookie = `CART=${JSON.stringify(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
+//                   document.cookie = `CART=${JSON.stringify(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
 
-                  // document.cookie = `CART=${JSON.parse(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
+//                   // document.cookie = `CART=${JSON.parse(allProducts)}; expires=Mon, 01 Jan 2024 00:00:00 UTC`
 
-                  return 
-      }
-
-
+//                   return 
+//       }
 
 
-// PASS THE CONDICTIONS TO COOKIE
-// document.cookie = `CART=${allProducts}`
 
-}
+
+// // PASS THE CONDICTIONS TO COOKIE
+// // document.cookie = `CART=${allProducts}`
+
+// }
 
 
 

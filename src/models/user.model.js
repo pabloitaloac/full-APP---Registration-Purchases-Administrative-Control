@@ -20,8 +20,8 @@ const userSchema = new mongoose.Schema({
         // required: true,
         // minlength: 1
     },
-    purchases:{
-        type:Array
+    cart:{
+        
     } 
 }) 
  
