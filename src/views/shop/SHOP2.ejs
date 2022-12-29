@@ -6,9 +6,16 @@
   </header>
 
   <body>
-    <div>Este é um exemplo de loja</div>
-
     <div>
+      <h2>
+      SHOP Em construção...
+        <br>
+      SHOP under construction...
+      </h2>
+    </div>
+
+
+    <!-- <div>
       <form  method="post" id="formTestAjax" action="/shop/ajax">
         valor1:
         <input type="number" name="valor1" id="valor1">
@@ -20,7 +27,7 @@
 
         <p id="changeByAjax" name="changeByAjax"></p>
       </form>
-    </div>
+    </div> -->
 
     <br />
     
@@ -99,7 +106,7 @@
 </div>
           
           
-          
+<!--           
           <b class="cartInPage" id="cartInPage">
             
             <h3 class="nameCart">Carrinho: <hr><br></h3>
@@ -112,7 +119,7 @@
             </p>
             
           </b>          
-          
+           -->
 </a>
         
 </body>
@@ -284,53 +291,110 @@
 
 <script>
 
-function tstAjax(valor1, valor2){
+// function tstAjax(valor1, valor2){
   
-  event.preventDefault()  //avoid change page
+//   event.preventDefault()  //avoid change page
 
-  var valor1 = Number(valor1.value)
-  var valor2 = Number(valor2.value)
+//   var valor1 = Number(valor1.value)
+//   var valor2 = Number(valor2.value)
 
-  var ajax = new XMLHttpRequest()
+//   var ajax = new XMLHttpRequest()
 
-      ajax.open('POST', '/shop/ajax')
-        var params = `valor1=${valor1}&&valor2=${valor2}`
+//       ajax.open('POST', '/shop/ajax')
+//         var params = `valor1=${valor1}&&valor2=${valor2}`
+
+//       ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+
+//       ajax.onreadystatechange = function(){
+//         document.getElementById('changeByAjax').innerHTML = ajax.responseText
+//       }
+      
+//       ajax.send(params)
+
+
+
+// }
+
+
+function addToCart(id, qtdProduct){
+
+var itemCode = id
+var itemQtd = qtdProduct
+
+
+
+
+
+var cookies = document.cookie.split(';');//contains all the cookies
+var cookieName = []; // to contain name of all the cookies
+
+for(let i=0;i<cookies.length;i++) {
+  cookieName[i] = cookies[i].split('=')[0].trim();
+}
+
+
+if(cookieName.includes('userID')) {
+  alert("EXIST ID")
+
+      // SENDIND WITH AJAX  ===============
+
+      var ajax = new XMLHttpRequest()
+
+      ajax.open('POST', '/shop/cart/addProduct')
+        var params = `itemCode=${itemCode}&&itemQtd=${itemQtd}`
 
       ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
 
       ajax.onreadystatechange = function(){
-        document.getElementById('changeByAjax').innerHTML = ajax.responseText
+        
+          var cartResponse = ajax.responseText
+          
+          alert(`Produto adicionado ao carrinho!`)
+        
       }
-      
+
+
       ajax.send(params)
+}
+else {
+  alert("DOESN'T EXIST ID")
+
+  var cartNoId = []
+
+  cartNoId.push([id,qtdProduct])
+
+  alert(cartNoId)
+
+  // ==============================================================
+  alert('CONTINUAR DAQUI')
+}
+
 
 
 
 }
 
+// function addToCart(id, qtdProduct){
+//   var qtdProduct = Number(qtdProduct)
 
-
-function addToCart(id, qtdProduct){
-  var qtdProduct = Number(qtdProduct)
-
-  // Item awready exist in cart?
-  if(!window.localStorage.getItem(id)){    
-    // Add item to LocalStorage
-      window.localStorage.setItem(id,qtdProduct)
-  }
-  else{
-    // know the quantity of this existent item
-    var thisItemQtd = Number(window.localStorage.getItem(id))
-        thisItemQtd = thisItemQtd + qtdProduct
+//   // Item awready exist in cart?
+//   if(!window.localStorage.getItem(id)){    
+//     // Add item to LocalStorage
+//       window.localStorage.setItem(id,qtdProduct)
+//   }
+//   else{
+//     // know the quantity of this existent item
+//     var thisItemQtd = Number(window.localStorage.getItem(id))
+//         thisItemQtd = thisItemQtd + qtdProduct
     
-    // update item to LocalStorage with currently quantity
-    window.localStorage.setItem(id,thisItemQtd)
-  }
+//     // update item to LocalStorage with currently quantity
+//     window.localStorage.setItem(id,thisItemQtd)
+//   }
 
-  // Show all products with json
-  var allLocal = JSON.stringify(window.localStorage)
-    allLocal = allLocal.replace('{', '').replace('}', '')
-    allLocal = allLocal.split(',')
+//   // Show all products with json
+//   var allLocal = JSON.stringify(window.localStorage)
+//     allLocal = allLocal.replace('{', '').replace('}', '')
+//     allLocal = allLocal.split(',')
 
 
 
@@ -338,42 +402,42 @@ function addToCart(id, qtdProduct){
 
     
 
-          // separe each item
-          allLocal.forEach(item => {
-              // separe/show each product with json
-              item  = item.replace('"', '').replace('":"',':').replace('"', '')
-              item = item.split(':')
+//           // separe each item
+//           allLocal.forEach(item => {
+//               // separe/show each product with json
+//               item  = item.replace('"', '').replace('":"',':').replace('"', '')
+//               item = item.split(':')
 
-              itemCode =Number(item[0])
-              itemQtd = Number(item[1])
+//               itemCode =Number(item[0])
+//               itemQtd = Number(item[1])
 
-            // alert(`itemCode: ${itemCode} | itemQtd: ${itemQtd}`)
-
-
-
-            // SENDIND WITH AJAX  ===============
-
-            var ajax = new XMLHttpRequest()
-
-            ajax.open('POST', '/shop/cart')
-              var params = `itemCode=${itemCode}&&itemQtd=${itemQtd}`
-
-            ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
-
-            ajax.onreadystatechange = function(){
-              var newItem = document.createElement('p')
-              var cartToChange =  document.getElementById('cartToChange')
-                  cartToChange.appendChild(newItem)
-
-              newItem.innerHTML = ajax.responseText
-            }
-
-
-            ajax.send(params)
+//             // alert(`itemCode: ${itemCode} | itemQtd: ${itemQtd}`)
 
 
 
-});
+//             // SENDIND WITH AJAX  ===============
+
+//             var ajax = new XMLHttpRequest()
+
+//             ajax.open('POST', '/shop/cart')
+//               var params = `itemCode=${itemCode}&&itemQtd=${itemQtd}`
+
+//             ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+
+//             ajax.onreadystatechange = function(){
+//               var newItem = document.createElement('p')
+//               var cartToChange =  document.getElementById('cartToChange')
+//                   cartToChange.appendChild(newItem)
+
+//               newItem.innerHTML = ajax.responseText
+//             }
+
+
+//             ajax.send(params)
+
+
+
+// });
 
 
 
@@ -382,7 +446,7 @@ function addToCart(id, qtdProduct){
   
 
 
-}
+// }
 
 
 

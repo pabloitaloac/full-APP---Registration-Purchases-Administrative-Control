@@ -9,12 +9,24 @@
       <li>
         <a href="/adm/add/users">Se cadastrar</a>
       </li>
-      <li>
+      
+      <li id="userPanel">
         <a href = '/user/painel'>Painel do Usuário</a>
       </li>
-      <li id="cart">
-        <a href="">Carrinho</a>
+      
+      <li id="cart" onmouseenter="showCart()">    
+        <a >
+          Carrinho                      
+        </a>
+          
+          <p id="cartOnClick">
+                        <button onclick="emptyCart()">Ezvaziar carrinho</button>
+          </p>
+          
       </li>
+
+
+
     </ul>
   </nav>
   
@@ -74,7 +86,117 @@
       background: rgba(255, 255, 255, 0.1);
       color: rgba(0, 35, 122, 0.7);
     }
+
+    #cart {
+      background-color: #8e44ad;
+
+      /* position: absolute;
+      right: 0; */
+
+
+    }
+
+
+    nav ul li p{
+      
+      display: none;
+
+
+    }
+    nav ul li:hover p{
+      background-color: white;
+    
+      display: block;
+
+
+      position: absolute;
+      /* right: 0; */
+
+      min-width: 200px;
+      min-height: 200px;
+      height: auto;
+      width: auto;
+      
+
+
+    }
   
   
   </style>
   
+  <script>
+    
+    function emptyCart(){
+
+      var ajax = new XMLHttpRequest()
+      
+      ajax.open('POST', '/shop/cart/empty')
+      
+      ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+      
+      ajax.onreadystatechange = function(){
+        var newItem = document.createElement('p')
+        
+        var cartOnClick = document.getElementById('cartOnClick')
+              
+              cartOnClick.appendChild(newItem)
+
+
+            // newItem.innerHTML = ajax.responseText
+            newItem.innerHTML = typeof ajax.responseText + '<br>' + ajax.responseText
+            // alert(ajax.response)
+
+      }
+
+
+      ajax.send()
+
+
+    }
+
+
+    function showCart(){
+
+      
+      
+      
+      var ajax = new XMLHttpRequest()
+      
+      ajax.open('POST', '/shop/cart/show')
+      
+      ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+      
+      ajax.onreadystatechange = function(){
+        var newItem = document.createElement('p')
+        
+        var cartOnClick = document.getElementById('cartOnClick')
+              
+              cartOnClick.appendChild(newItem)
+
+              if(document.cookie.userID){
+
+                  alert(document.cookies.userID)
+
+                  // newItem.innerHTML = ajax.responseText
+                  newItem.innerHTML = typeof ajax.responseText + '<br>' + ajax.responseText
+                  // alert(ajax.response)
+
+              }
+              else if(!document.cookies.userID){
+
+              alert('sem id - show')
+
+              }
+      }
+
+
+      ajax.send()
+
+
+    }
+
+
+
+
+
+  </script>

@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         // minlength: 1
     },
     cart:{
-        
+        type:Array        
     } 
 }) 
  
