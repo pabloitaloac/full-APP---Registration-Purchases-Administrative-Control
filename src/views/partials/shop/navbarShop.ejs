@@ -19,8 +19,16 @@
           Carrinho                      
         </a>
           
-          <p id="cartOnClick">
-                        <button onclick="emptyCart()">Ezvaziar carrinho</button>
+          <p>
+            <button onclick="emptyCart()">Ezvaziar carrinho</button>
+            
+            <br>
+            <br>
+            
+            <cartOnClick id="cartOnClick">
+
+            </cartOnClick>
+
           </p>
           
       </li>
@@ -112,11 +120,13 @@
       position: absolute;
       /* right: 0; */
 
-      min-width: 200px;
-      min-height: 200px;
+      min-width: 300px;
+      min-height: 300px;
       height: auto;
       width: auto;
       
+      padding: 15px;
+      line-height: 30px;
 
 
     }
@@ -128,69 +138,224 @@
     
     function emptyCart(){
 
-      var ajax = new XMLHttpRequest()
-      
-      ajax.open('POST', '/shop/cart/empty')
-      
-      ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
-      
-      ajax.onreadystatechange = function(){
-        var newItem = document.createElement('p')
-        
-        var cartOnClick = document.getElementById('cartOnClick')
+
+          var cookies = document.cookie.split(';');//contains all the cookies
+          var cookieName = []; // to contain name of all the cookies
+
+          for(let i=0;i<cookies.length;i++) {
+            cookieName[i] = cookies[i].split('=')[0].trim();
+          }
+
+
+          if(cookieName.includes('userID')) {
+            alert("EXIST ID - Empty at Server")
+
+
+
+            var ajax = new XMLHttpRequest()
+            
+            ajax.open('POST', '/shop/cart/empty')
+            
+            ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+            
+            ajax.onreadystatechange = function(){
+              var newItem = document.createElement('p')
               
-              cartOnClick.appendChild(newItem)
+              var cartOnClick = document.getElementById('cartOnClick')
+                    
+                    cartOnClick.appendChild(newItem)
+      
+      
+                  // newItem.innerHTML = ajax.responseText
+                  newItem.innerHTML = typeof ajax.responseText + '<br>' + ajax.responseText
+                  // alert(ajax.response)
+      
+            }
+      
+      
+            ajax.send()
+      
+            document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
+
+          }
+          else {
+            // alert("DOESN'T EXIST ID - Empty at Local Storage")
+
+            window.localStorage.clear()
+
+            // alert('LocalStorage is empty now')
+
+            document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
 
 
-            // newItem.innerHTML = ajax.responseText
-            newItem.innerHTML = typeof ajax.responseText + '<br>' + ajax.responseText
-            // alert(ajax.response)
-
-      }
+          }
 
 
-      ajax.send()
 
-
-    }
+          }
 
 
     function showCart(){
 
+      document.getElementById('cartOnClick').innerHTML = ''
       
-      
-      
-      var ajax = new XMLHttpRequest()
-      
-      ajax.open('POST', '/shop/cart/show')
-      
-      ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
-      
-      ajax.onreadystatechange = function(){
-        var newItem = document.createElement('p')
-        
-        var cartOnClick = document.getElementById('cartOnClick')
-              
-              cartOnClick.appendChild(newItem)
+      var cookies = document.cookie.split(';');//contains all the cookies
+      var cookieName = []; // to contain name of all the cookies
 
-              if(document.cookie.userID){
-
-                  alert(document.cookies.userID)
-
-                  // newItem.innerHTML = ajax.responseText
-                  newItem.innerHTML = typeof ajax.responseText + '<br>' + ajax.responseText
-                  // alert(ajax.response)
-
-              }
-              else if(!document.cookies.userID){
-
-              alert('sem id - show')
-
-              }
+      for(let i=0;i<cookies.length;i++) {
+        cookieName[i] = cookies[i].split('=')[0].trim();
       }
 
 
-      ajax.send()
+      if(cookieName.includes('userID')) {
+        // alert("EXIST ID - Show at Server")
+      
+            var ajax = new XMLHttpRequest()
+            
+            ajax.open('POST', '/shop/cart/show', false)
+            
+            ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+            
+            ajax.onreadystatechange = function(){
+              var newItem = document.createElement('p')
+              
+              var cartOnClick = document.getElementById('cartOnClick')
+                    
+                    cartOnClick.appendChild(newItem)
+
+                    // thisAjaxResponse = (ajax.response).replace('[[', '[').replace(']]', ']')
+                    thisAjaxResponse = (ajax.response).trim('[', ']')
+
+
+                    newItem.innerHTML = thisAjaxResponse[2]
+
+
+
+// ==============================================
+// CONTINUAR DAQUI
+
+// 
+// Show + add cart without ID = OK
+// 
+// Show + add cart with ID = DAMN
+// 
+
+
+
+
+
+
+            }
+      
+      
+            ajax.send()
+          
+          
+          }
+          
+          
+          else {
+            // alert("DOESN'T EXIST ID - Show at LocalStorage")
+
+
+            // The cart is already empty?
+            if(JSON.stringify(window.localStorage) == '{}' || JSON.stringify(window.localStorage) == null || JSON.stringify(window.localStorage) == undefined ){
+
+              document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
+
+
+
+
+
+
+            }
+            else{
+
+              // alert('exist LS')
+
+
+
+
+              var allLocal = JSON.stringify(window.localStorage)
+              allLocal = allLocal.replace('{', '').replace('}', '')
+              allLocal = allLocal.split(',')
+
+
+              // VAR TO SHOW ALL PRODUCTS AT LS
+              var allCartProducts = []
+
+
+                    // separe each item
+                    allLocal.forEach(item => {
+                        // separe/show each product with json
+                        item  = item.replace('"', '').replace('":"',':').replace('"', '')
+                        item = item.split(':')
+
+                        itemCode =Number(item[0])
+                        itemQtd = Number(item[1])
+
+
+
+                        // see at server the single product price
+                                var ajax = new XMLHttpRequest()
+                                
+                                var params = `itemCode=${itemCode}`
+                                        
+                                ajax.open('POST', '/shop/cart/priceSingleProduct', false)
+                                
+
+                                ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+                                
+                                ajax.onreadystatechange = function(){
+                                        
+                                  
+                                  
+                                  // var txtShowProduct = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
+
+                                  // newP.innerHTML = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
+
+                                  let thisResponse = (ajax.response).split('///')
+                                  
+
+
+                                  allCartProducts.push([itemCode , itemQtd , Number(thisResponse[0]) , thisResponse[1]])
+
+                                  
+                                }
+                                
+                                
+                                ajax.send(params)
+                                // 
+                                
+                                
+                                
+                                
+
+                      })  //end of forEach
+
+
+                      // Show each item
+                      for(var i=0 ; i<allCartProducts.length ; i++){
+              
+                        let newP = document.createElement(`p${i}`)
+
+                        
+                                
+                                
+                                
+                                newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X ${allCartProducts[i][2]} | Preço: ${allCartProducts[i][1] * allCartProducts[i][2]}<br>`
+
+                                document.getElementById('cartOnClick').appendChild(newP)
+
+
+                      }
+
+
+            }
+
+
+
+          }
 
 
     }

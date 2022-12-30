@@ -1,21 +1,18 @@
 // var app = require('../modules/express')
 const express = require('express')
 const { Schema } = require('mongoose')
-const { findByIdAndUpdate } = require("../src/models/user.model");
 const UserModel = require("../src/models/user.model");
 const ProductModel = require('../src/models/product.model')
 var cookieParser = require('cookie-parser')
-const session = require('express-session')
-var LocalStorage = require('node-localstorage').LocalStorage
-    localStorage = new LocalStorage('./scratch');
-const cors = require('cors')
+const session = require('express-session');
+const { json } = require('body-parser');
+
 
 
 
 
 var router = express.Router()
 
-router.use(cors())
 
 //
 router.use(express.urlencoded({ extended: false }));
@@ -169,7 +166,7 @@ if(id){
             return res.send(`Produto adicionado ao carrinho`)
 
 
-        }
+        } 
 
 
 
@@ -192,7 +189,7 @@ else if(!id){
 
 // ==============================================
 
-
+ 
 })
 
 router.post('/cart/show', async(req,res)=>{
@@ -204,8 +201,10 @@ router.post('/cart/show', async(req,res)=>{
     if(id){
 
         var atCart = await UserModel.findById(id)
-    
-        res.send(atCart.cart)
+     
+// console.log(atCart.cart);
+        return res.send(atCart.cart)
+
 
     }
     else{
@@ -218,10 +217,28 @@ router.post('/cart/show', async(req,res)=>{
 
 
 
+// ==================================
+
+router.post('/cart/priceSingleProduct', async(req,res)=>{
+    console.log(`consultando preço do produto ${req.body.itemCode}`);
+
+    const itemCode = req.body.itemCode
+
+    const product = await ProductModel.find({productCode: itemCode})
+    
+    var itemPrice = product[0].productSpecialPrice
+    var itemName = product[0].productName
+
+console.log(String(itemPrice)+'///'+String(itemName));
+ 
+
+    res.send(String(itemPrice)+'///'+String(itemName))
+ 
+
+})
 
 
-
-
+// ==================================
 
 
 
@@ -258,42 +275,6 @@ router.post('/cart/empty', async(req,res)=>{
     }
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

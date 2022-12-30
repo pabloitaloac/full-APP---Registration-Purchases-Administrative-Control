@@ -318,8 +318,8 @@
 
 function addToCart(id, qtdProduct){
 
-var itemCode = id
-var itemQtd = qtdProduct
+var itemCode = Number(id)
+var itemQtd = Number(qtdProduct)
 
 
 
@@ -356,62 +356,58 @@ if(cookieName.includes('userID')) {
 
       ajax.send(params)
 }
+
+
+
 else {
-  alert("DOESN'T EXIST ID")
+  // alert("DOESN'T EXIST ID")
 
-  var cartNoId = []
 
-  cartNoId.push([id,qtdProduct])
 
-  alert(cartNoId)
+  // Item don't exists yet
+  if(!window.localStorage.getItem(itemCode)){    
+    // Add item to LocalStorage
+      window.localStorage.setItem(itemCode,itemQtd)
 
-  // ==============================================================
-  alert('CONTINUAR DAQUI')
+      // alert('Item adicionado')
+
+  }
+  else{
+    // know the quantity of this existent item
+    var thisItemQtd = Number(window.localStorage.getItem(itemCode))
+        thisItemQtd = thisItemQtd + itemQtd
+    
+    // update item to LocalStorage with currently quantity
+    window.localStorage.setItem(itemCode,thisItemQtd)
+  }
+
+  // Show all products with json
+  var allLocal = JSON.stringify(window.localStorage)
+    allLocal = allLocal.replace('{', '').replace('}', '')
+    allLocal = allLocal.split(',')
+
+
+          // separe each item
+          allLocal.forEach(item => {
+              // separe/show each product with json
+              item  = item.replace('"', '').replace('":"',':').replace('"', '')
+              item = item.split(':')
+
+              itemCode =Number(item[0])
+              itemQtd = Number(item[1])
+
+            // alert(`itemCode: ${itemCode} | itemQtd: ${itemQtd}`)
+
+          })
+
+  // alert('Item atualizado')
+
 }
 
 
 
 
 }
-
-// function addToCart(id, qtdProduct){
-//   var qtdProduct = Number(qtdProduct)
-
-//   // Item awready exist in cart?
-//   if(!window.localStorage.getItem(id)){    
-//     // Add item to LocalStorage
-//       window.localStorage.setItem(id,qtdProduct)
-//   }
-//   else{
-//     // know the quantity of this existent item
-//     var thisItemQtd = Number(window.localStorage.getItem(id))
-//         thisItemQtd = thisItemQtd + qtdProduct
-    
-//     // update item to LocalStorage with currently quantity
-//     window.localStorage.setItem(id,thisItemQtd)
-//   }
-
-//   // Show all products with json
-//   var allLocal = JSON.stringify(window.localStorage)
-//     allLocal = allLocal.replace('{', '').replace('}', '')
-//     allLocal = allLocal.split(',')
-
-
-
-
-
-    
-
-//           // separe each item
-//           allLocal.forEach(item => {
-//               // separe/show each product with json
-//               item  = item.replace('"', '').replace('":"',':').replace('"', '')
-//               item = item.split(':')
-
-//               itemCode =Number(item[0])
-//               itemQtd = Number(item[1])
-
-//             // alert(`itemCode: ${itemCode} | itemQtd: ${itemQtd}`)
 
 
 
@@ -446,7 +442,6 @@ else {
   
 
 
-// }
 
 
 
