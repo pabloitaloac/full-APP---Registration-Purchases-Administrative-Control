@@ -74,6 +74,12 @@ router.use(cookieParser())
         // res.render('./shop/SHOP2.ejs', {allProducts: product})
     })
     
+
+
+
+
+
+
 router.post('/cart/addProduct', async(req,res)=>{
     console.log('entrou no cart');
 
@@ -199,11 +205,34 @@ router.post('/cart/show', async(req,res)=>{
     const id = req.cookies.userID
 
     if(id){
+        console.log(id);
 
         var atCart = await UserModel.findById(id)
-     
-// console.log(atCart.cart);
-        return res.send(atCart.cart)
+            var sendToClient = atCart.cart
+            sendToClient = sendToClient.join('///')
+            
+            console.log(`sendToClient: ${sendToClient}`);
+
+            if(sendToClient == null || sendToClient == 0 || sendToClient == undefined ){
+                return res.send()
+            }
+            
+               
+             
+            
+            atCart.cart.forEach(async element => {
+                var itemCode = element[0]
+                
+                var product = await ProductModel.find({productCode: itemCode})
+            
+            console.log(`preço do produto: ${product[0].productSpecialPrice}`)
+
+
+
+        });
+
+
+        return res.send(sendToClient)
 
 
     }
@@ -234,9 +263,9 @@ console.log(String(itemPrice)+'///'+String(itemName));
 
     res.send(String(itemPrice)+'///'+String(itemName))
  
-
+   
 })
-
+ 
 
 // ==================================
 

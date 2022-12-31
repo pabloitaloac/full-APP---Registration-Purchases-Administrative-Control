@@ -41,7 +41,7 @@ app.use(session({
       secret:'123', //need to save apart
       resave: false, //save session for any request?
       saveUninitialized: false, //save anonymous session?
-      cookie: { maxAge: 10 * 60 * 1000 } ,  //min * sec * msec
+      cookie: { maxAge: 60 * 60 * 1000 } ,  //min * sec * msec
 }))
 
 

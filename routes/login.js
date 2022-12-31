@@ -50,7 +50,7 @@ router.post('/',
                 const userID = user.id
                 
                 // create cookie and set userID to knw if is logged
-                res.cookie('userID',userID, { maxAge: 10 * 60 * 1000 });
+                res.cookie('userID',userID, { maxAge: 60 * 60 * 1000 });
 
 
             res.redirect(`/user/painel/${userID}`) 

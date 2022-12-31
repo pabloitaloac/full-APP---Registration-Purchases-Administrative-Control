@@ -310,8 +310,42 @@ router.get('/:userID/pedidos/:purchaseID', async (req,res)=>{
 })
 
 
+// ===============================
 
-// -------------------------------------------
+
+router.get('/:userID/checkout', (req,res)=>{
+
+  console.log(' ====== GET checkout ======');
+
+  // com ID
+  var userID = req.params.userID
+
+  console.log(`userID: ${userID}`);
+
+
+  res.render('./users/checkout.ejs')
+
+})
+
+
+          router.post('/:userID/checkout', (req,res)=>{
+
+            // to set the cart to server, if ID is not defined
+
+            console.log(' ====== entrou no checkout ======');
+
+            // com ID
+            var cart = req.body.cart
+            var userID = req.params.userID
+
+            console.log(`userID: ${userID}`);
+            console.log(`cart: ${cart}`);
+
+            res.send()
+
+          })
+
+
 
 
 

@@ -19,8 +19,8 @@
           Carrinho                      
         </a>
           
-          <p>
-            <button onclick="emptyCart()">Ezvaziar carrinho</button>
+          <form id="formCheckout">
+            <button type="button" onclick="emptyCart()">Ezvaziar carrinho</button>
             
             <br>
             <br>
@@ -29,7 +29,13 @@
 
             </cartOnClick>
 
-          </p>
+            <br>
+            <br>
+
+              <button type="button" onclick="buyThisCart()">Finalizar pedido</button>
+
+
+          </form>
           
       </li>
 
@@ -105,13 +111,13 @@
     }
 
 
-    nav ul li p{
+    nav ul li form{
       
       display: none;
 
 
     }
-    nav ul li:hover p{
+    nav ul li:hover form{
       background-color: white;
     
       display: block;
@@ -124,6 +130,8 @@
       min-height: 300px;
       height: auto;
       width: auto;
+
+      border-radius: 0%;
       
       padding: 15px;
       line-height: 30px;
@@ -148,7 +156,7 @@
 
 
           if(cookieName.includes('userID')) {
-            alert("EXIST ID - Empty at Server")
+            // alert("EXIST ID - Empty at Server")
 
 
 
@@ -159,16 +167,8 @@
             ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
             
             ajax.onreadystatechange = function(){
-              var newItem = document.createElement('p')
-              
-              var cartOnClick = document.getElementById('cartOnClick')
-                    
-                    cartOnClick.appendChild(newItem)
-      
-      
-                  // newItem.innerHTML = ajax.responseText
-                  newItem.innerHTML = typeof ajax.responseText + '<br>' + ajax.responseText
-                  // alert(ajax.response)
+                   
+
       
             }
       
@@ -197,6 +197,11 @@
 
     function showCart(){
 
+      // var to keep all products
+      allCartProducts = []
+
+
+
       document.getElementById('cartOnClick').innerHTML = ''
       
       var cookies = document.cookie.split(';');//contains all the cookies
@@ -217,30 +222,100 @@
             ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
             
             ajax.onreadystatechange = function(){
-              var newItem = document.createElement('p')
               
-              var cartOnClick = document.getElementById('cartOnClick')
-                    
-                    cartOnClick.appendChild(newItem)
 
                     // thisAjaxResponse = (ajax.response).replace('[[', '[').replace(']]', ']')
-                    thisAjaxResponse = (ajax.response).trim('[', ']')
+                    thisAjaxResponse = (ajax.response)
+                    
+
+                    thisAjaxResponse = thisAjaxResponse.split('///')
 
 
-                    newItem.innerHTML = thisAjaxResponse[2]
+                    var cartOnClick = document.getElementById('cartOnClick')
+
+
+                    if(ajax.response.length > 0){
+
+
+                      thisAjaxResponse.forEach(item =>{
+
+                            item = item.split(",")
+
+                            itemCode =Number(item[0])
+                            itemQtd = Number(item[1])
+
+
+                            // see at server the single product price
+                            var ajax = new XMLHttpRequest()
+                                      
+                                      var params = `itemCode=${itemCode}`
+                                              
+                                      ajax.open('POST', '/shop/cart/priceSingleProduct', false)
+                                      
+
+                                      ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+                                      
+                                      ajax.onreadystatechange = function(){
+                                              
+                                        
+                                        
+                                        // var txtShowProduct = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
+
+                                        // newP.innerHTML = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
+
+                                        let thisResponse = (ajax.response).split('///')
+                                        
+
+
+                                        allCartProducts.push([itemCode , itemQtd , Number(thisResponse[0]) , thisResponse[1]])
+
+                                        
+                                      }
+                                      
+                                      
+                                      ajax.send(params)
+                                      // 
 
 
 
-// ==============================================
-// CONTINUAR DAQUI
-
-// 
-// Show + add cart without ID = OK
-// 
-// Show + add cart with ID = DAMN
-// 
 
 
+
+
+                            })
+
+
+                    }
+                    else{
+                      cartOnClick.innerHTML = `Carrinho vazio`
+
+                    }
+
+                    
+
+
+                    var totalPrice = 0
+
+                      // Show each item
+                      for(var i=0 ; i<allCartProducts.length ; i++){
+              
+                      let newP = document.createElement(`p${i}`)
+
+              
+                      
+                      
+                      
+                      newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X R$${allCartProducts[i][2].toFixed(2)} | Preço: R$${(allCartProducts[i][1] * allCartProducts[i][2]).toFixed(2)}<br>`
+
+                        totalPrice = totalPrice + (allCartProducts[i][1] * allCartProducts[i][2])
+
+                      document.getElementById('cartOnClick').appendChild(newP)
+
+
+                      }
+                      var newPTotalPrice = document.createElement(`p${totalPrice.toFixed(2)}`)
+                      newPTotalPrice.innerHTML = `<br>Preço total: R$${totalPrice.toFixed(2)}`
+                      document.getElementById('cartOnClick').appendChild(newPTotalPrice)
 
 
 
@@ -282,7 +357,6 @@
 
 
               // VAR TO SHOW ALL PRODUCTS AT LS
-              var allCartProducts = []
 
 
                     // separe each item
@@ -334,6 +408,8 @@
                       })  //end of forEach
 
 
+                      var totalPrice = 0
+
                       // Show each item
                       for(var i=0 ; i<allCartProducts.length ; i++){
               
@@ -343,13 +419,18 @@
                                 
                                 
                                 
-                                newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X ${allCartProducts[i][2]} | Preço: ${allCartProducts[i][1] * allCartProducts[i][2]}<br>`
+                                newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X ${allCartProducts[i][2].toFixed(2)} | Preço: ${(allCartProducts[i][1] * allCartProducts[i][2]).toFixed(2)}<br>`
+
+                                totalPrice = totalPrice + (allCartProducts[i][1] * allCartProducts[i][2])
 
                                 document.getElementById('cartOnClick').appendChild(newP)
 
 
                       }
 
+                      var newPTotalPrice = document.createElement(`p${totalPrice.toFixed(2)}`)
+                      newPTotalPrice.innerHTML = `<br>Preço total: R$${totalPrice.toFixed(2)}`
+                      document.getElementById('cartOnClick').appendChild(newPTotalPrice)
 
             }
 
@@ -360,8 +441,77 @@
 
     }
 
+    
+
+    function buyThisCart(){
+
+      var cart = JSON.stringify(allCartProducts)
+
+      alert(JSON.stringify(allCartProducts))
+
+      
+      var userID = getCookie('userID')
+      // alert(userID)
+
+      // if exists ID
+      if(userID){
+        alert('com ID para checkout')
+        alert(cart)
+
+        var ajax = new XMLHttpRequest()
+          
+          // var params = `cart=${allCartProducts}`
+                  
+          ajax.open('post', `/user/${userID}/checkout`, false)
+
+          var params = `cart=${cart}`
+
+          ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+          
+          ajax.onreadystatechange = function(){
+                  
+            
+          }
+          
+          
+          ajax.send(params)
+
+
+          // redirect
+          var formCheckout = document.getElementById('formCheckout')
+          formCheckout.action = `/user/${userID}/checkout`
+          formCheckout.method = 'get'
+          formCheckout.submit()
 
 
 
 
+
+
+
+
+
+
+      }
+      else{
+
+        alert('sem ID para checkout')
+      }
+
+
+
+      
+
+    }
+
+    function getCookie(cName) {
+        const name = cName + "=";
+        const cDecoded = decodeURIComponent(document.cookie); //to be careful
+        const cArr = cDecoded.split('; ');
+        let res;
+        cArr.forEach(val => {
+          if (val.indexOf(name) === 0) res = val.substring(name.length);
+        })
+        return res
+    }
   </script>
