@@ -342,7 +342,7 @@ router.get('/:userID/checkout', (req,res)=>{
             console.log(`cart: ${cart}`);
 
             res.send()
-       
+                
           })
 
 
