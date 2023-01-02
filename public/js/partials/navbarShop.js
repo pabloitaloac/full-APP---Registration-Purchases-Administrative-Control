@@ -206,86 +206,129 @@
 
 
 
+
             var allLocal = JSON.stringify(window.localStorage)
-            allLocal = allLocal.replace('{', '').replace('}', '')
-            allLocal = allLocal.split(',')
-
-
-            // VAR TO SHOW ALL PRODUCTS AT LS
-
-
-                  // separe each item
-                  allLocal.forEach(item => {
-                      // separe/show each product with json
-                      item  = item.replace('"', '').replace('":"',':').replace('"', '')
-                      item = item.split(':')
-
-                      itemCode =Number(item[0])
-                      itemQtd = Number(item[1])
 
 
 
-                      // see at server the single product price
-                              var ajax = new XMLHttpRequest()
+
+            // AJAX
+            var ajax = new XMLHttpRequest()
+  
+            var params = `allLocal=${allLocal}`
+          
+            ajax.open('POST', '/shop/cart/show', false)
+  
+
+            ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+  
+            ajax.onreadystatechange = function(){
+          
+              alert(ajax.response)
+              
+            }
+  
+  
+            ajax.send(params)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // allLocal = allLocal.replace('{', '').replace('}', '')
+            // allLocal = allLocal.split(',')
+
+
+            // // VAR TO SHOW ALL PRODUCTS AT LS
+
+
+            //       // separe each item
+            //       allLocal.forEach(item => {
+            //           // separe/show each product with json
+            //           item  = item.replace('"', '').replace('":"',':').replace('"', '')
+            //           item = item.split(':')
+
+            //           itemCode =Number(item[0])
+            //           itemQtd = Number(item[1])
+
+
+
+            //           // see at server the single product price
+            //                   var ajax = new XMLHttpRequest()
                               
-                              var params = `itemCode=${itemCode}`
+            //                   var params = `itemCode=${itemCode}`
                                       
-                              ajax.open('POST', '/shop/cart/priceSingleProduct', false)
+            //                   ajax.open('POST', '/shop/cart/priceSingleProduct', false)
                               
 
-                              ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+            //                   ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
                               
-                              ajax.onreadystatechange = function(){
+            //                   ajax.onreadystatechange = function(){
                                       
                                 
                                 
-                                // var txtShowProduct = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
+            //                     // var txtShowProduct = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
 
-                                // newP.innerHTML = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
+            //                     // newP.innerHTML = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
 
-                                let thisResponse = (ajax.response).split('///')
+            //                     let thisResponse = (ajax.response).split('///')
                                 
 
 
-                                allCartProducts.push([itemCode , itemQtd , Number(thisResponse[0]) , thisResponse[1]])
+            //                     allCartProducts.push([itemCode , itemQtd , Number(thisResponse[0]) , thisResponse[1]])
 
                                 
-                              }
+            //                   }
                               
                               
-                              ajax.send(params)
-                              // 
+            //                   ajax.send(params)
+            //                   // 
                               
                               
                               
                               
 
-                    })  //end of forEach
+            //         })  //end of forEach
 
 
-                    var totalPrice = 0
 
-                    // Show each item
-                    for(var i=0 ; i<allCartProducts.length ; i++){
+
+
+
+
+          //           var totalPrice = 0
+
+          //           // Show each item
+          //           for(var i=0 ; i<allCartProducts.length ; i++){
             
-                      let newP = document.createElement(`p${i}`)
+          //             let newP = document.createElement(`p${i}`)
 
                       
                               
                               
                               
-                              newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X ${allCartProducts[i][2].toFixed(2)} | Preço: ${(allCartProducts[i][1] * allCartProducts[i][2]).toFixed(2)}<br>`
+          //                     newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X ${allCartProducts[i][2].toFixed(2)} | Preço: ${(allCartProducts[i][1] * allCartProducts[i][2]).toFixed(2)}<br>`
 
-                              totalPrice = totalPrice + (allCartProducts[i][1] * allCartProducts[i][2])
+          //                     totalPrice = totalPrice + (allCartProducts[i][1] * allCartProducts[i][2])
 
-                              document.getElementById('cartOnClick').appendChild(newP)
+          //                     document.getElementById('cartOnClick').appendChild(newP)
 
 
-                    }
+          //           }
 
-                    var newPTotalPrice = document.createElement(`p${totalPrice.toFixed(2)}`)
-                    newPTotalPrice.innerHTML = `<br>Preço total: R$${totalPrice.toFixed(2)}`
-                    document.getElementById('cartOnClick').appendChild(newPTotalPrice)
+          //           var newPTotalPrice = document.createElement(`p${totalPrice.toFixed(2)}`)
+          //           newPTotalPrice.innerHTML = `<br>Preço total: R$${totalPrice.toFixed(2)}`
+          //           document.getElementById('cartOnClick').appendChild(newPTotalPrice)
 
           }
 
@@ -349,6 +392,7 @@
 
     }
     else{
+
 
       alert('sem ID para checkout')
     }

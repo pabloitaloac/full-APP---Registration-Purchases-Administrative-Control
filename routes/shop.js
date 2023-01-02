@@ -203,6 +203,8 @@ router.post('/cart/show', async(req,res)=>{
 
 
     const id = req.cookies.userID
+    
+
 
     if(id){
         console.log(id);
@@ -237,10 +239,53 @@ router.post('/cart/show', async(req,res)=>{
 
     }
     else{
-        console.log(' = = SEM ID. Cart apenas no Local Storage = = ')
+        
+        var allLocal = req.body.allLocal
+        var resProducts = []
 
-        return res.send('NO ID')
-    }
+
+
+
+            console.log('show Cart = SEM ID = ')
+
+
+    
+    
+                allLocal = allLocal.replace('{', '').replace('}', '')
+                allLocal = allLocal.split(',')
+    
+    
+    
+    
+                // separe each item
+                await allLocal.forEach(async item => {
+                    // separe/show each product with json
+                    item  = item.replace('"', '').replace('":"',':').replace('"', '')
+                    item = item.split(':')
+    
+                    var itemCode =item[0]
+                    var itemQtd = item[1]
+    
+                    console.log(itemCode);
+    
+                    
+                var product = await ProductModel.find({productCode: itemCode})
+            
+                // console.log(`${product[0].productSpecialPrice} | ${product[0].productName}`)
+    
+                resProducts.push([itemCode , product[0].productSpecialPrice , product[0].productName])
+    
+                    // console.log(resProducts)
+    
+                })
+    
+                console.log(resProducts)    
+    
+                return  res.send(resProducts)
+
+        }
+
+
 
 })
 
