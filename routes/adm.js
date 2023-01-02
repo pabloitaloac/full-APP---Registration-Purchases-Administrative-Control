@@ -10,7 +10,7 @@ const mainAPP = require('../modules/express')
 const auth = require('../modules/auth')
 const bcrypt = require("bcryptjs")
 const cookieParser = require('cookie-parser');
-
+const path = require('path')
 
 var router = express.Router()
 

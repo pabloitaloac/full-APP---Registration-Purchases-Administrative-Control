@@ -4,6 +4,7 @@
 <head>
     <%- include('../partials/navbarLogged.ejs') %>
     <%- include('../partials/AddUser.ejs') %>
+    <link rel="stylesheet" href="/css/user/userPurchases.css">
 
 </head>
 
@@ -82,59 +83,7 @@
 </footer>
 
 
-<script>
-function viewProduct(id){
 
-    const userAtCookie = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('userID='))
-    ?.split('=')[1];
+<script src="/js/user/userPurchases.js"></script>
 
 
-location.href = `/user/${userAtCookie}/pedidos/${id}`
-
-
-}
-
-</script>
-
-
-
-<style>
-    .infoPurchase{
-
-        display: inline;
-        font-weight: bold;
-        text-transform: uppercase;
-        font-size: 10pt;
-
-
-
-    }
-
-    .infoPurchaseResult{
-
-
-        display: inline;
-        font-size: 8pt;
-
-
-
-    }
-
-    .eachPurchase{
-        border: solid 1pt;
-        padding: 10px;
-        margin: 5px;
-        /* display: inline; */
-        pointer-events: none;
-
-    }
-
-    img{
-        max-width: 50px;
-        
-
-    }
-
-</style>

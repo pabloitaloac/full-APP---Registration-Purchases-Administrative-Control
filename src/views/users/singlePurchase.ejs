@@ -4,6 +4,7 @@
 <head>
     <%- include('../partials/navbarLogged.ejs') %>
     <%- include('../partials/AddUser.ejs') %>
+    <link rel="stylesheet" href="/css/user/singlePurchase.css">
 
 </head>
 
@@ -146,41 +147,3 @@ location.href = `/user/${userAtCookie}/pedidos/${id}`
 
 
 
-<style>
-    .infoPurchase{
-
-        display: inline;
-        font-weight: bold;
-        text-transform: uppercase;
-        font-size: 10pt;
-
-
-
-    }
-
-    .infoPurchaseResult{
-
-
-        display: inline;
-        font-size: 8pt;
-
-
-
-    }
-
-    .eachPurchase{
-        border: solid 1pt;
-        padding: 10px;
-        margin: 5px;
-        /* display: inline; */
-        pointer-events: none;
-
-    }
-
-    img{
-        max-width: 50px;
-        
-
-    }
-
-</style>

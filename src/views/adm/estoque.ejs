@@ -1,9 +1,11 @@
 <html lang="pt-br">
   <%- include('../partials/head.ejs') %>
-  <header>
+  <head>
     <%- include('../partials/navbar.ejs') %>
     <%- include('../partials/AddUser.ejs') %>
-  </header>
+    <link rel="stylesheet" href="/css/adm/estoque.css">
+
+  </head>
 
 
   
@@ -122,43 +124,8 @@
   </body>
 
 
-<style>
+<script src="/js/adm/estoque.js"></script>
 
-    h4, p {
-      display: inline;
-    }
-
-</style>
-
-
-
-  <script>
-
-function filterProduct(filter){
-  
-  
-  var nameFilter = filter.value
-
-  if(nameFilter.length>0){
-    document.getElementById('filterForm').submit()
-  }
-  else{
-    alert(`Digite algum filtro!`)
-  }
-
-
-
-}
-
-
-    function editSingleProduct(id){
-
-      // To change space in '-', to bettar url view
-        location.href = `/adm/estoque/produto/${id}`
-
-
-    }
-  </script>
 
 
 </html>

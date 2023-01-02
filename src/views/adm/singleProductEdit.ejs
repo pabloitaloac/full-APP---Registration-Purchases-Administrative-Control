@@ -3,6 +3,7 @@
   <body>
     <%- include('../partials/navbar.ejs') %>
       <%- include('../partials/AddUser.ejs') %>
+      <link rel="stylesheet" href="/css/adm/singleProductEdit.css">
 
 <div class="content">
     <%  if(isNew == true){   %>
@@ -100,29 +101,4 @@
 
 </body>
 
-<style>
-
-h5{
-  display: inline-table;
-}
-a{
-  display: inline-table;
-}
-
-
-</style>
-
-<script>
-
-function deleteThisProduct(id){
-
-  location.href = `/adm/estoque/produto/deletar/${id}`
-
-
-} 
-
-
-
-
-
-</script>
+<script src="/js/adm/singleProductEdit.js"></script>

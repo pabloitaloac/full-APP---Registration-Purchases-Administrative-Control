@@ -21,20 +21,14 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
-
-
-
+ 
 //To be can possible use json in requests
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(cookieParser())
 
-//View Engine - EJS
-app.set("view engine", "ejs");
-app.set("views", "src/views");
 
- 
 
 //auth session 
 app.use(session({
@@ -48,6 +42,20 @@ app.use(session({
  
             app.use(passport.initialize())
             app.use(passport.session())
+
+
+
+//View Engine - EJS
+app.use(express.static('public'))
+app.use('/css', express.static(__dirname+'public/css'))
+app.use('/js', express.static(__dirname+'public/js'))
+app.use('/img', express.static(__dirname+'public/img'))
+
+app.set("views", "src/views");
+app.set("view engine", "ejs");
+
+
+
 
 //===========   ROUTES  ============
 

@@ -5,6 +5,8 @@
     <body>
       <%- include('./partials/navbar.ejs') %>
       <%- include('./partials/AddUser.ejs') %>
+      <link rel="stylesheet" href="/css/allUsers.css">
+
 </head>
 
 <div>
@@ -75,33 +77,7 @@
   </body >
   <%- include('./partials/foot.ejs') %>
 
-<style>
-  #liUserData, #h4UserData, #pUserData{
-
-display: inline;
+  <script src="/js/allUsers.js"></script>
 
 
-
-}
-
-
-</style>
-
-
-  <script >
-
-function isAnySeted(){
-  if(lastNameFilter.value.length == 0 && firstNameFilter.value.length == 0 && emailFilter.value.length == 0){
-    
-    let toChange = document.getElementById("toChange")
-    
-    toChange.innerHTML = "Para filtrar, preencha algum filtro"
-  }
-}
-
-function redirectSingleUser(id){
-  window.location.href = `/adm/users/${id}`
-}
-
-</script>
 </html>
