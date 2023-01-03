@@ -20,10 +20,6 @@
         </a>
           
           <form id="formCheckout">
-            <button type="button" onclick="emptyCart()">Ezvaziar carrinho</button>
-            
-            <br>
-            <br>
             
             <cartOnClick id="cartOnClick">
 
@@ -33,6 +29,7 @@
             <br>
 
               <button type="button" onclick="buyThisCart()">Finalizar pedido</button>
+              <button type="button" onclick="emptyCart()">Ezvaziar carrinho</button>
 
 
           </form>
@@ -127,7 +124,7 @@
       /* right: 0; */
 
       min-width: 300px;
-      min-height: 300px;
+      min-height: 100px;
       height: auto;
       width: auto;
 
@@ -138,7 +135,23 @@
 
 
     }
+
+    #newPTotalPrice{
+      text-transform: uppercase;
+      font-size: 15pt;
+
+    }
   
+    #singleItem{
+
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 15px;
+margin-bottom: 15px;
+  }
+
+
   
   </style>
   

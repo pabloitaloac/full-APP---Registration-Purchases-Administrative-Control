@@ -1,54 +1,128 @@
 
-    function emptyCart(){
+  function emptyCart(){
 
 
-        var cookies = document.cookie.split(';');//contains all the cookies
-        var cookieName = []; // to contain name of all the cookies
+      var cookies = document.cookie.split(';');//contains all the cookies
+      var cookieName = []; // to contain name of all the cookies
 
-        for(let i=0;i<cookies.length;i++) {
-          cookieName[i] = cookies[i].split('=')[0].trim();
+      for(let i=0;i<cookies.length;i++) {
+        cookieName[i] = cookies[i].split('=')[0].trim();
+      }
+
+
+      if(cookieName.includes('userID')) {
+        // alert("EXIST ID - Empty at Server")
+
+
+
+        var ajax = new XMLHttpRequest()
+        
+        ajax.open('POST', '/shop/cart/empty')
+        
+        ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+        
+        ajax.onreadystatechange = function(){
+                
+
+  
         }
+  
+  
+        ajax.send()
+  
+        document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
+
+      }
+      else {
+        // alert("DOESN'T EXIST ID - Empty at Local Storage")
+
+        window.localStorage.clear()
+
+        // alert('LocalStorage is empty now')
+
+        document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
 
 
-        if(cookieName.includes('userID')) {
-          // alert("EXIST ID - Empty at Server")
+      }
 
 
 
-          var ajax = new XMLHttpRequest()
-          
-          ajax.open('POST', '/shop/cart/empty')
-          
-          ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
-          
-          ajax.onreadystatechange = function(){
-                 
+  }
+
+  function cartShowAtServer(ajaxResponse){
 
     
-          }
-    
-    
-          ajax.send()
-    
-          document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
-
-        }
-        else {
-          // alert("DOESN'T EXIST ID - Empty at Local Storage")
-
-          window.localStorage.clear()
-
-          // alert('LocalStorage is empty now')
-
-          document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
+    var totalPrice = 0
 
 
-        }
+    cartOnClick = document.getElementById('cartOnClick')
+
+    var thisResponse = ajaxResponse
+
+
+    if(!thisResponse){
+
+      cartOnClick.innerHTML = `Carrinho vazio`
+    }
+    else{
+
+
+      thisResponse = thisResponse.replace('[[', '').replace(']]', '')
+      thisResponse = thisResponse.split('],[')
+  
+  
+      for(var i = 0 ; i < thisResponse.length ; i++){
+  
+        var item = thisResponse[i].replace('"', '').replace('"', '').replace('"', '')
+            item = item.split('////')
+  
+  
+  
+            var itemCode  = item[0]
+            var itemQtd   = item[1]
+            var itemPrice = item[2]
+            var itemName  = item[3]
+            var itemImage = item[4]
+  
+            let singleItem = document.createElement('p')
+                singleItem.id = 'singleItem'
+  
+            let img = document.createElement("IMG");
+                img.src           = `${itemImage}`
+                img.style.width   = "60px";
+                img.style.height  = "60px";
+                img.id            = `itemCartImg`
+                singleItem.appendChild(img);
+  
+  
+            let newP = document.createElement(`p`)
+                newP.id = `itemCartInfo`
+            
+            newP.innerHTML= `${itemName} | Qtd: ${itemQtd} X R$${itemPrice} | Preço: R$${(itemQtd * itemPrice).toFixed(2)}<br>`
+  
+            singleItem.appendChild(newP)
+  
+            cartOnClick.appendChild(singleItem)
+  
+  
+  
+            totalPrice = totalPrice + (itemQtd * itemPrice)
+  
+      } //END OF  FOR
+  
+  
+      
+      var newPTotalPrice = document.createElement(`p`)
+          newPTotalPrice.id = `newPTotalPrice`
+      newPTotalPrice.innerHTML = `<br>Preço total: R$${totalPrice.toFixed(2)}`
+      cartOnClick.appendChild(newPTotalPrice)
+  
+    }
 
 
 
-        }
 
+  }
 
   function showCart(){
 
@@ -78,102 +152,7 @@
           
           ajax.onreadystatechange = function(){
             
-
-                  // thisAjaxResponse = (ajax.response).replace('[[', '[').replace(']]', ']')
-                  thisAjaxResponse = (ajax.response)
-                  
-
-                  thisAjaxResponse = thisAjaxResponse.split('///')
-
-
-                  var cartOnClick = document.getElementById('cartOnClick')
-
-
-                  if(ajax.response.length > 0){
-
-
-                    thisAjaxResponse.forEach(item =>{
-
-                          item = item.split(",")
-
-                          itemCode =Number(item[0])
-                          itemQtd = Number(item[1])
-
-
-                          // see at server the single product price
-                          var ajax = new XMLHttpRequest()
-                                    
-                                    var params = `itemCode=${itemCode}`
-                                            
-                                    ajax.open('POST', '/shop/cart/priceSingleProduct', false)
-                                    
-
-                                    ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
-                                    
-                                    ajax.onreadystatechange = function(){
-                                            
-                                      
-                                      
-                                      // var txtShowProduct = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
-
-                                      // newP.innerHTML = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
-
-                                      let thisResponse = (ajax.response).split('///')
-                                      
-
-
-                                      allCartProducts.push([itemCode , itemQtd , Number(thisResponse[0]) , thisResponse[1]])
-
-                                      
-                                    }
-                                    
-                                    
-                                    ajax.send(params)
-                                    // 
-
-
-
-
-
-
-
-                          })
-
-
-                  }
-                  else{
-                    cartOnClick.innerHTML = `Carrinho vazio`
-
-                  }
-
-                  
-
-
-                  var totalPrice = 0
-
-                    // Show each item
-                    for(var i=0 ; i<allCartProducts.length ; i++){
-            
-                    let newP = document.createElement(`p${i}`)
-
-            
-                    
-                    
-                    
-                    newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X R$${allCartProducts[i][2].toFixed(2)} | Preço: R$${(allCartProducts[i][1] * allCartProducts[i][2]).toFixed(2)}<br>`
-
-                      totalPrice = totalPrice + (allCartProducts[i][1] * allCartProducts[i][2])
-
-                    document.getElementById('cartOnClick').appendChild(newP)
-
-
-                    }
-                    var newPTotalPrice = document.createElement(`p${totalPrice.toFixed(2)}`)
-                    newPTotalPrice.innerHTML = `<br>Preço total: R$${totalPrice.toFixed(2)}`
-                    document.getElementById('cartOnClick').appendChild(newPTotalPrice)
-
-
-
+            return cartShowAtServer(ajax.response)
 
           }
     
@@ -193,23 +172,13 @@
 
             document.getElementById('cartOnClick').innerHTML = `Carrinho vazio`
 
-
-
-
-
-
           }
           else{
 
             // alert('exist LS')
 
-
-
-
-
+            var totalPrice = 0
             var allLocal = JSON.stringify(window.localStorage)
-
-
 
 
             // AJAX
@@ -223,123 +192,19 @@
             ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
   
             ajax.onreadystatechange = function(){
-          
-              alert(ajax.response)
-              
+
+              return cartShowAtServer(ajax.response)
+
             }
   
   
             ajax.send(params)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // allLocal = allLocal.replace('{', '').replace('}', '')
-            // allLocal = allLocal.split(',')
-
-
-            // // VAR TO SHOW ALL PRODUCTS AT LS
-
-
-            //       // separe each item
-            //       allLocal.forEach(item => {
-            //           // separe/show each product with json
-            //           item  = item.replace('"', '').replace('":"',':').replace('"', '')
-            //           item = item.split(':')
-
-            //           itemCode =Number(item[0])
-            //           itemQtd = Number(item[1])
-
-
-
-            //           // see at server the single product price
-            //                   var ajax = new XMLHttpRequest()
-                              
-            //                   var params = `itemCode=${itemCode}`
-                                      
-            //                   ajax.open('POST', '/shop/cart/priceSingleProduct', false)
-                              
-
-            //                   ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
-                              
-            //                   ajax.onreadystatechange = function(){
-                                      
-                                
-                                
-            //                     // var txtShowProduct = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
-
-            //                     // newP.innerHTML = `Item: ${allCartProducts[i][0]} | Qtd: ${allCartProducts[i][1]} | Preço: ${ajax.response}<br>`
-
-            //                     let thisResponse = (ajax.response).split('///')
-                                
-
-
-            //                     allCartProducts.push([itemCode , itemQtd , Number(thisResponse[0]) , thisResponse[1]])
-
-                                
-            //                   }
-                              
-                              
-            //                   ajax.send(params)
-            //                   // 
-                              
-                              
-                              
-                              
-
-            //         })  //end of forEach
-
-
-
-
-
-
-
-          //           var totalPrice = 0
-
-          //           // Show each item
-          //           for(var i=0 ; i<allCartProducts.length ; i++){
-            
-          //             let newP = document.createElement(`p${i}`)
-
-                      
-                              
-                              
-                              
-          //                     newP.innerHTML = `${allCartProducts[i][3]} | Qtd: ${allCartProducts[i][1]} X ${allCartProducts[i][2].toFixed(2)} | Preço: ${(allCartProducts[i][1] * allCartProducts[i][2]).toFixed(2)}<br>`
-
-          //                     totalPrice = totalPrice + (allCartProducts[i][1] * allCartProducts[i][2])
-
-          //                     document.getElementById('cartOnClick').appendChild(newP)
-
-
-          //           }
-
-          //           var newPTotalPrice = document.createElement(`p${totalPrice.toFixed(2)}`)
-          //           newPTotalPrice.innerHTML = `<br>Preço total: R$${totalPrice.toFixed(2)}`
-          //           document.getElementById('cartOnClick').appendChild(newPTotalPrice)
-
           }
-
-
 
         }
 
-
   }
-
-  
 
   function buyThisCart(){
 

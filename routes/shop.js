@@ -198,6 +198,11 @@ else if(!id){
  
 })
 
+
+
+
+
+
 router.post('/cart/show', async(req,res)=>{
     console.log('está em cart/show');
 
@@ -207,34 +212,50 @@ router.post('/cart/show', async(req,res)=>{
 
 
     if(id){
-        console.log(id);
 
         var atCart = await UserModel.findById(id)
             var sendToClient = atCart.cart
-            sendToClient = sendToClient.join('///')
+            // sendToClient = sendToClient.join('///')
+
+
             
-            console.log(`sendToClient: ${sendToClient}`);
+console.log(`sendToClient: ${sendToClient}`);
+console.log(`sendToClient.length: ${sendToClient.length}`);
+
 
             if(sendToClient == null || sendToClient == 0 || sendToClient == undefined ){
                 return res.send()
+            }
+            else{
+
+                resProducts = []
+
+
+                for(var i = 0 ; i < sendToClient.length ; i++){
+                    var itemCode = sendToClient[i][0]
+                    var itemQtd = sendToClient[i][1]
+
+                    // search this item info
+                    var product = await ProductModel.findOne({productCode: itemCode}).exec()
+
+                    resProducts.push([`${itemCode}////${itemQtd}////${product.productSpecialPrice}////${product.productName}////${product.productImage}`])
+                    // resProducts.push([`${itemCode}////${itemQtd}////${product.productSpecialPrice}////${product.productName}`])
+
+                }
+
+                console.log(resProducts);
+
+
             }
             
                
              
             
-            atCart.cart.forEach(async element => {
-                var itemCode = element[0]
-                
-                var product = await ProductModel.find({productCode: itemCode})
             
-            console.log(`preço do produto: ${product[0].productSpecialPrice}`)
 
 
-
-        });
-
-
-        return res.send(sendToClient)
+        console.log('===   fim   ====');
+        return res.send(resProducts)
 
 
     }
@@ -243,22 +264,14 @@ router.post('/cart/show', async(req,res)=>{
         var allLocal = req.body.allLocal
         var resProducts = []
 
-
-
-
-            console.log('show Cart = SEM ID = ')
-
-
-    
-    
                 allLocal = allLocal.replace('{', '').replace('}', '')
                 allLocal = allLocal.split(',')
     
     
-    
-    
-                // separe each item
-                await allLocal.forEach(async item => {
+                for(var i = 0 ; i < allLocal.length ; i++){
+
+                    var item = allLocal[i]
+
                     // separe/show each product with json
                     item  = item.replace('"', '').replace('":"',':').replace('"', '')
                     item = item.split(':')
@@ -266,26 +279,17 @@ router.post('/cart/show', async(req,res)=>{
                     var itemCode =item[0]
                     var itemQtd = item[1]
     
-                    console.log(itemCode);
-    
-                    
-                var product = await ProductModel.find({productCode: itemCode})
-            
-                // console.log(`${product[0].productSpecialPrice} | ${product[0].productName}`)
-    
-                resProducts.push([itemCode , product[0].productSpecialPrice , product[0].productName])
-    
-                    // console.log(resProducts)
-    
-                })
-    
-                console.log(resProducts)    
-    
+
+                    var product = await ProductModel.findOne({productCode: itemCode}).exec()
+
+                    resProducts.push([`${itemCode}////${itemQtd}////${product.productSpecialPrice}////${product.productName}////${product.productImage}`])
+        
+
+                }
+
                 return  res.send(resProducts)
 
         }
-
-
 
 })
 
