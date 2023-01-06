@@ -20,10 +20,7 @@ router.use(express.json());
 router.use(cookieParser())
 
 
-
-
-
-  // ------------------------------------------------------            
+// ------------------------------------------------------            
   
 // HOME users
 router.get('/', async (req,res)=>{
@@ -37,7 +34,6 @@ router.get('/', async (req,res)=>{
 
 
 // ------------------------------------------------------            
-
 
 
  //USER PANEL
@@ -96,6 +92,7 @@ router.get('/', async (req,res)=>{
 
 
 
+
 //LOGIN
 // router.get('/login', async (req,res)=>{
 //   try{
@@ -138,6 +135,7 @@ router.get('/', async (req,res)=>{
 
 
 //Edit user by himself
+
 router.post('/edit/:id', async (req,res)=>{
   try{
     const id = req.params.id

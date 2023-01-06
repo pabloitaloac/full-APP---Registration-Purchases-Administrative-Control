@@ -57,7 +57,7 @@
 
     cartOnClick = document.getElementById('cartOnClick')
 
-    var thisResponse = ajaxResponse
+    thisResponse = ajaxResponse
 
 
     if(!thisResponse){
@@ -124,10 +124,11 @@
 
   }
 
+  allCartProducts = []
+
   function showCart(){
 
     // var to keep all products
-    allCartProducts = []
 
 
 
@@ -178,7 +179,7 @@
             // alert('exist LS')
 
             var totalPrice = 0
-            var allLocal = JSON.stringify(window.localStorage)
+            allLocal = JSON.stringify(window.localStorage)
 
 
             // AJAX
@@ -206,60 +207,70 @@
 
   }
 
+  // ================================
+
   function buyThisCart(){
-
-    var cart = JSON.stringify(allCartProducts)
-
-    alert(JSON.stringify(allCartProducts))
-
     
     var userID = getCookie('userID')
-    // alert(userID)
 
     // if exists ID
     if(userID){
-      alert('com ID para checkout')
-      alert(cart)
 
-      var ajax = new XMLHttpRequest()
-        
-        // var params = `cart=${allCartProducts}`
-                
-        ajax.open('post', `/user/${userID}/checkout`, false)
+      if(!thisResponse){
 
-        var params = `cart=${cart}`
+        document.getElementById('cartOnClick').innerHTML = `Carrinho vazio.<br><br>Adicione algum ítem para prosseguir.`
 
-        ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
-        
-        ajax.onreadystatechange = function(){
-                
-          
-        }
-        
-        
-        ajax.send(params)
+      }
+      else{
+        alert('Indo para o checkout')
 
-
-        // redirect
         var formCheckout = document.getElementById('formCheckout')
         formCheckout.action = `/user/${userID}/checkout`
         formCheckout.method = 'get'
         formCheckout.submit()
 
+      }
 
 
+      // var ajax = new XMLHttpRequest()
+        
+      //   // var params = `cart=${allCartProducts}`
+                
+      //   ajax.open('post', `/user/${userID}/checkout`, false)
+
+      //   var params = `cart=${cart}`
+
+      //   ajax.setRequestHeader('content-type','application/x-www-form-urlencoded')
+        
+      //   ajax.onreadystatechange = function(){
+                
+          
+      //   }
+        
+        
+      //   ajax.send(params)
 
 
-
-
-
-
-
+        // redirect
+        
     }
     else{
+      if(JSON.stringify(window.localStorage) == '{}' || JSON.stringify(window.localStorage) == null || JSON.stringify(window.localStorage) == undefined ){
 
+        document.getElementById('cartOnClick').innerHTML = `Carrinho vazio.<br><br>Adicione algum ítem para prosseguir.`
 
-      alert('sem ID para checkout')
+      }
+  else{
+      alert(`Você não está logado. Para seguir ao checkout, faça login.`)
+
+        var formCheckout = document.getElementById('formCheckout')
+        formCheckout.action = `/user/${userID}/checkout`
+        formCheckout.method = 'get'
+        formCheckout.submit()
+
+      }
+
+      
     }
 
 

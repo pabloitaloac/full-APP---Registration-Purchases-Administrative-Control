@@ -294,7 +294,6 @@ console.log(`sendToClient.length: ${sendToClient.length}`);
 })
 
 
-
 // ==================================
 
 router.post('/cart/priceSingleProduct', async(req,res)=>{
@@ -317,12 +316,6 @@ console.log(String(itemPrice)+'///'+String(itemName));
  
 
 // ==================================
-
-
-
-
-
-
 
 
 router.post('/cart/empty', async(req,res)=>{
@@ -353,6 +346,22 @@ router.post('/cart/empty', async(req,res)=>{
     }
 
 })
+
+
+// ==================================
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

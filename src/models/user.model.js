@@ -24,10 +24,6 @@ const userSchema = new mongoose.Schema({
         type:Array        
     } 
 }) 
- 
-
-
-
 
 
     userSchema.methods.matchPassword = async function (password) {
